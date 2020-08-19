@@ -59,29 +59,35 @@
 \renewenvironment{itemize}{\olditem\setlength{\parskip}{\smallskipamount}}{\oldenditem}
 
 %% Entornos nuevos
+\newenvironment{resumen}{%
+\cleardoublepage
+\chapter*{Resumen}
+%\begin{flushright}
+%\small
+%\begin{tabular}{l}
+%\textbf{RESUMEN DE LA MEMORIA PARA OPTAR} \\
+%\textbf{AL TÍTULO DE} \MakeUppercase\@carrera \\
+%\textbf{POR:} \MakeUppercase\@author \\
+%\textbf{FECHA}: \MakeUppercase\@date\\
+%\textbf{PROF. GUÍA:} \foreach \x in \@guia { \MakeUppercase\x }
+%\end{tabular}
+%\end{flushright}
+%\begin{center}
+%\MakeUppercase\@title
+%\end{center}
+}{\vfill\null}
+
 \newenvironment{abstract}{%
 \cleardoublepage
-\begin{flushright}
-\small
-\begin{tabular}{l}
-\textbf{RESUMEN DE LA MEMORIA PARA OPTAR} \\
-\textbf{AL TÍTULO DE} \MakeUppercase\@carrera \\
-\textbf{POR:} \MakeUppercase\@author \\
-\textbf{FECHA}: \MakeUppercase\@date\\
-\textbf{PROF. GUÍA:} \foreach \x in \@guia { \MakeUppercase\x }
-\end{tabular}
-\end{flushright}
-\begin{center}
-\MakeUppercase\@title
-\end{center}
+\chapter*{Abstract}
 }{\vfill\null}
 
 \newenvironment{dedicatoria}{\cleardoublepage\null\vspace{\stretch{1}}\begin{flushright}\itshape}{\end{flushright}\vspace{\stretch{2}}\null}
 \let\thanks\undefined
 \newenvironment{thanks}{\cleardoublepage\chapter*{Agradecimientos}}{\vfill\null}
 \newenvironment{intro}{
-  \chapter*{Introduction}
-  \addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}
+  \chapter{Introduction}
+  % \addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}
 }{\vfill\null}
 \newenvironment{conclusion}{
   \chapter*{Conclusion}
@@ -118,6 +124,11 @@
 \newcommand{\setcarrera}[1]{\def\@carrera{#1}}
 \let\carrera\setcarrera
 \let\setcarrera\relax
+
+\global\let\@grado\@empty
+\newcommand{\setgrado}[1]{\def\@grado{#1}}
+\let\grado\setgrado
+\let\setcarrera2\relax
 
 \global\let\@memoria\@empty
 \newcommand{\setmemoria}[1]{\def\@memoria{#1}}
