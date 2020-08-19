@@ -1,0 +1,82 @@
+\documentclass[upright, contnum]{umemoria}
+
+%fix for the oneside argument
+\makeatletter
+\g@addto@macro\titlepage{\pagenumbering{Alph}}
+\g@addto@macro\endtitlepage{\pagenumbering{roman}}
+\makeatother
+
+\depto{Departamento de Ciencias de la Computación}
+\author{Daniel Alejandro Diomedi Pinto}
+\title{An approach to Question Answering over Wikidata using Entity Linking and Neural Semantic Parsing}
+\auspicio{}
+\date{Octubre 2020}
+\guia{Aidan Hogan}
+\carrera{Ingeniero Civil en Computación y grado de Magíster en Ciencias, Mención Computación}
+\memoria{Tesis para optar al Grado de \break Magíster en Ciencias, Mención Computación \break\break Memoria para optar al titulo de Ingeniero Civil en Computación}
+\comision{}
+
+\usepackage{lipsum}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\begin{abstract}
+    {\lipsum[1-4]}
+\end{abstract}
+
+\begin{dedicatoria} % opcional
+Una dedicatoria corta. Por ejemplo, al \emph{Centro Tecnológico Ucampus}
+\end{dedicatoria}
+
+\begin{thanks} % opcional
+\lipsum[1-2]
+\end{thanks}
+\cleardoublepage
+
+\tableofcontents
+\listoftables % opcional
+\listoffigures % opcional
+
+\mainmatter
+
+\input{intro.tex}
+% Introduccion
+%   Motivacion
+%       porque google no sirve
+%       porque Wikidata
+%           muchos usuarios, open source
+%           nro de consultas en wikidata
+%       posibilidad de extender
+%   Hipotesis       
+%   Objetivos
+%       Principales
+%       Especificos
+%   Metodologia
+%   Estructura del trabajo
+% Marco teorico
+%   RDF y SPARQL
+%   Redes Neuronales
+%   Slot Filling
+%   Entity Linking
+%   Question Answering
+% Trabajo relacionado
+% Baseline
+% Sistema propuesto
+%\input{cap1.tex}
+%\input{cap2.tex}
+%\input{conclu.tex}
+
+% \input{glosario.tex} % opcional
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+% \input{anexo_apendices.tex} % opcionales
+
+\end{document}
