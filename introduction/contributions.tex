@@ -1,4 +1,4 @@
-\section*{Contributions}
+\section{Contributions}
 % \lipsum[1-3]
 We present the three main contributions anticipated for this work.
 \subsection*{Benchmark on Question Answering over Wikidata}
@@ -7,20 +7,20 @@ components: a baseline system, a set of metrics to compare with the baseline, an
 more datasets with which to conduct experiments.
 
 The baseline consists of one of the Neural Machine Translation systems described by 
-Yin et al. \cite{nmt:nl-to-sparql-Yin19}. From the eight models that were compared on this work, 
-the ConvS2S model \cite{nmt:convS2S-GehringAGYD17} 
+Yin et al.~\cite{nmt:nl-to-sparql-Yin19}. From the eight models that were compared on this work, 
+the ConvS2S model~\cite{nmt:convS2S-GehringAGYD17} 
 significantly outperforms all the other models . Following these results, a baseline QAS is 
-implemented using the Fairseq library \cite{nmt:fairseq-OttEBFGNGA19}, which includes a ConvS2S implementation over 
+implemented using the Fairseq library~\cite{nmt:fairseq-OttEBFGNGA19}, which includes a ConvS2S implementation over 
 Pytorch\footnote{https://pytorch.org/} ready to use for training and translation. The model is trained using the same 
 settings described by Yin et al.
 
 The primary dataset used is the LC-QuAD 2.0 dataset, which contains around 30,000 
-questions over Wikidata \cite{dataset:lcquad2-DubeyBA019}. A quality check is performed over this dataset, where cases 
+questions over Wikidata~\cite{dataset:lcquad2-DubeyBA019}. A quality check is performed over this dataset, where cases 
 that contain either invalid questions or invalid SPARQL queries are filtered. The DBNQA 
-dataset \cite{dataset:dbnqa-hartmann-marx-soru-2018} is considered as well, where a mapping process is applied to obtain queries over 
+dataset~\cite{dataset:dbnqa-hartmann-marx-soru-2018} is considered as well, where a mapping process is applied to obtain queries over 
 Wikidata. The queries that cannot be mapped are ignored. The Question Answering over 
-Linked Data (QALD) \cite{qa:qald-Lopezetal2013} dataset is also used as part of this benchmark. In particular, the 
-150 questions included in QALD-7 \cite{dataset:qald7-UsbeckNHKRN17} that can be answered over Wikidata are considered. 
+Linked Data (QALD)~\cite{qa:qald-Lopezetal2013} dataset is also used as part of this benchmark. In particular, the 
+150 questions included in QALD-7~\cite{dataset:qald7-UsbeckNHKRN17} that can be answered over Wikidata are considered. 
 Besides these datasets, we build a new dataset of 100 questions over Wikidata. Only LC-QuAD 2.0 
 and the mapped version of DBQNA are used for training and validation. The other 
 datasets are used only for testing purposes. All datasets are arranged to follow a common 
@@ -44,8 +44,8 @@ system. All systems are developed using Python.
 
 We implement various entity retrieval systems using one or more of the existing Entity 
 Linking systems that have APIs available. The first variant is to use each EL system individually, 
-which includes DBpedia Spotlight \cite{EL:dbpedia-spotlight-MendesJGB11}, Aida \cite{EL:aida-tool-YosefHBSW11}, 
-TAGME \cite{EL:tagme-FerraginaS10}, and Open Tapioca \cite{EL:opentapioca-Delpeuch19}. 
+which includes DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, Aida~\cite{EL:aida-tool-YosefHBSW11}, 
+TAGME~\cite{EL:tagme-FerraginaS10}, and Open Tapioca~\cite{EL:opentapioca-Delpeuch19}. 
 All of these systems, except for Open Tapioca, only work for DBpedia; therefore an 
 extra mapping layer is implemented to map DBpedia entities to Wikidata entities. Two ensemble 
 EL approaches are then proposed: one that prioritizes systems with higher precision 
@@ -58,7 +58,7 @@ query. This is achieved by removing the entities from the output SPARQL queries 
 in the selected datasets such that the entities can rather be found by Entity Linking.
 
 Additionally, a slot filling model is trained using a Sequence Labeling model of the Flair 
-library \cite{seqlab:flair-AkbikBBRSV19}. Intuitively speaking, a query template may have 
+library~\cite{seqlab:flair-AkbikBBRSV19}. Intuitively speaking, a query template may have 
 multiple slots and multiple entities, where the slot filling model decides which entity should fill which slot.
 This process also requires building training data based on the selected datasets. 
 Having finished the three modules, the Question Answering system is implemented by 
@@ -76,6 +76,6 @@ over the identified BIO labels (a common tagging format for sequence labeling ta
 LC-QuAD 2.0 and the mapped DBQNA dataset. The query generator system is validated 
 using BLEU score, perplexity, and accuracy over LC-QuAD 2.0 and the mapped DBQNA 
 dataset. When training the query generator system, many split methods are tested according 
-to the methodology proposed by Finegan-Dollak et al. \cite{semPar:txt-to-sql-RadevKZZFRS18} used for Text-to-SQL systems. 
+to the methodology proposed by Finegan-Dollak et al.~\cite{semPar:txt-to-sql-RadevKZZFRS18} used for Text-to-SQL systems. 
 The end-to-end Question Answering system is tested over all the datasets using the metrics 
 described in the Benchmark on \textit{Question Answering over Wikidata} subsection.
