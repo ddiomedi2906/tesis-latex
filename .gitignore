@@ -1,3 +1,5 @@
 .svn
 .svn/*
 memoria_latex.zip
+tesis.*
+!tesis.tex
