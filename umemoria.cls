@@ -61,19 +61,31 @@
 %% Entornos nuevos
 \newenvironment{abstract}{%
 \cleardoublepage
-\chapter*{Resumen}
+\begin{flushright}
+\small
+\begin{tabular}{l}
+\textbf{RESUMEN DE LA MEMORIA PARA OPTAR} \\
+\textbf{AL TÍTULO DE} \MakeUppercase\@carrera \\
+\textbf{POR:} \MakeUppercase\@author \\
+\textbf{FECHA}: \MakeUppercase\@date\\
+\textbf{PROF. GUÍA:} \foreach \x in \@guia { \MakeUppercase\x }
+\end{tabular}
+\end{flushright}
+\begin{center}
+\MakeUppercase\@title
+\end{center}
 }{\vfill\null}
 
 \newenvironment{dedicatoria}{\cleardoublepage\null\vspace{\stretch{1}}\begin{flushright}\itshape}{\end{flushright}\vspace{\stretch{2}}\null}
 \let\thanks\undefined
 \newenvironment{thanks}{\cleardoublepage\chapter*{Agradecimientos}}{\vfill\null}
 \newenvironment{intro}{
-  \chapter*{Introducción}
-  \addcontentsline{toc}{chapter}{\protect\numberline{}Introducción}
+  \chapter*{Introduction}
+  \addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}
 }{\vfill\null}
 \newenvironment{conclusion}{
-  \chapter*{Conclusión}
-  \addcontentsline{toc}{chapter}{\protect\numberline{}Conclusión}
+  \chapter*{Conclusion}
+  \addcontentsline{toc}{chapter}{\protect\numberline{}Conclusion}
 }{\vfill\null}
 
 %% Teoremas, proofs, etc
