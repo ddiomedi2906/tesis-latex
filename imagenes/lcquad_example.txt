@@ -1,0 +1,5 @@
+
+normalised_question  -> "Did {Alexander_Hamilton} {occupation} {lawyer}?"
+verbalised question  -> "Is Alexander Hamilton a lawyer?"
+paraphrased_question -> "Did Alexander Hamilton practice law?"
+

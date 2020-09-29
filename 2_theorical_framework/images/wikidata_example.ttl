@@ -1,0 +1,24 @@
+
+# PREFIX DECLARATIONS
+@prefix wd: <http://wikidata.org/wiki/>
+@prefix wdt: <http://wikidata.org/prop/direct/>
+@prefix p: <http://wikidata.org/prop/>
+@prefix pq: <http://wikidata.org/prop/qualifier/>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# RDF TRIPLES
+# Gabriela Mistral
+wd:Q80871 rdfs:label "Gabriela Mistral"@en ;
+    wdt:P106 wd:Q49757 ;
+    wdt:P19 wd:Q201007 ;
+    wdt:P166 wd:Q37922, wd:Q860699 .
+# Vicuña
+wd:Q201007 rdfs:label "Vicuña"@en ;
+    p:P1082 _:population2017 ;
+    wdt:P131 wd:Q721224 ;
+    wdt:P17 dbr:Chile .
+_:population2017 pq:P1082 25085
+# Elqui Province
+wd:Q721224 wdt:P131 wd:Q2121 .
+
+

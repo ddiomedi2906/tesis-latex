@@ -1,0 +1,24 @@
+
+
+
+# PREFIX DECLARATIONS
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+# DATASET CLAUSE
+FROM <http://dbepdia.org/data/Gabriela_Mistral.ttl>
+# RESULT CLAUSE
+SELECT ?people ?award
+# QUERY CLAUSE
+WHERE {
+    ?people dbo:birthPlace dbr:Vicuña_Chile,
+        dbo:award ?award .
+}
+# SOLUTION MODIFIERS
+LIMIT 2
+
+
+# Results
+?people                 ?award
+dbr:Gabriela_Mistral    dbr:Nobel_Prize_in_Literature
+dbr:Gabriela_Mistral    dbr:National_Prize_for_Literature_(Chile)
+

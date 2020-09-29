@@ -1,0 +1,34 @@
+
+PREFIX wd: <http://wikidata.org/wiki/>
+PREFIX wdt: <http://wikidata.org/prop/direct/>
+
+SELECT ?sbj 
+WHERE {
+    ?sbj wdt:P19 wd:Q201007 .
+    ?sbj wdt:P166 wd:Q37922 .
+}
+
+
+select var_sbj where brack_open var_sbj wdt_p19 
+wd_q201007 sep_dot var_sbj wdt_p166 wd_q37922 
+sep_dot brack_close
+
+
+
+############################################################################################
+################### QUESTION ANSWERING - DATASET DBNQA #####################################
+############################################################################################
+
+SELECT DISTINCT ?sbj WHERE {
+    ?sbj dbp:placeOfBirth dbr:Stockholm .
+    ?sbj rdf:type dbo:MusicalArtist .
+}
+
+SELECT DISTINCT ?sbj WHERE {
+    ?sbj dbp:placeOfBirth <A> .
+    ?sbj rdf:type dbo:MusicalArtist .
+}
+
+
+
+

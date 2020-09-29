@@ -1,0 +1,38 @@
+
+# PREFIX DECLARATIONS
+@prefix dbr: <http://dbpedia.org/resource/>
+@prefix dbo: <http://dbpedia.org/ontology/>
+@prefix dbp: <http://dbpedia.org/property/>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# RDF TRIPLES
+dbr:Gabriela_Mistral rdfs:label "Gabriela Mistral"@en .
+dbr:Gabriela_Mistral dbp:occupation dbr:Poet .
+dbr:Gabriela_Mistral dbo:birthPlace dbr:Vicuña_Chile .
+dbr:Gabriela_Mistral dbo:awards dbr:Nobel_Prize_in_Literature .
+dbr:Gabriela_Mistral dbo:awards dbr:National_Prize_for_Literature_(Chile) .
+dbr:Vicuña_Chile rdfs:label "Vicuña, Chile"@en .
+dbr:Vicuña_Chile dbo:populationTotal 25085 .
+dbr:Vicuña_Chile dbo:isPartOf dbr:Elqui_Province .
+dbr:Vicuña_Chile dbo:isPartOf dbr:Coquimbo .
+dbr:Vicuña_Chile dbo:country dbr:Chile .
+
+
+
+...
+# RDF TRIPLES
+dbr:Gabriela_Mistral rdfs:label "Gabriela Mistral"@en ;
+    dbp:occupation dbr:Poet ;
+    dbo:birthPlace dbr:Vicuña_Chile ;
+    dbo:awards dbr:Nobel_Prize_in_Literature, dbr:National_Prize_for_Literature_(Chile) .
+dbr:Vicuña_Chile rdfs:label "Vicuña, Chile"@en ;
+    dbo:populationTotal 25085 ;
+    dbo:isPartOf dbr:Elqui_Province , dbr:Coquimbo ;
+    dbo:country dbr:Chile .
+
+
+
+dbr:Gabriela_Mistral dbo:birthPlace dbr:Vicuña_Chile ;
+    dbo:awards dbr:Nobel_Prize_in_Literature, dbr:National_Prize_for_Literature_(Chile) .
+
+    
