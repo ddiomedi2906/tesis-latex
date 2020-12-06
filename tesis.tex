@@ -21,6 +21,18 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
+\usepackage{listingsutf8}
+\usepackage{amsmath}  % for \hookrightarrow
+\usepackage{xcolor}   % for \textcolo
+\usepackage[spanish]{babel}
+\lstset{
+    inputencoding=utf8/latin1,
+    language=SQL,
+    morekeywords={PREFIX,java,rdf,rdfs,url},
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+}
+
 \begin{document}
 
 \frontmatter
