@@ -1,2 +1,205 @@
 \section{Information Extraction}
-\lipsum[1-1]
+\subsection{Information Extraction methods with Semantic Web technologies}
+As the Semantic Web aims to make structured data available enabling high levels of 
+automation, there are still some challenges regarding the increasing demand for information. 
+There is still a gap between the coverage of structured and unstructured data on the 
+Web~\cite{infExtr:PolleresHHD10}. However, making high-quality annotations on unstructured 
+data is not a trivial task because it requires processing vast amounts of information that 
+is constantly changing. 
+
+Thus, automatic techniques for extracting and annotating information have gotten more 
+attention in the context of the Semantic Web. As described by Martinez et. al., Information 
+Extraction (IE) refers to the automatic extraction of implicit information from unstructured 
+or semi-structured sources~\cite{infExtr:MartinezHL19}. IE methods are used to identify 
+entities, concepts and/or semantic relations implicit in an input source, typically a text 
+in natural language. 
+
+Many systems have been developed to automate the extraction or enrichment of Semantic Web 
+resources such as ontologies, knowledge graphs, etc. These systems are often based on 
+Information Extraction methods which usually rely on techniques from areas such as Natural 
+Language Processing, Machine Learning and Information Retrieval. 
+
+The combination of tools from the Semantic Web and Information Extraction areas presents two 
+perspectives: using Information Extraction to populate the Semantic Web, or using Semantic 
+Web resources to improve Information Extraction processes. In this work we focus on the last 
+perspective mentioned, in particular how to extract and link entities over unstructured input 
+sources (such as natural language questions).
+
+An entity is understood as an atomic element within a Semantic Web knowledge base or ontology. 
+Entity Extraction \& Linking (EEL) is then the task of identifying mentions in a text or 
+document, and linking them as entities to one or more reference knowledge graphs. EEL is 
+typically divided into two main steps: a recognition stage where relevant named entities are 
+identified, and a disambiguation stage, where entities are mapped to candidate resources in 
+the knowledge graph and subsequently ranked. Entity extraction often uses off-the-shelf Named 
+Entity Recognition (NER) tools to recognise relevant entities. After extraction, Entity 
+Linking follows, where the disambiguation of the spotted mentions links each mention to an 
+identifier in a target knowledge graph, and may include a score or weight calculation that 
+denotes the confidence or support over the output annotations. We now discuss the Entity 
+Linking process in more detail.
+
+\subsection{Entity Linking}
+Entity Linking is the task of linking mentions in text to their corresponding entities in a 
+knowledge graph (e.g. Wikipedia, Wikidata, DBpedia)~\cite{EL:survey-WuHH18}. Aside from 
+extracting entities from a knowledge graph, a disambiguation step is also needed. For example, 
+for the question \textit{“Has Claudio Bravo played in Manchester City FC?”}, Entity Linking 
+with respect to Wikidata will link the mention \textit{“Claudio Bravo”} to the Chilean 
+football goalkeeper Claudio Bravo (wd:Q313161) instead of the Chilean painter Claudio Bravo 
+(wd:Q491787), given the context of the sentence (a person playing in a football club). Some 
+applications of Entity Linking involve fields such as search engine 
+retrieval~\cite{infExtr:CornoltiFCRS16, infExtr:BlancoOM15, infExtr:BollegalaMI07} knowledge 
+fusion~\cite{infExtr:DongGHHMSZ15, infExtr:BohmFHLMNEHHS12}, or knowledge base 
+population~\cite{infExtr:RaoMD13, infExtr:DredzeMRGF10, infExtr:FreedmanMM17}.
+
+Commonly, the entity linking process is divided into three modules: candidate entity 
+generation, candidate entity disambiguation and linking the result. A formal description of 
+Entity Linking according to Wu and He~\cite{EL:survey-WuHH18} is the following: Given a set of 
+documents $d=\{d_1,d_2,\ldots\}$ and a knowledge base $K$, we can get a mention set 
+$M=\{m_1, m_2,\ldots\}$ using a Named Entity Recognition tool. For each $m_i \in M$, we can 
+get a candidate set $C=\{c_1, c_2,\ldots\}$ from a knowledge base. The goal of Entity Linking 
+is to choose an entity from $c \in C$ for each mention $m \in M$. If $score(m,c)$ is below 
+$\tau$ ($\tau$ is a threshold) for all $c \in C$, then the target entity of m is 
+\textit{Not In Lexicon} (NIL); otherwise, $m$ will be linked to $c'$ such that 
+$score(m,c')=max\{score(m,c) | c\in C \}$. Figure~\ref{fig:entitylinkingGeneralModel} shows a 
+general model including each phase and the formal description mentioned.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=.5]{imagenes/insertImage.png}
+    \caption{A general model of entity linking based on Wu and He~\cite{EL:survey-WuHH18}}
+    \label{fig:entitylinkingGeneralModel}
+\end{figure}
+
+The first module selects the candidate entities for each mention identified in the text and 
+finds related entities in the knowledge base. For example, \textit{Claudio Bravo} is related 
+to the entities \textit{Claudio Bravo (football goalkeeper)} and \textit{Claudio Bravo (painter)}.
+
+The second module is to rank the candidate entities by combining different features of 
+entities and assigning scores to each candidate. Some features could be entity popularity, 
+entity type, similarity between names or context in the query, topic similarity and a 
+combination of several features. In the example, \textit{Claudio Bravo (football goalkeeper)} 
+should have a higher score than \textit{Claudio Bravo (painter)} due to the football-related 
+context of the sentence. 
+
+The last module selects the target entity for each mention according to the ranking derived 
+from the previous module. The candidates with the highest score per mention are selected 
+among the candidates whose scores are above the threshold. If scores from all candidates are 
+below the threshold, some systems return a NIL clustering~\cite{infExtr:ji2010overview}, 
+although we will work with systems that directly discard results that do not satisfy the 
+threshold.
+
+There are various existing methods for addressing candidate entity generation and 
+disambiguation. The methods for candidate entity generation can be divided into methods 
+based on dictionaries~\cite{infExtr:ZhangSTW10, infExtr:HanSZ11}, 
+direct search~\cite{infExtr:McNameeMLOD11, infExtr:DredzeMRGF10} and 
+probabilistic methods~\cite{infExtr:ganea2016, infExtr:PanCHJK15}. On the other hand, the 
+methods for candidate entity disambiguation can be divided into methods based on 
+similarity computation~\cite{infExtr:Cucerzan07, infExtr:BunescuP06}, 
+machine learning~\cite{infExtr:ganea2016, infExtr:ZhangSTW10} 
+and graphs~\cite{infExtr:GongFLSH17, infExtr:HanSZ11}.
+
+One of the main difficulties in Entity Linking is the high ambiguity of entity mentions, 
+which make it more difficult to understand the meaning of entity mentions. These ambiguities 
+include polysemies, which refer to mentions that correspond to many entities (e.g. 
+\textit{Claudio Bravo}) or multiword synonyms, which refer to entities that may have many 
+kinds of surface forms (e.g. \textit{Manchester City FC} is also known as \textit{The Citizen} 
+or \textit{The Sky Blues}). Another problem happens when selecting entities in the linking 
+results phase since the threshold is selected manually and can lead to the problem that 
+correct targets can be below the threshold, thus being discarded.
+
+Entity linking systems evaluation criteria are usually based on Precision, Recall and 
+F1-score. For each of these metrics there is a micro measure and a macro 
+measure~\cite{entlin:CornoltiFC13}. The macro measure gives equal importance to each 
+document since it first calculates the relevant measure over each document, and then 
+calculates the arithmetic average. On the other hand, the micro measure considers all 
+mentions as part of one document when calculating the relevant measure, thus giving more 
+importance to documents with more mentions. The following equations represent the micro and 
+macro measures of Precision and Recall:
+% E --> G, G --> S
+\begin{align*} 
+    Precision_{micro} = \frac{|S \cap G|}{|S|} \\
+    Recall_{micro} = \frac{|S \cap G|}{|G|} \\
+    Precision_{macro} = \frac{\sum_{i=1}^{|D|} \frac{|s_i \cap g_i |}{|s_i|}}{|D|} \\
+    Recall_{macro} = \frac{\sum_{i=1}^{|D|} \frac{|s_i \cap g_i |}{|g_i|}}{|D|}
+\end{align*}
+where $D$ represents a document containing a number of texts, $G$ is the set of annotated 
+entities that should be linked in a document ($g_i$ is the equivalent for each document), 
+$S$ the set of linked entities generated by a system in a document ($s_i$ is the equivalent 
+for each document). The precision is the ratio of entities correctly linked to a Knowledge 
+Graph over the linked entities generated by a system, while the recall is the ratio of 
+entities correctly linked to a knowledge graph over the entities that should be correctly 
+linked. Then, the F1-score is a measure that combines Precision and Recall as two 
+interacting values and is calculated with the following formula (based on the harmonic 
+mean of both measures):
+
+\[
+    F1_x = 2 \ast \frac{Precision_x \ast Recall_x}{Precision_x + Recall_x}
+\]
+
+where $x$ corresponds to the micro or macro version of the F1-score. Aside from Precision, 
+Recall and F1-score, some systems also include an Accuracy measure that includes NIL entities, 
+though we will not consider this metric in our evaluations as NIL entities in questions 
+cannot generate results for queries.
+
+There are many datasets used for evaluation such as KORE50~\cite{entlin:HoffartSNTW12}, 
+AIDA-CoNLL~\cite{EL:aida-HoffartYBFPSTTW11}, NEEL~\cite{entlin:RizzoBPV15}, and 
+OKE2016~\cite{entlin:Plu0T16}, which can be evaluated over knowledge bases such as Wikipedia, 
+DBpedia~\cite{KG:dbpedia}, and YAGO~\cite{KG:yago}. To the best of our knowledge, there is 
+no dataset for evaluating Entity Linking over Wikidata, but since Wikidata, DBpedia and 
+Wikipedia are all interlinked, we can use datasets with labels for any such resource.
+
+In this work we will use several Entity Linking systems that we will briefly describe later. 
+The criteria to choose these systems were: 
+
+\begin{enumerate}
+    \item have a public API available that allows at least 10,000 requests per day; 
+    \item have references/papers explaining how the system functions; and 
+    \item work over either Wikipedia, Wikidata, DBpedia or YAGO. 
+\end{enumerate}
+
+Given these criteria, the selected systems are: \textit{DBpedia Spotlight}, \textit{AIDA}, 
+\textit{TAGME} and \textit{OpenTapioca}.
+
+\subsubsection{DBpedia Spotlight}
+DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11} is a system that automatically 
+annotates text documents with DBpedia URIs. The system allows users to configure annotations 
+to their specific needs through the DBpedia Ontology and quality measures provided by the 
+system. Their approach is divided into four phases.
+
+The \textbf{spotting stage} identifies the phrases in a sentence that may contain a mention 
+of a DBpedia resource. Before performing the spotting process, the system builds a lexicon 
+from a set of labels extracted using a graph of labels, redirects and disambiguation pages in 
+DBpedia. The labels of DBpedia resources are created from Wikipedia page titles, which are 
+seen as community-approved surface forms. Redirects to URIs indicate synonyms or alternative 
+surface forms (including common misspellings and acronyms) whose labels also become surface 
+forms. Disambiguation pages provide links from ambiguous surface forms to the resources they 
+potentially link to. The resulting collection of surface forms composes the set of labels for 
+the target resources.
+
+As an additional resource for the later disambiguation stage, a collection of occurrences for 
+each resource based on wikilinks (page links in Wikipedia associated with one resource) is 
+stored as a document in a Lucene\footnote{http://lucene.apache.org} index.
+
+A \textbf{candidate selection} is then employed to map resource names to candidate 
+disambiguations spotted in the previous phase. The DBpedia Lexicalization dataset is used to 
+determine candidate disambiguations for each surface form. This phase aims to reduce the 
+number of disambiguation possibilities keeping a trade-off between time performance and 
+system recall. 
+
+
+\subsubsection{AIDA}
+\subsubsection{TAGME}
+\subsubsection{Open Tapioca}
+
+\subsection{Sequence Labeling}
+Another application of Information Extraction methods is Sequence Labeling~\cite{seqlab:Graves2012-385, seqlab:MaH16}, 
+also known as Semantic Role Labeling~\cite{seqlab:GildeaJ02}. Sequence Labeling is a 
+semantic analysis tool that can be used to detect meaningful entities, relationships or 
+semantic properties in a given sentence. For example, for the sentence \textit{“Barbara lives 
+in Santiago”}, the name \textit{Barbara} could be identified as the subject of the sentence 
+or as a person, while the name \textit{Santiago} could be recognized as the object of the 
+sentence or as a location.
+
+\subsubsection{Contextual String Embeddings}
+\paragraph{Language Models}
+\paragraph{Extracting Flair Embeddings}
+\subsubsection{Sequence Labeling Architecture}
