@@ -1,2 +1,121 @@
 \section{Semantic Parsing}
-\lipsum[1-1]
+As mentioned by Kamath and Das~\cite{semPar:KamathD19}, Semantic Parsing is defined as the 
+mapping from a natural language utterance into a semantic representation. These 
+representations usually refer to logical forms, meaning representations or programs, which 
+are executed over an underlying context such as relational tables or knowledge graphs. This 
+execution yields a desired output like an answer to a question. For example, given a question 
+in natural language, a semantic parser can aim to generate a valid SPARQL query based on the 
+Wikidata’s ontology grammar that produces the correct answer when executed over a Wikidata 
+endpoint.
+
+The first component of a Semantic Parsing framework is the \textbf{language} to represent 
+logical forms or meaning representations such as 
+logic based formalisms~\cite{semPar:LiangBLFL16,semPar:ArtziFZ13}, 
+graph based formalisms~\cite{semPar:BanarescuBCGGHK13,semPar:OepenKMZCFHU15} 
+or programming languages~\cite{semPar:FeurerKESBH15}. In particular, we focus on query 
+languages such as SQL or SPARQL. Another component is the \textbf{grammar}, which is a set of 
+rules used to decide the expressivity of a semantic parser. Some examples are the Combinatory 
+Categorial Grammar for complex structured queries~\cite{semPar:steedman1996}, or the Abstract 
+Syntax Tree associated with a programming language’s defined grammar on general purpose code 
+generation [ref]. A last component is the \textbf{underlying context}, which is the 
+environment over which the output mappings are interpreted or executed. Knowledge Graphs such 
+as Wikidata or DBpedia serve as examples of an underlying context.
+
+The early attempts for Semantic Parsing were systems based on rules or statistical techniques. 
+Among the rule-based systems, systems could be based on pattern matching~\cite{semPar:Johnson84a} 
+or syntax-based systems~\cite{semPar:Woods73}. Though their implementation is simple, 
+rule-based systems tend to be domain specific, thus hard to adapt to other domains. On the 
+other hand, statistical models are able to train given examples of input-output pairs from 
+any domain. Many approaches require a lexicon as a-priori 
+knowledge~\cite{semPar:ZelleM96, semPar:ThompsonM03}, which is used to extract relevant 
+semantic or syntactic information. Since these examples are usually manually annotated or 
+require complex annotations, statistical models are hard to scale. There is also an issue 
+with data sparsity, so these models only work in narrow domains.
+
+Some of the most recent approaches that have emerged are based on Sequence-to-Sequence (Seq2seq) 
+models, which usually uses an encoder-decoder framework based on neural networks. Some 
+approaches implement an end-to-end paradigm where an intermediate representation is not 
+needed to deliver a meaning representation; thus they do not rely on lexicons, templates or 
+manually generated features. Though traditional approaches are able to better model and 
+leverage the in-built knowledge of logic compositionality, approaches based on sequence 
+models outperform traditional approaches due to the fact that Seq2seq-based models generalize 
+better with more complex and longer sentences~\cite{semPar:JiaL16}. Furthermore, Seq2seq-based 
+models can also generalize across domains~\cite{semPar:KamathD19}.
+
+In the following subsections, we discuss in more depth how systems based on 
+Sequence-to-Sequence models work. First, we will briefly explain Sequence-to-Sequence models 
+along with the approach we will use in this work: the Convolutional Sequence-to-Sequence model. 
+Then, we will introduce Neural Machine Translation systems and how these models can be used 
+for the task of translating natural language questions to SPARQL queries.
+
+\subsection{Sequence to Sequence models}
+
+The Sequence-to-Sequence (Seq2seq) model was first introduced by 
+Cho et al.~\cite{seqlab:ChoMBB14} [ref] for statistical Machine Translation. 
+They proposed a neural network work model based on an encoder-decoder framework 
+which is based on recurrent neural networks 
+(RNNs)~\cite{semPar:werbos1990, semPar:rumelhart1986,seqlab:HochreiterS97}. More details 
+about RNNs can be found in Appendix~\ref{appendix:neuralNetworks}.
+
+In a Seq2seq architecture, the encoder converts a variable-length sequence into a fixed-length 
+vector representation (i.e., it encodes the input sequence into a context vector) which is 
+passed through to the decoder that transforms this fixed-length vector representation back 
+into a variable-length sequence (i.e. decodes a context vector back to another output 
+sequence). Figure~\ref{fig:seq2seqModel} illustrates graphically how a Seq2seq looks, where 
+the length $T$ of the input sequence does not necessarily equal the length $T'$ of the output 
+sequence.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=.5]{imagenes/insertImage.png}
+    \caption{Sequence to Sequence model.}
+    \label{fig:seq2seqModel}
+\end{figure}
+
+Technically, the model is learning a conditional distribution over a variable-length sequence 
+conditioned on yet another variable-length sequence $p(y_1,\ldots,y_T'|x_1,\ldots,x_T)$. The 
+encoder is an RNN that reads each symbol of an input sequence $x$ sequentially. While it is 
+reading the current symbol on each step $t$, the hidden state $h_{<t>}^e$ of the RNN changes are
+described as:
+
+\[
+    h_{<t>}^e= f(h_{<t-1>}^e,x_t)
+\]
+
+After reading the end of the sequence, the hidden state of the RNN is the summary $c$ of the 
+whole input sequence, also known as its context vector. Then, the decoder is another RNN 
+trained to generate the output sequence by predicting the next symbol $y_t$ given the hidden 
+state $h_{<t>}^d$. This prediction is also conditioned on the previous predicted symbol 
+$y_{t-1}$ and on the context vector $c$. Then, the hidden state of the decoder is defined 
+for the step $t$, where $f$ is usually the \textit{sigmoid} function:
+
+\[
+    h_{<t>}^d= f(h_{<t-1>}^d,y_{t-1},c)
+\]
+
+Similarly, the conditional distribution of the next symbol, where $g$ is commonly a 
+\textit{softmax} function since a valid probability must be produced, is defined as follows:
+
+\[
+    P(y_t|y_{t-1},y_{t-2},\ldots,y_1,c) = g(h_{<t-1>}^d,y_{t-1},c)
+\]
+
+Both components of the sequence model are jointly trained to maximize the following 
+conditional log-likelihood function:
+
+\[
+    max_{\theta} \: \frac{1}{N} \sum_{n=1}^N log \; p(y_n|x_n)
+\]
+
+Once the model is trained, it can be used to generate a target sequence given an input 
+sequence. Though Seq2seq models were originally designed based on RNNs, other variants have 
+emerged~\cite{semPar:SutskeverVL14,nmt:DongL16}; among the more modern ones, a recent work 
+introduces a sequence learning approach based on convolutional neural networks, which has 
+shown to outperform many RNN-based models in the task of NL-to-SPARQL~\cite{nmt:nl-to-sparql-Yin19}.
+
+\subsubsection{Convolutional Sequence to Sequence Model}
+
+\subsection{Natural Language to SPARQL}
+
+\subsubsection{Neural Machine Translation}
+
