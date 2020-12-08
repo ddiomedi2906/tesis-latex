@@ -159,6 +159,7 @@ The criteria to choose these systems were:
 Given these criteria, the selected systems are: \textit{DBpedia Spotlight}, \textit{AIDA}, 
 \textit{TAGME} and \textit{OpenTapioca}.
 
+% TODO: check EL explanations
 \subsubsection{DBpedia Spotlight}
 DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11} is a system that automatically 
 annotates text documents with DBpedia URIs. The system allows users to configure annotations 
@@ -185,10 +186,137 @@ determine candidate disambiguations for each surface form. This phase aims to re
 number of disambiguation possibilities keeping a trade-off between time performance and 
 system recall. 
 
+...
+
+...
+
+Finally, annotations can be customized through \textbf{configuration parameters} in order to 
+tune parameters to a specific task. The offered configuration parameters can be used to 
+allow/deny URIs with some classes or its subclasses, set a required minimum of inlinks, 
+establish thresholds to prioritise resources relevant to the topic, reduce highly ambiguous 
+resources, and configure a disambiguation confidence to keep a good trade-off between avoiding 
+incorrect annotations and losing correct annotations.
+
+A web-service\footnote{https://www.dbpedia-spotlight.org/} is available for integration with 
+external web processes. The service is implemented through RESTful and SOAP web services for 
+the annotation and disambiguation processes, and supports various output formats (HTML, XML, 
+JSON or XHTML+RDFa).
 
 \subsubsection{AIDA}
+The Accurate Online Disambiguation of Named Entities (AIDA)~\cite{EL:aida-HoffartYBFPSTTW11,EL:aida-tool-YosefHBSW11} 
+is an online tool that performs entity detection and disambiguation over the YAGO Knowledge 
+Graph. The system’s approach combines the use of a Named Entity Recognition (NER) tool with a 
+graph-based mapping. 
+
+The system automatically detects mentions using the Stanford NER 
+Tagger\footnote{https://nlp.stanford.edu/software/CRF-NER.shtml} based on a Conditional Random 
+Fields (CRF) Classifier~\cite{entLin:FinkelGM05}. Their approach uses Gibbs sampling to identify 
+non-local structures while preserving tractable inference by simulated annealing in place of 
+Viuterbi decoding in sequence models. They use this technique to improve an existing CRF-based 
+information extraction system with long-distance dependency models.
+
+The collection mapping relies on a graph constructed with mentions and their candidate entities 
+as nodes and two types of edges: \textit{mention-entity edges} and \textit{entity-entity edges}. 
+The \textbf{mention-entity edges} are weighted edges between mentions and their candidates 
+entities (one edge per candidate) and represent the similarity between the context of each node. 
+The \textbf{entity-entity edges} are weighted edges between different entities and represent the 
+coherence, i.e. the semantic relatedness between both nodes.
+
+The \textit{similarity} between a mention and a candidate entity is defined as the linear 
+combination of the \textit{prominence} of an entity and the \textit{context similarity} between 
+a mention and a candidate entity. The \textbf{prominence} (or popularity) of an entity is 
+calculated using the frequency of Wikipedia-based link href anchor texts and links referencing 
+the entity. The \textbf{context similarity} is calculated in different ways for a mention’s 
+context and an entity's context. 
+
+...
+
+...
+
+...
+
+...
+
+Having built the weighted graph, the system aims to provide an output graph which consists of 
+the graph reduced to a dense subgraph where each mention is connected to only one candidate 
+entity. The concept of density refers to the minimum weighted degree in the subgraph. The 
+calculation of this subgraph is computed using a greedy algorithm where its main loop performs 
+two main steps in each iteration: (1) identify the entity node with the lowest weighted degree 
+and (2) remove this node and its incident edges only if it is not the last remaining candidate 
+entity for one of the mentions. 
+
+AIDA provides a HTTP JSON web service\footnote{https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/ambiverse-nlu/aida} 
+for annotating texts. It can be accessed via CURL requests and only needs to be provided by the 
+text that wants to be annotated.
+
 \subsubsection{TAGME}
+The TAGME system permits augmenting plain-text with hyperlinks to Wikipedia 
+pages~\cite{EL:tagme-FerraginaS10}. It can work over short and poorly composed texts. The system 
+annotation is divided into three phases.
+
+The first stage includes generating an anchor dictionary based on Wikidata pages. An anchor 
+(also referred to as a spot) for a page $p$ is defined as the text used in the hyperlink of 
+another page to refer to $p$. These anchors are extracted from Wikipedia pages and also include 
+titles of redirect pages and other variants~\cite{entLib:Cucerzan07}. The anchors composed by 
+one character or just numbers and anchors with low-frequency are removed. The set of all 
+Wikipedia pages linked by a given anchor $a$ is denoted as $Pg(a)$. The final anchor dictionary 
+is indexed using Lucene. 
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+A web-service hosted by D3Science Infrastructure\footnote{https://sobigdata.d4science.org/web/tagme/tagme-help} 
+is available to annotate text. The system allows to set a threshold $p$ used for discarding 
+annotations.
+
 \subsubsection{Open Tapioca}
+OpenTapica is a lightweight Named Entity Linking system that works over 
+Wikidata~\cite{EL:opentapioca-Delpeuch19}. It is restricted to people, locations and 
+organizations. The system is based on a binary classifier which predicts for each mention $s$, 
+and each candidate entity $e$ linked to that mention, if $s$ should be linked to $e$. This 
+approach combines \textit{local compatibility} and \textit{semantic similarity} to classify 
+entities according to their context.
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+...
+
+Finally, a linear support vector classifier is trained on these features, which defines the 
+final score of each candidate entity. For each mention, the system picks the highest scoring 
+candidate that the classifier predicts, if any.
+
+OpenTapioca is available through a web-service\footnote{https://opentapioca.org/} implemented 
+using Solr\footnote{https://lucene.apache.org/solr/} and some Python libraries. Its service keeps 
+synchronous with Wikidata in real time.
 
 \subsection{Sequence Labeling}
 Another application of Information Extraction methods is Sequence Labeling~\cite{seqlab:Graves2012-385, seqlab:MaH16}, 
@@ -199,7 +327,172 @@ in Santiago”}, the name \textit{Barbara} could be identified as the subject of
 or as a person, while the name \textit{Santiago} could be recognized as the object of the 
 sentence or as a location.
 
+Some traditional sequence labeling models are based on linear statistical models such as 
+Hidden Markov Models~\cite{seqlab:RatinovR09} or Conditional Random 
+Fields (CRF)~\cite{seqlab:PassosKM14, seqlab:LuoHLN15}, which mainly rely on hand-crafted 
+features and thus are difficult to adapt to new tasks or new domains~\cite{seqlab:MaX14}. 
+On the other hand, recent works that combine Neural Networks and Word Embeddings have been 
+broadly used to enhance sequential data modeling~\cite{seqlab:ChoMBB14, seqlab:GersSC00}. 
+The combination of these two components have shown better results on many Natural 
+Languages Processing (NLP) tasks such as POS tagging~\cite{seqlab:MaH16,seqlab:HuangXY15}, 
+Named Entity Recognition~\cite{seqlab:ChiuN15,seqlab:HuMLHX16} or Speech 
+Recognition~\cite{seqlab:GravesMH13}, mainly due to its capacity to learn and generalize 
+with information learned from unlabeled data, which reduces the ambiguity issues that 
+previous statistical models suffer from~\cite{seqlab:MaX14}.
+
+In particular, we are interested in Sequence Tagger systems which, given a sequence of 
+words, provide a semantic meaning to words or composed words in the context of a given 
+corpus. This semantic meaning varies depending on the task. For example, in Part-of-Speech 
+(POS) tagging, words in a sentence are usually tagged as nouns, verbs, adjectives, adverbs, 
+etc. Another area of use is Name Entity Recognition (NER), where the sequence tagger can 
+identify entity names and tag them as person, location, organization, etc. 
+
+Then, the information output by the tagger can be used in other IE methods such as Entity 
+Linking. The task fulfilled by the tagger can be adapted depending on the labels used 
+(e.g. provide more entity types for NER) but the process of training and learning such 
+labels should not change. We will apply these methods later to identify which sequences of 
+terms in the question text refer to which elements of the query. The labels output by the 
+system are usually known as BIO labels (where BIO means beginning-inside-outside) and 
+demark a tag for a word and whether a word is the beginning of a tag, an inside part of a 
+tag, or a word outside a tag. An example of a BIO label output can be seen in 
+Figure~\ref{fig:flairArchitecture}.
+
+The performance of a Sequence Tagger is measured using a per-word accuracy~\cite{seqlab:MarcusSM94}. 
+Let $W=(w_0,\ldots,w_n)$ denote a sequence of words, $(l_0,\ldots,l_n)$ a sequence of 
+expected BIO labels and ($(l_{0}',\ldots,l_{n}')$ a sequence of BIO labels output by a Sequence 
+Tagger; a word $w_i$ would be labeled correctly if its expected label $l_i$ matches with the label 
+$l_{i}'$ delivered by the Sequence Tagger. Then, the accuracy over $W$ will be:
+
+\[accuracy(W)=\frac{\mbox{\#words correctly labeled}}{\mbox{total \# words}}\]
+
+In this work, we will use the Flair Framework~\cite{seqlab:flair-AkbikBBRSV19}, which provides 
+up-to-date state-of-the-art language models and word embeddings in a simple interface. Flair is 
+implemented on Python using the Pytorch framework for implementing Neural Network based models. 
+One of the tools Flair provides is a Sequence Tagger model, which includes pre-trained models or 
+the capacity of training a new model by providing training data. In order to understand how the 
+Flair Sequence Tagger works, we will explain its two main components: Contextual String 
+Embeddings~\cite{seqlab:contextual-emb-AkbikBV18} and its main architecture based on a 
+Bidirectional LSTM-CRF model.
+
 \subsubsection{Contextual String Embeddings}
+The construction of Contextual String Embeddings (aka Flair embeddings) is based on two 
+Language Models (LM) where each one captures semantic-syntactic information for each word in 
+the sentence; one model captures information from the \textit{“past”} and the other model from 
+the \textit{“future”} of each word. The information from both models is combined to construct 
+representations of words based on their surrounding context.
+
+% TODO: add breakline after paragraph command
 \paragraph{Language Models}
+A Language Model (LM) is a probability distribution over sequences of words~\cite{seqlab:PonteC98}. 
+Language models can be character-level or word-level, where the difference lies in the atomic 
+unit selected for the language model~\cite{seqlab:PonteC98}. For a character-level language model, 
+the goal is to predict the expected character given a set of characters as context, i.e., to 
+provide a good distribution $P(x_{0:T})$  over sequences of characters 
+$(x_0, x_1,\ldots,x_T)$~\cite{seqlab:Graves13}. For example, if the objective is to predict the 
+next character given the previous characters, we will train a language a model to learn 
+$P(x_t|x_0,..., x_{t-1})$, for $0 < t <= T$, which gives an estimate of the predictive 
+distribution over the next character given the previous characters.
+
+Recent work on language models prefer architectures based on Recurrent Neural Networks~\cite{seqlab:contextual-emb-AkbikBV18}. 
+Language models based on Neural Networks, also known as Neural Language Models, have shown 
+better results than statistical language models~\cite{seqlab:Graves13}, mainly because 
+statistical models decrease their performance when dealing with large vocabulary size, which 
+causes a data sparsity problem~\cite{seqlab:Egghe07a}. Among the many applications of neural 
+language models, a key application is the creation of word embedding, which are vector 
+representations of words typically based on the trainable weights within the Neural Networks 
+used in the language model. In this case, the architecture used to construct Flair embeddings 
+is the LSTM variant~\cite{seqlab:HochreiterS97,seqlab:Graves13,seqlab:ZarembaSV14} which 
+enhances the ability to encode long-term dependencies with its hidden states (weights in an LSTM 
+architecture).
+
 \paragraph{Extracting Flair Embeddings}
+As mentioned earlier, the goal of a character-level language model is to estimate the 
+distribution $P(x_{0:T})$ over a sequence of characters $x_0:T =(x_0, x_1,\ldots, x_T)$. This 
+results in a joint distribution over the entire sentence, which is the product of the 
+conditional probability $P(x_t|x_0,..., x_{t-1})$ of each character of the sentence:
+
+\begin{equation} \label{eq:flairProb}
+    P(x_0) = \prod_{t=0}^{T} P(x_T|x_{0:t-1})
+\end{equation}
+
+In an LSTM architecture, the conditional probability $P(x_i|x_0,\ldots,x_{i-1})$ is approximated 
+as a function of the network output $h_t$:
+
+\[
+    P(x_T|x_{0:t-1}) \approx \prod_{t=0}^{T} P(x_T|h_t;\theta)    
+\]
+
+where $h_t$ represents the past context of the character sequence and is computed recursively 
+using an additional memory cell $c_t$:
+
+\begin{align*}
+    h_t(x_{0:t-1})=f_h(x_{t-1},h_{t-1},c_{t-1};\theta) \\
+    c_t(x_{0:t-1})=f_c(x_{t-1},h_{t-1},c_{t-1};\theta)    
+\end{align*}
+
+where $\theta$ denotes all the parameters of the model. The proposed model includes a fully 
+connected softmax layer on top of $h_t$, so the likelihood of every character is given by:
+
+\[
+    P(x_t|h_t;V) = \frac{exp(V h_t+b)}{\| exp(V h_t+b) \Vert }
+\]
+
+where $h_t^b$ is denoted as the hidden states of the backward model calculated the same way as 
+Equation~\ref{eq:flairProb}. We also denote $h_t^f$ as the hidden states ht of the forward model. 
+
+Finally, output hidden states from both models are concatenated to form the final embedding 
+which represents the surrounding context of a word itself. Formally, the contextual string 
+embedding of a word-string that begins at character inputs with indices $t_0,t_1,\ldots,t_n$ 
+is defined as:
+
+\[
+    w_i^{CharLM} := \begin{bmatrix} h_{t_{i+1}-1}^f \\ h_{t_{i}-1}^b \end{bmatrix}
+\]
+
+The result are Contextual String Embeddings capable of producing different representations for 
+the same lexical word string in different contexts while capturing the semantics of contextual 
+use together with the word itself. These embeddings are then used to boost standard Sequence 
+Labeling models as explained next.
+
 \subsubsection{Sequence Labeling Architecture}
+
+Though the Flair framework supports various sequence tagging models, the default is to use the 
+model based on a Bidirectional LSTM with a Conditional Random Field layer on top of the final 
+BiLSTM layer, also known as BiLSTM-CRF\cite{seqlab:HuangXY15}. Let us denote by $w_o,w_1,\ldots,w_n$ 
+the input of the model; then we have that:
+
+\[
+    r_i := \begin{bmatrix} r_i^f \\ r_i^b \end{bmatrix}
+\]
+
+where $r_i^f$ and $r_i^b$ are the forward and backward output states of the model. The final 
+sequence probability is then given by a CRF over the possible labels $y$:
+
+\[
+    \widehat{P}(y_{0:n}|r_{0:n})\propto \prod_{i=1}^n exp(W_{(y_{i-1},y_i)} r_i +b_{(y_{i-1},y_i)})
+\]
+
+The component that improves the performance of these BiLSTM-CRF models is the addition of 
+stacked embeddings, which are a combination of different types of embeddings. The way to combine 
+each embedding vector is by concatenating them to form a final word vector representation. The 
+final word representation chosen in this work is given by:
+
+\begin{equation} \label{eq:flairWordRepr}
+    w_i := \begin{bmatrix} w_i^{CharLM} \\ w_i^{GloVe} \end{bmatrix}
+\end{equation}
+
+where wiGloVe is a precomputed GloVe embedding~\cite{seqlab:PenningtonSM14}. Note that these 
+word representations are the input words for the BiLSTM-CRF. An example is shown in 
+Figure~\ref{fig:flairArchitecture}, where the Character Language Model mentioned before is fed 
+the sentence \textit{“George Washington was born”} as a sequence of characters. The output 
+delivered by the Language Model corresponds to the vector representation of each word following 
+Equation~\ref{eq:flairWordRepr}. Then, these sequences of words are taken by the Sequence 
+Labeling Model, which gives an output of a sequence of BIO labels such as to indicate that 
+the phrase \textit{“George Washington”} is tagged as a person (PER).
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=.5]{imagenes/insertImage.png}
+    \caption{Flair Sequence Labeling architecture~\cite{seqlab:flair-AkbikBBRSV19}}
+    \label{fig:flairArchitecture}
+\end{figure}
