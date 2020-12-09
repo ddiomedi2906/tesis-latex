@@ -30,5 +30,19 @@ SELECT DISTINCT ?sbj WHERE {
 }
 
 
+############################################################################################
+################### QUESTION ANSWERING - DATASET DBNQA #####################################
+############################################################################################
 
+
+ASK WHERE { wd:Q658 wdt:P1108 ?obj filter(?obj < 1.2) }
+
+ask where brack_open wd_q658 wdt_p1108 var_obj 
+filter attr_open var_obj math_lt 1_dot_2 attr_close brack_close
+
+
+ASK WHERE { <sbj_1> wdt:P1108 ?obj filter(?obj < <num>) }
+
+ask where brack_open placeholder_sbj_1 wdt_p1108 var_obj 
+filter attr_open var_obj math_lt placeholder_num attr_close brack_close
 
