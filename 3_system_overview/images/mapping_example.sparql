@@ -1,0 +1,9 @@
+
+
+SELECT ?article ?wikidata ?dbpedia WHERE {
+    ?article schema:about ?wikidata .
+    BIND(IRI(CONCAT("https://en.wikipedia.org/wiki/", SUBSTR(STR(?dbpedia),29))) AS ?article)
+    VALUES ?dbpedia { <http://dbpedia.org/resource/Gabriela_Mistral> <http://dbpedia.org/ontology/Poet> }
+}
+
+

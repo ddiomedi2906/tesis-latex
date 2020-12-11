@@ -1,0 +1,18 @@
+
+
+standard_filling(annotations, slots, query_template)
+    sparql_query = query_template
+    for s_label, placeholder in slots
+        if placeholder has been used or placeholder not in sparql_query
+            skip
+        if placeholder is a <num> or <str_value>
+            replace placeholder in sparql_query for the s_label value
+        if placeholder is an <entity_type> (e.g. <sbj_1>)
+            for e_label, entity in annotations
+                if s_label equal to e_label
+                    replace placeholder in sparql_query for the entity value
+                    break
+        mark placeholder and/or entity as used, if applies
+    return sparql_query
+
+
