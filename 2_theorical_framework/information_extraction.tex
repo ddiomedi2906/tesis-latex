@@ -186,9 +186,24 @@ determine candidate disambiguations for each surface form. This phase aims to re
 number of disambiguation possibilities keeping a trade-off between time performance and 
 system recall. 
 
-...
+Following candidate selection is the \textbf{disambiguation stage}, where the system uses 
+the context gathered from surface forms to choose the best choice amongst candidates. 
+DBpedia resource occurrences are modeled in a Vector Space Model (VSM)~\cite{infExtr:SaltonWY75} 
+where each DBpedia resource is a point in a multidimensional space of words. The \textit{Term 
+Frequency} (TF) weight and the \textit{Inverse Candidate Frequency} (ICF) weight are 
+used to score each candidate. 
 
-...
+The TF weight represents the relevance of a word for a given 
+resource. The ICF weight is proposed given that the \textit{Inverse Document Frequency} (IDF) 
+weight~\cite{infExtr:Jones04} only identifies the global importance for a word, and thus 
+fails to capture the importance of a word for a specific set of candidate resources. Instead, 
+the ICF weight aims to weight words based on their ability to distinguish between candidates 
+for a given surface form. The intuition behind the ICF formula is that the discriminative power of a word is inversely 
+proportional to the number of DBpedia resources it is associated with. 
+
+Having the VSM representation of DBpedia resources with $TF \ast ICF$ weights, the 
+disambiguation process is performed by ranking candidate resources using the cosine 
+similarity score between their context vectors and the context surrounding the surface form.
 
 Finally, annotations can be customized through \textbf{configuration parameters} in order to 
 tune parameters to a specific task. The offered configuration parameters can be used to 
@@ -205,7 +220,7 @@ JSON or XHTML+RDFa).
 \subsubsection{AIDA}
 The Accurate Online Disambiguation of Named Entities (AIDA)~\cite{EL:aida-HoffartYBFPSTTW11,EL:aida-tool-YosefHBSW11} 
 is an online tool that performs entity detection and disambiguation over the YAGO Knowledge 
-Graph. The system’s approach combines the use of a Named Entity Recognition (NER) tool with a 
+Graph. The system's approach combines the use of a Named Entity Recognition (NER) tool with a 
 graph-based mapping. 
 
 The system automatically detects mentions using the Stanford NER 
@@ -226,16 +241,39 @@ The \textit{similarity} between a mention and a candidate entity is defined as t
 combination of the \textit{prominence} of an entity and the \textit{context similarity} between 
 a mention and a candidate entity. The \textbf{prominence} (or popularity) of an entity is 
 calculated using the frequency of Wikipedia-based link href anchor texts and links referencing 
-the entity. The \textbf{context similarity} is calculated in different ways for a mention’s 
+the entity. The \textbf{context similarity} is calculated in different ways for a mention's 
 context and an entity's context. 
 
-...
+The context of a mention simply considers all tokens in the document as the 
+context~\cite{infExtr:ThaterFP10}. For the context of an entity, the system considers entity 
+keyphrases, which are pre-computed phrases derived from link anchors in Wikipedia articles that 
+entities connect to~\cite{infExtr:ThaterFP10}. These include phrases in the entity article that 
+contain category names, citation titles, external references or titles of incoming links. This 
+process forms a keyphrase set $KP(e)$ for each entity $e$. 
 
-...
+The \textit{Mutual Information} (MI) measure, which quantifies the ``amount of information'' one 
+random variable obtained from observing another one, is used to quantify the specificity weight 
+of a keyword with regard to an entity. In this context, the MI for each keyword $w$ is based on 
+a joint probability $P(e, w)$ that reflects the probability of $w$ to be contained in either the 
+keyphrase $KP(e)$, or any of the keyphrase sets of entities linked to $e$. 
 
-...
+Since keyphrases can rarely match multi-word keyphrases (e.g. the phrase ``Nobel Prize winner'' 
+may occur in the form of ``Nobel winner''), a partial-match model is added to 
+improve coverage~\cite{infExtr:taneva2011}. This model match individual words and rewards their
+proximity. Following this approach, a phrase's cover is computed for each keyphrase, which 
+consists of the shortest window of words that maximize the number of words of the keyphrase. 
+For example, the text ``winner of many prizes including a Nobel'' the cover length of the 
+keyphrase ``Nobel award winner'' is 7. Then, the partial-match score of a phrase in a text is
+calculated using the MI weights of the keyphrase words contained in the phrase and the ones
+included on the phrase's cover.
 
-...
+Lastly, the similarity score between a mention and a candidate entity is computed by summing all 
+the partial matching scores of the phrases that are part of the keyphrase $KP(e)$.
+
+The \textbf{coherence} weight between a pair of entities is calculated using the number of 
+incoming Wikipedia links that both entities share in their Wikipedia articles, which are referred
+using crossreferencing properties such as \textit{same-as}. This approach is
+polished up by considering the total number of entities in the Wikipedia collection~\cite{infExtr:MilneW08}.
 
 Having built the weighted graph, the system aims to provide an output graph which consists of 
 the graph reduced to a dense subgraph where each mention is connected to only one candidate 
@@ -262,57 +300,104 @@ one character or just numbers and anchors with low-frequency are removed. The se
 Wikipedia pages linked by a given anchor $a$ is denoted as $Pg(a)$. The final anchor dictionary 
 is indexed using Lucene. 
 
-...
+Then, each annotation of an anchor $a$ with some page $p_a \in Pg(a)$, denoted 
+$a \rightarrow p_a$, forms what the authors refer to as a \textit{sense}\footnote{For example, 
+a mention of Gabriela Mistral on any given Wikipedia article, \textit{“Gabriela Mistral”} is the 
+anchor, and two possible senses are \url{https://en.wikipedia.org/wiki/Gabriela\_Mistral} or 
+\url{https://en.wikipedia.org/wiki/Museo\_Gabriela\_Mistral.}}. These senses are built using all 
+Wikipedia pages but discarding disambiguation pages, list pages and redirect pages, also indexed 
+by Lucene. These results are indexed in a link-graph using 
+Webgraph\footnote{\url{http://webgraph.dsi.unimi.it}}.
 
-...
+Often an anchor $a$ has more than one candidate sense, so a disambiguation process is performed. 
+Having the set of all anchors contained in a text $T$ denoted by $A_T$, the system tries to 
+disambiguate each anchor $a \in A_T$ by computing a score for each possible sense 
+$p_a \in Pg(a)$. This process is implemented using a voting scheme that computes for each other 
+anchor $b \in A_T \backslash \{a\}$ its vote for the annotation $a \rightarrow p_a$.
 
-...
+To disambiguate the anchor $a$, a ranking process is designed to select its best annotation 
+$a \rightarrow p_a$. The TAGME system presents two variants for the ranking algorithm: one based 
+on a classifier (DC) and the other based on a threshold (DT). DC uses as features the score 
+$rel_a(p_a)$ and the commonness $Pr(p_a|a)$ to train a classifier to calculate the 
+\textit{“probability of correct disambiguation”} for all senses $p_a \in Pg(a)$. The $p_a$ 
+reporting the highest classification score is selected. The other approach, DT, computes the 
+top-$\epsilon$ best senses $p_a' \in Pg(a)$ according to their $rel_a(p_a')$ score and then 
+annotates $a$ with the sense that obtains the highest commonness amongst them. For time 
+performance optimization, both variants discard senses with a commonness below a certain 
+threshold $\tau$.
 
-...
+Finally, in the anchor pruning stage, the set $M(A_T)$ of candidates produced in the previous 
+stage are pruned to avoid meaningless anchors. A \textit{bad anchor} is defined by a score 
+computed using two features: the link probability $lp(a)$ of the anchor $a$ and the coherence of 
+its candidate senses with respect to the candidate senses of other anchors in 
+$M(A_T)$~\cite{infExtr:MilneW08}. This link probability $lp(a)$ corresponds to the ratio between 
+the number of times the phrase $a$ occurs as an anchor in Wikipedia, and the frequency this 
+phrase occurs in both anchor and non-anchor occurrences.
 
-...
+The coherence between two candidate annotations is equivalent to the process followed in the AIDA 
+system. A score $\rho(a \rightarrow p)$ is then calculated per candidate annotation, which is 
+compared to a threshold $\rho_{NA}$, so annotations with a score lower than the given threshold 
+are pruned by setting $a \rightarrow NA$ (a fake page to denote pruned annotations). Two 
+approaches that combine $lp$ and coherence are presented to compute this score: one is an 
+average between the two features and the second is a linear combination trained via linear 
+regression.
 
-...
-
-...
-
-A web-service hosted by D3Science Infrastructure\footnote{https://sobigdata.d4science.org/web/tagme/tagme-help} 
+A web-service hosted by D3Science Infrastructure\footnote{\url{https://sobigdata.d4science.org/web/tagme/tagme-help}} 
 is available to annotate text. The system allows to set a threshold $p$ used for discarding 
 annotations.
 
-\subsubsection{Open Tapioca}
+\subsubsection{OpenTapioca}
 OpenTapica is a lightweight Named Entity Linking system that works over 
-Wikidata~\cite{EL:opentapioca-Delpeuch19}. It is restricted to people, locations and 
-organizations. The system is based on a binary classifier which predicts for each mention $s$, 
-and each candidate entity $e$ linked to that mention, if $s$ should be linked to $e$. This 
-approach combines \textit{local compatibility} and \textit{semantic similarity} to classify 
-entities according to their context.
+Wikidata~\cite{EL:opentapioca-Delpeuch19}, and is restricted to people, locations and 
+organizations. Let D be a document, a spot $s$ is a pair of start and end positions in $D$. 
+This spot defines a phrase $d_s \in D$, and a set of candidate Wikidata entities $E_s$. The 
+OpenTapioca system is based on a binary classifier that predicts for each spot $s$, and each 
+candidate entity $e$ linked to that spot, if $s$ should be linked to $e$. This approach 
+combines \textit{local compatibility} and \textit{semantic similarity} to classify entities 
+according to their context.
 
-...
+The \textbf{local compatibility} for an entity $e$ with a phrase $d_s$ is represented by a 
+vector of features that considers the popularity of the entity and the commonness of the 
+phrase. The popularity of an entity is estimated by a log-linear combination of its number of 
+statements $n_e$, site links $s_e$ and its PageRank $r(e)$ (calculated using Wikidata 
+statement values and qualifiers as edges). The commonness of a phrase is estimated using a 
+unigram language model trained from Wikidata items labels.
 
-...
+Since the aforementioned features do not consider the context of the mention, a graph is defined 
+whose nodes are the candidates entities and edges link semantically related entities. The 
+approach consists of finding a combination of candidate entities which are both highly 
+compatible and densely related in the graph.
 
-...
+Therefore, the \textbf{semantic similarity} measure is used to make the process 
+context-sensitive. An adaptation of the Han et al.'s~\cite{infExtr:HanSZ11} approach is 
+proposed, where a similarity metric $sim(e,e')$ is defined for each pair of entities $(e,e')$ 
+and defines the probability that two random walks starting from $e$ and $e'$ end up on the 
+same item.
 
-...
+Next, a weighted graph $G_D$ is built where each vertex is a pair $(s,e)$ such as $d_s \in D$ 
+and $e \in E_s$. A maximum distance $\rho_{max}$ is fixed for edges so a pair of vertices can 
+only be linked if its distance is less than or equal to $\rho_{max}$, and both vertices are 
+referring to a different mention. The weight is defined for each edge, which is proportional to
+the smoothed similarity between entities, discounted by the distance between mentions. The 
+weighted graph $G_D$ is represented by a column-stochastic matrix $M_D$ which is an adjacency 
+matrix normalized by its columns to sum to one.
 
-...
+The resulting matrix $M_D$ defines a Markov chain on the candidate entities that is used to
+propagate the local evidence, which helps to classify entities according to the context. A 
+Markov chain is a mathematical model used to model transitions from one state to another, 
+usually in a stochastic way. One particularity of Markov chains is that the stochastic 
+process is “memoryless”. That is, the probability of transitioning to any particular state 
+depends solely on the current state and time elapsed\footnote{One example of a Markov chain 
+process is the probability question of getting a certain color ball from a bag of balls, when 
+replacement is allowed each time a ball is drawn.}.
 
-...
-
-...
-
-...
-
-...
-
-...
-
-...
-
-Finally, a linear support vector classifier is trained on these features, which defines the 
-final score of each candidate entity. For each mention, the system picks the highest scoring 
-candidate that the classifier predicts, if any.
+Then, instead of combining the local features into a local evidence score as done by 
+Han et al.~\cite{infExtr:HanSZ11}, each local compatibility feature is propagated 
+independently along the Markov chain. This allows to record the features at each step, 
+which defines a vector of features more sensitive to the context while keeping the number of 
+features small. Finally, a linear support vector classifier is trained on these features, 
+which defines the final score of each candidate entity. For each spot, the system picks the 
+highest scoring candidate that the classifier predicts, if any.
 
 OpenTapioca is available through a web-service\footnote{https://opentapioca.org/} implemented 
 using Solr\footnote{https://lucene.apache.org/solr/} and some Python libraries. Its service keeps 
