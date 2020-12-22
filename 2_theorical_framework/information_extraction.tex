@@ -1,5 +1,7 @@
 \section{Information Extraction}
+\label{cap3:infExtr}
 \subsection{Information Extraction methods with Semantic Web technologies}
+\label{cap3:infExtr/methods}
 As the Semantic Web aims to make structured data available enabling high levels of 
 automation, there are still some challenges regarding the increasing demand for information. 
 There is still a gap between the coverage of structured and unstructured data on the 
@@ -38,6 +40,7 @@ denotes the confidence or support over the output annotations. We now discuss th
 Linking process in more detail.
 
 \subsection{Entity Linking}
+\label{cap3:infExtr/entityLinking}
 Entity Linking is the task of linking mentions in text to their corresponding entities in a 
 knowledge graph (e.g. Wikipedia, Wikidata, DBpedia)~\cite{EL:survey-WuHH18}. Aside from 
 extracting entities from a knowledge graph, a disambiguation step is also needed. For example, 
@@ -64,7 +67,7 @@ general model including each phase and the formal description mentioned.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.5]{imagenes/insertImage.png}
+    \includegraphics[scale=.5]{imagenes/2_theorical_framework/information_extraction/entityLinkingModel.PNG}
     \caption{A general model of entity linking based on Wu and He~\cite{EL:survey-WuHH18}}
     \label{fig:entitylinkingGeneralModel}
 \end{figure}
@@ -161,6 +164,7 @@ Given these criteria, the selected systems are: \textit{DBpedia Spotlight}, \tex
 
 % TODO: check EL explanations
 \subsubsection{DBpedia Spotlight}
+\label{cap3:infExtr/entityLinking/dbpediaSpotlight}
 DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11} is a system that automatically 
 annotates text documents with DBpedia URIs. The system allows users to configure annotations 
 to their specific needs through the DBpedia Ontology and quality measures provided by the 
@@ -178,7 +182,7 @@ the target resources.
 
 As an additional resource for the later disambiguation stage, a collection of occurrences for 
 each resource based on wikilinks (page links in Wikipedia associated with one resource) is 
-stored as a document in a Lucene\footnote{http://lucene.apache.org} index.
+stored as a document in a Lucene\footnote{\url{http://lucene.apache.org}} index.
 
 A \textbf{candidate selection} is then employed to map resource names to candidate 
 disambiguations spotted in the previous phase. The DBpedia Lexicalization dataset is used to 
@@ -212,19 +216,20 @@ establish thresholds to prioritise resources relevant to the topic, reduce highl
 resources, and configure a disambiguation confidence to keep a good trade-off between avoiding 
 incorrect annotations and losing correct annotations.
 
-A web-service\footnote{https://www.dbpedia-spotlight.org/} is available for integration with 
+A web-service\footnote{\url{https://www.dbpedia-spotlight.org/}} is available for integration with 
 external web processes. The service is implemented through RESTful and SOAP web services for 
 the annotation and disambiguation processes, and supports various output formats (HTML, XML, 
 JSON or XHTML+RDFa).
 
 \subsubsection{AIDA}
+\label{cap3:infExtr/entityLinking/aida}
 The Accurate Online Disambiguation of Named Entities (AIDA)~\cite{EL:aida-HoffartYBFPSTTW11,EL:aida-tool-YosefHBSW11} 
 is an online tool that performs entity detection and disambiguation over the YAGO Knowledge 
 Graph. The system's approach combines the use of a Named Entity Recognition (NER) tool with a 
 graph-based mapping. 
 
 The system automatically detects mentions using the Stanford NER 
-Tagger\footnote{https://nlp.stanford.edu/software/CRF-NER.shtml} based on a Conditional Random 
+Tagger\footnote{\url{https://nlp.stanford.edu/software/CRF-NER.shtml}} based on a Conditional Random 
 Fields (CRF) Classifier~\cite{entLin:FinkelGM05}. Their approach uses Gibbs sampling to identify 
 non-local structures while preserving tractable inference by simulated annealing in place of 
 Viuterbi decoding in sequence models. They use this technique to improve an existing CRF-based 
@@ -283,11 +288,12 @@ two main steps in each iteration: (1) identify the entity node with the lowest w
 and (2) remove this node and its incident edges only if it is not the last remaining candidate 
 entity for one of the mentions. 
 
-AIDA provides a HTTP JSON web service\footnote{https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/ambiverse-nlu/aida} 
+AIDA provides a HTTP JSON web service\footnote{\url{https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/ambiverse-nlu/aida}} 
 for annotating texts. It can be accessed via CURL requests and only needs to be provided by the 
 text that wants to be annotated.
 
 \subsubsection{TAGME}
+\label{cap3:infExtr/entityLinking/tagme}
 The TAGME system permits augmenting plain-text with hyperlinks to Wikipedia 
 pages~\cite{EL:tagme-FerraginaS10}. It can work over short and poorly composed texts. The system 
 annotation is divided into three phases.
@@ -347,6 +353,7 @@ is available to annotate text. The system allows to set a threshold $p$ used for
 annotations.
 
 \subsubsection{OpenTapioca}
+\label{cap3:infExtr/entityLinking/openTapioca}
 OpenTapica is a lightweight Named Entity Linking system that works over 
 Wikidata~\cite{EL:opentapioca-Delpeuch19}, and is restricted to people, locations and 
 organizations. Let D be a document, a spot $s$ is a pair of start and end positions in $D$. 
@@ -399,11 +406,12 @@ features small. Finally, a linear support vector classifier is trained on these 
 which defines the final score of each candidate entity. For each spot, the system picks the 
 highest scoring candidate that the classifier predicts, if any.
 
-OpenTapioca is available through a web-service\footnote{https://opentapioca.org/} implemented 
-using Solr\footnote{https://lucene.apache.org/solr/} and some Python libraries. Its service keeps 
-synchronous with Wikidata in real time.
+OpenTapioca is available through a web-service\footnote{\url{https://opentapioca.org/}} 
+implemented using Solr\footnote{\url{https://lucene.apache.org/solr/}} and some Python libraries. 
+Its service keeps synchronous with Wikidata in real time.
 
 \subsection{Sequence Labeling}
+\label{cap3:infExtr/sequenceLabeling}
 Another application of Information Extraction methods is Sequence Labeling~\cite{seqlab:Graves2012-385, seqlab:MaH16}, 
 also known as Semantic Role Labeling~\cite{seqlab:GildeaJ02}. Sequence Labeling is a 
 semantic analysis tool that can be used to detect meaningful entities, relationships or 
@@ -460,6 +468,7 @@ Embeddings~\cite{seqlab:contextual-emb-AkbikBV18} and its main architecture base
 Bidirectional LSTM-CRF model.
 
 \subsubsection{Contextual String Embeddings}
+\label{cap3:infExtr/sequenceLabeling/contextualEmbeddings}
 The construction of Contextual String Embeddings (aka Flair embeddings) is based on two 
 Language Models (LM) where each one captures semantic-syntactic information for each word in 
 the sentence; one model captures information from the \textit{“past”} and the other model from 
@@ -468,6 +477,7 @@ representations of words based on their surrounding context.
 
 % TODO: add breakline after paragraph command
 \paragraph{Language Models}
+\label{cap3:infExtr/sequenceLabeling/contextualEmbeddings/languageModel}
 A Language Model (LM) is a probability distribution over sequences of words~\cite{seqlab:PonteC98}. 
 Language models can be character-level or word-level, where the difference lies in the atomic 
 unit selected for the language model~\cite{seqlab:PonteC98}. For a character-level language model, 
@@ -491,6 +501,7 @@ enhances the ability to encode long-term dependencies with its hidden states (we
 architecture).
 
 \paragraph{Extracting Flair Embeddings}
+\label{cap3:infExtr/sequenceLabeling/contextualEmbeddings/flairEmbeddings}
 As mentioned earlier, the goal of a character-level language model is to estimate the 
 distribution $P(x_{0:T})$ over a sequence of characters $x_0:T =(x_0, x_1,\ldots, x_T)$. This 
 results in a joint distribution over the entire sentence, which is the product of the 
@@ -540,7 +551,7 @@ use together with the word itself. These embeddings are then used to boost stand
 Labeling models as explained next.
 
 \subsubsection{Sequence Labeling Architecture}
-
+\label{cap3:infExtr/sequenceLabeling/architecture}
 Though the Flair framework supports various sequence tagging models, the default is to use the 
 model based on a Bidirectional LSTM with a Conditional Random Field layer on top of the final 
 BiLSTM layer, also known as BiLSTM-CRF\cite{seqlab:HuangXY15}. Let us denote by $w_o,w_1,\ldots,w_n$ 
@@ -566,8 +577,8 @@ final word representation chosen in this work is given by:
     w_i := \begin{bmatrix} w_i^{CharLM} \\ w_i^{GloVe} \end{bmatrix}
 \end{equation}
 
-where wiGloVe is a precomputed GloVe embedding~\cite{seqlab:PenningtonSM14}. Note that these 
-word representations are the input words for the BiLSTM-CRF. An example is shown in 
+where $w_i^{GloVe}$ is a precomputed GloVe embedding~\cite{seqlab:PenningtonSM14}. Note that 
+these word representations are the input words for the BiLSTM-CRF. An example is shown in 
 Figure~\ref{fig:flairArchitecture}, where the Character Language Model mentioned before is fed 
 the sentence \textit{“George Washington was born”} as a sequence of characters. The output 
 delivered by the Language Model corresponds to the vector representation of each word following 
@@ -577,7 +588,7 @@ the phrase \textit{“George Washington”} is tagged as a person (PER).
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.5]{imagenes/insertImage.png}
+    \includegraphics[scale=.5]{imagenes/2_theorical_framework/information_extraction/sequenceLabelingModel.PNG}
     \caption{Flair Sequence Labeling architecture~\cite{seqlab:flair-AkbikBBRSV19}}
     \label{fig:flairArchitecture}
 \end{figure}
