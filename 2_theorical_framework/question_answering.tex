@@ -1,4 +1,5 @@
 \section{Question Answering over Knowledge Graphs}
+\label{cap2:qakg}
 Question Answering systems respond to the need to access information on the Web without 
 detailed knowledge of Semantic Web technologies such as how data is structured (RDF) or how to 
 access data (SPARQL). In particular, Question Answering systems (QAS) provide end-users with an 
@@ -10,7 +11,7 @@ found, whereas a Question Answering system aims to return precise answers~\cite{
 When we mention the task of Question Answering over Knowledge Graphs (QAKG), we refer to 
 receiving a natural language question and returning an answer retrieved from one or more 
 Knowledge Graphs (e.g. the first man to walk on the moon is Neil 
-Amstrong\footnote{https://www.wikidata.org/wiki/Q1615 in Wikidata}). Though there is work which 
+Amstrong\footnote{\url{https://www.wikidata.org/wiki/Q1615} in Wikidata}). Though there is work which 
 includes a wider context along with the question, such as hybrid questions or chain of questions, 
 we focus only on the problem of responding to an individual question without further context 
 besides the question itself.
@@ -60,6 +61,7 @@ scored”}), and questions requiring constraint inference (e.g. \textit{“What 
 expensive movie starring Pedro Pascal?”}).
 
 \subsection{QAKG approaches}
+\label{cap2:qakg/approaches}
 Though there is no standard approach for QAKG, most techniques or methods proposed follow a 
 similar four-stage pipeline~\cite{qa:core-techniques-DiefenbachLSM18}. First, a question 
 analysis stage includes techniques that extract information from the current question using 
@@ -79,6 +81,7 @@ kinds of approaches: methods based on Information Retrieval methods and other on
 Neural Semantic Parsing.
 
 \subsubsection{Information Retrieval-based methods}
+\label{cap2:qakg/approaches/infRetrieval}
 Information Retrieval (IR) based models reduce the QA task to binary classification or sorting 
 over candidate answers. An IR-based method usually begins by identifying relevant entities 
 mentioned in the question. Then, it extracts topic-entity-centric subgraphs where all nodes are 
@@ -99,13 +102,14 @@ representations and reduce QAKG to a semantic matching computation between repre
 questions and their candidate answers. Some methods incorporate external knowledge to complement 
 the representation information and address the incompleteness that the KG might 
 have~\cite{qa:XuRFHZ16,qa:SunDZMSC18,qa:TrouillonWRGB16}. Some other methods incorporate a 
-multi-hop reasoning process to handle more complex questions~\cite{SukhbaatarSWF15,qa:MillerFDKBW16,qa:QiuWJZ20}.
+multi-hop reasoning process to handle more complex questions~\cite{qa:SukhbaatarSWF15,qa:MillerFDKBW16,qa:QiuWJZ20}.
 
 Overall, IR-based models get rid of manually defined templates and rules, and can follow an 
 end-to-end training. However, these methods lack model interpretability and are not able to 
 handle complex questions that require constraint inference.
 
 \subsubsection{Neural Semantic Parsing-based methods}
+\label{cap2:qakg/approaches/neuSemParsing}
 In this context, methods based on Semantic Parsing aims to convert natural languages into 
 executable query languages. Methods based on Neural Semantic Parsing (NSP) rely on Neural 
 Networks to enhance the parsing capacity and scalability, instead of relying on predefined 
@@ -139,6 +143,7 @@ IR-based models. Nevertheless, it is still challenging to train a Neural Semanti
 the lack of training data.
 
 \subsection{Main Challenges}
+\label{cap2:qakg/challenges}
 The QAKG task is still an open problem, where many challenges have partially been addressed. 
 Some of these challenges are related to the question being asked and others to the answers that 
 can be returned. 
@@ -206,6 +211,7 @@ pattern templates from which a SPARQL query is built. Other approaches use manua
 templates combined with machine learning methods~\cite{qa:AbachaZ12}. 
 
 \subsection{Benchmark \& Datasets}
+\label{cap2:qakg/benchmarkDatasets}
 In order to measure a Question Answering system performance, the most common parameters used 
 across all benchmarks are \textbf{Precision}, \textbf{Recall} and \textbf{F1-score}. These 
 three metrics usually are based on a gold standard set per question, which are the entities or 
@@ -219,7 +225,6 @@ Precision and F1-score are represented in the following formulas:
     F1(q) &= \frac{2 \ast Precision(q) \cdot Recall(q)}{Precision(q)+Recall(q)}
     \end{aligned}
 \end{equation}
-
 
 As an example, given the question \textit{“Which are the primary colors?”}, the gold standard 
 answer would be [\textit{“red”}, \textit{“green”}, \textit{“blue”}]. If a system answer is [
@@ -235,7 +240,8 @@ In recent years, many datasets have been developed to include complex questions.
 we will briefly describe the datasets used in this work whose questions often require complex 
 query construction and provide the expected query and result.
 
-\subsection{QALD}
+\subsubsection{QALD}
+\label{cap2:qakg/benchmarkDatasets/qald}
 The series of QALD datasets are part of the Question Answering over Linked Data (QALD) challenges, 
 which aim to provide an up-to-date benchmark for measuring performance and comparing Question 
 Answering systems~\cite{qa:qald-Lopezetal2013}. The QALD challenge is divided into multiple 
@@ -256,7 +262,8 @@ Despite the good quality of the questions of QALD-7 and its proximity to real-wo
 its limited size means that it is insufficient for training NSP-based models, which require a 
 considerable amount of annotations to undergo a successful learning process
 
-\subsection{LC-QuAD}
+\subsubsection{LC-QuAD}
+\label{cap2:qakg/benchmarkDatasets/lcquad}
 The Large-Scale Complex Question Answering Dataset (LC-QuAD) is a dataset based on 
 DBpedia~\cite{dataset:lcquad-TrivediMDL17}, where 82\% of its questions are considered complex. 
 Differently from QALD, the SPARQL queries are built using a relatively small number of 
@@ -278,7 +285,8 @@ The proposal of LC-QuAD was a first step to allow NSP-based models to be applied
 of Question Answering in the RDF/SPARQL setting, though most works~\cite{qa:FuQTLYS20abs-2007-13069} 
 show that a larger amount of examples are still required to train models properly.
 
-\subsection{DBNQA}
+\subsubsection{DBNQA}
+\label{cap2:qakg/benchmarkDatasets/dbnqa}
 The DBpedia Neural Question Answering (DBNQA) [ref] dataset is thus far the largest dataset for 
 Neural Question Answering over DBpedia, with 894,499 annotated pairs. The process to construct 
 this dataset is similar to the one proposed for LC-QuAD, though its templates are extracted 
@@ -309,7 +317,6 @@ SELECT DISTINCT ?sbj WHERE {
 }
 \end{lstlisting}
 
-
 \begin{lstlisting}[captionpos=b, 
     caption=Query template for the question: \textit{"What are the artists that are born in <A>?"}., 
     label=lst:dbnqaTemplateExample,
@@ -331,7 +338,8 @@ variation of questions that comes from the same template, i.e. there was no synt
 difference for questions with the same purpose. This lack of variation negatively affects the 
 generalisation capabilities of NSP-based models trained on this dataset~\cite{qa:BerantL14}.
 
-\subsection{LC-QuAD-2}
+\subsubsection{LC-QuAD-2}
+\label{cap2:qakg/benchmarkDatasets/lcquad2}
 Taking into account all the advantages and disadvantages of the aforementioned datasets, a 
 second version of the Large-Scale Complex Question Answering Dataset (LC-QuAD-2) was 
 proposed~\cite{dataset:lcquad2-DubeyBA019}. In particular, this dataset provides around 30,000 
