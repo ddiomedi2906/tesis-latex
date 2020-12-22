@@ -240,7 +240,7 @@ initial values $b_i^0$ are needed, they can be initialized using the same weight
 initialization methods mentioned above. The output units $a_k$ can be calculated at the same way 
 as the hidden activations:
 
-\begin{equation} \label{eq:hiddenStateRNN}
+\begin{equation} \label{eq:outputStateRNN}
     a_k^t = \sum_{h=1}^H w_{hk} \; b_{h}^{t}	
 \end{equation}
 
@@ -398,13 +398,6 @@ over a local region with the same size as the kernel used:
 \begin{equation} \label{eq:convolution}
     (X \ast w)_{i, j} = \sum_{m=1}^M \sum_{n=1}^{N} X_{m, n} \cdot w_{i-m, j-n}
 \end{equation}
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=.45]{imagenes/insertImage.png}
-    \caption{Convolutional Neural Network for pattern image classification.}
-    \label{fig:convNet}
-\end{figure}
 
 For example, in Figure~\ref{fig:convolutionPoolingExample} the convolution is being applied 
 over a 3$\times$3 pooled vector, which is the size of the kernel $w$, that is, the local 
