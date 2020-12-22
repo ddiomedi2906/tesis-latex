@@ -1,9 +1,11 @@
 \chapter{System Overview}
+\label{cap3:system}
 In this chapter we describe the main components of the proposed Question Answering system. 
 First we briefly provide a general overview of the proposed system structure, and then explain 
 in more detail each of the modules implemented for this work.
 
 \section{Question Answering general overview}
+\label{cap3:system/qaPipeline}
 The Question Answering pipeline is divided into different stages, as seen in 
 Figure~\ref{fig:questionAnsweringOverview}, which do not differ much from the standard 
 Question Answering pipeline described by Lopez et al.~\cite{qa:core-techniques-DiefenbachLSM18}. 
@@ -30,6 +32,7 @@ candidates. This pipeline describing the Question Answering system is implemente
 three modules that perform each one of the described stages. 
 
 \section{Query Generation Module}
+\label{cap3:system/queryGenModule}
 In this section we describe the Query Generation Module, which is used by the Baseline system 
 and adapted for the system proposed in this work. Given a Natural Language (NL) question, the 
 goal is to generate its logical form in terms of SPARQL grammar, which can be either a 
@@ -45,6 +48,7 @@ generate queries based on the FairSeq library for implementing Sequence to Seque
 Python.
 
 \subsection{Query Generation pipeline}
+\label{cap3:system/queryGenModule/pipeline}
 This module addresses two different tasks: translation from NL to SPARQL queries, and 
 generation of query templates from NL. 
 
@@ -108,6 +112,7 @@ final SPARQL query or Query Template output.
 We now describe the different sub-tasks in more detail.
 
 \subsection{Query Encoding}
+\label{cap3:system/queryGenModule/encoding}
 Following the same encoding approach used by Soru et al.~\cite{nmt:nspm-SoruMMPVEN17}, we 
 encode the SPARQL queries into tokens that describe entities, keywords, symbols, and 
 operations. One difference is that we are using a dataset that includes new query components 
@@ -153,11 +158,11 @@ identify which entities output by the Entity Linking system corresponds to each 
 Query Template placeholders. 
 
 \subsection{Fairseq Model}
+\label{cap3:system/queryGenModule/fairseqModel}
 The Query Generation model is implemented using the Facebook AI Research Sequence-to-Sequence 
 Toolkit (Fairseq), which implements various Seq-to-Seq models based on Pytorch. Fairseq 
 provides various off-the-shelf implementations and other settings to configure user 
 experiments. 
-
 
 In particular, we use the Convolutional Sequence to Sequence model (ConvS2S)~\cite{nmt:convS2S-GehringAGYD17} 
 implementation to build the Query Generator model. The decision to use the ConvS2S is based 
@@ -213,11 +218,13 @@ the SPARQL query or the Query template it is always necessary to perform the dec
 over the Query Generator output.
 
 \section{Entity Linking Module}
+\label{cap3:system/entLinModule}
 Two types of Entity Linking systems are considered for this work: Individual Entity Linking 
 systems and Ensemble Entity Linking systems. First we discuss the pipeline that these systems 
 follow.
 
 \subsection{Entity Linking pipeline}
+\label{cap3:system/entLinModule/pipeline}
 An example for the Entity Linking pipeline is shown in Figure 2, for the question \textit{“Was 
 Gabriela Mistral a poet?”}. We assume that the Entity Linking module is available through an 
 API; the Entity Linking system first retrieves the annotations by querying the API service, 
@@ -278,6 +285,7 @@ used to minimize the amount of queries done to the Wikidata query service. The f
 values are returned in a JSON format.
 
 \subsection{Individual Entity Linking systems}
+\label{cap3:system/entLinModule/individualSystems}
 We consider an Individual Entity Linking system as one of the Entity Linking systems mentioned 
 in the Information Extraction chapter: DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, 
 AIDA~\cite{EL:aida-tool-YosefHBSW11, EL:aida-HoffartYBFPSTTW11}, TAGME~\cite{EL:tagme-FerraginaS10}, 
@@ -318,13 +326,14 @@ the output annotation, a logarithmic likelihood score is assigned to each annota
 points out how prominent the entity is in the Wikidata Knowledge Graph.
 
 As a general aspect, the GET requests of most of the systems’ web services are done using the 
-\textit{request}\footnote{https://pypi.org/project/requests/} Python library, except for AIDA 
-where \textit{curl}\footnote{https://curl.haxx.se/} requests are done using the subprocess 
+\textit{request}\footnote{\url{https://pypi.org/project/requests/}} Python library, except for AIDA 
+where \textit{curl}\footnote{\url{https://curl.haxx.se/}} requests are done using the subprocess 
 Python library. Then, the mapping queries performed on the Wikidata query service are done 
-using the \textit{SPARQLWrapper}\footnote{https://pypi.org/project/SPARQLWrapper/} Python 
+using the \textit{SPARQLWrapper}\footnote{\url{https://pypi.org/project/SPARQLWrapper/}} Python 
 library.
 
 \subsection{Ensemble Entity Linking system}
+\label{cap3:system/entLinModule/ensembleSystems}
 Besides each individual Entity Linking system, we propose an ensemble of Entity Linking systems 
 in order to improve the performance in terms of recognizing all the entities in a given 
 question. Since each individual system relies on different techniques or prioritizes different 
@@ -396,6 +405,7 @@ mapping. Thus, a threshold can be set to define the number of expected entities,
 commonly the number of slots contained in the predicted Query Template.
 
 \subsubsection{Precision Priority system}
+\label{cap3:system/entLinModule/ensembleSystems/pprior}
 The Precision Priority (PPrior) ensemble system establishes that some individual Entity 
 Linking systems are more likely to return the expected answers, which in this case are the 
 individual systems that tend to return fewer entities but with a high level of confidence, 
@@ -432,6 +442,7 @@ recognize fewer false positives); thus incorrect entities from higher priority s
 have more value than correct entities from smaller priority systems.
 
 \subsubsection{Voting system}
+\label{cap3:system/entLinModule/ensembleSystems/voting}
 The Voting ensemble system establishes a voting scheme where annotations from each individual 
 system are considered to be a vote that is used to rank entities. This is based on the idea 
 that if an entity is widely recognized across Entity Linking systems, that entity is more 
@@ -470,13 +481,14 @@ more expensive to execute since it always requires retrieving the annotations fr
 individual systems included.
 
 \subsubsection{Other optimizations}
+\label{cap3:system/entLinModule/ensembleSystems/optimizations}
 In order to improve the performance of Ensemble Entity Linking systems, a couple of heuristic 
 optimizations are proposed to achieve better performance. These improvements are included in 
 the two variants mentioned before, and are optional features that can be skipped if no 
 significant improvement is perceived. 
 
 First, some entities linked to stopwords (e.g. \textit{“Does”} linked to \textit{Q302057}) are 
-filtered using an English stopwords list provided by the Natural Language Toolkit\footnote{https://www.nltk.org/}. 
+filtered using an English stopwords list provided by the Natural Language Toolkit\footnote{\url{https://www.nltk.org/}}. 
 Before performing any join annotation process, the annotations that contain stop words are 
 discarded. The idea behind this filter is to avoid entities from systems with low precision 
 negatively affecting the identification of correct entities. However, some entities may 
@@ -493,6 +505,7 @@ a higher score according to the individual Entity Linking system these annotatio
 (we would look which has a higher \textit{“log\_likelihood”} score according to OpenTapioca). 
 
 \section{Slot Filling Module}
+\label{cap3:system/slotFillModule}
 In this section we describe the main components of the Slot Filling module, which is divided 
 into two stages: the sequence labelling stage done by a Sequence Tagger, and the Query 
 Filling stage where the spotted entities are filled into the given query template. We explain 
@@ -500,6 +513,7 @@ with details how the Slot Filling pipeline is structured, and then describe how 
 Tagger and the Query Filling algorithm are implemented.
 
 \subsection{Slot Filling pipeline}
+\label{cap3:system/slotFillModule/pipeline}
 In Figure~\ref{fig:slotFillingPipeline}, we can see an overview of the Slot Filling process. 
 Differently from the other modules, the Slot Filling system not only receives the input NL 
 question, but also the outputs from the Entity Linking system and the Query Template generator. 
@@ -534,9 +548,10 @@ a mismatch between the placeholders recognized in the tagging stage and the plac
 contained in the given query template.
 
 \subsection{Sequence Tagger model}
+\label{cap3:system/slotFillModule/seqTagger}
 The Sequence Tagger identifies which named entities are more likely to have an entity 
 assigned to a certain placeholder in the query template. To implement this model, we use the 
-Flair\footnote{https://github.com/flairNLP} framework for Natural Language Processing. Flair 
+Flair\footnote{\url{https://github.com/flairNLP}} framework for Natural Language Processing. Flair 
 contains many off-the-shelf Sequence Labelling and Name Entity Recognition models implemented 
 using Pytorch. It also supports  training a custom Sequence Labelling model if training data 
 is provided.
@@ -582,7 +597,8 @@ function). Some relevant training parameters that can be tuned are the learning 
 minibatch size, and the number of epochs. The model is trained until it has a fixed number of 
 epochs without an improvement in terms of loss value.
 
-\subsection{Filling method}
+\subsection{Slot Filling method}
+\label{cap3:system/slotFillModule/fillingMethod}
 The placeholder tags for each named entity, along with the annotations from the Entity 
 Linking system and the query template from the Query Template generator, need to be combined 
 together to build the final SPARQL query output. The Slot Filling method decides which 
@@ -641,7 +657,7 @@ entity should be placed there even if the slot label and the entity label are no
 Considering all that, the mistakes made by previous systems can be mitigated by using simple 
 heuristic rules. 
 
-To summarize, a similar filling process to the one shown in Listing~\cite{lst:standardFillingAlgorithm} 
+To summarize, a similar filling process to the one shown in Listing~\ref{lst:standardFillingAlgorithm} 
 is executed, but adding the following rules:
 \begin{itemize}
     \item If any slot label is contained in an entity label (or vice versa), it counts as a 
@@ -672,7 +688,7 @@ query triple (the first triple) as the remaining slot in the query template (\te
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/slotFillingExample.png}
+    \includegraphics[scale=.55]{imagenes/3_system_overview/slotFillingExample.png}
     \caption{Force Filling case examples.}
     \label{fig:forceFillingExample}
 \end{figure}
