@@ -1,6 +1,8 @@
 \section{Semantic Web}
+\label{cap2:semWeb}
 
 \subsection{Web of Data}
+\label{cap2:semWeb/webOfData}
 During the short history of the World Wide Web, we have greatly benefited from how its 
 content has been increasing every day while serving multiple purposes. This vast amount of 
 knowledge has become humanly impossible to traverse, so we start relying on machines to 
@@ -84,6 +86,7 @@ Then, in the following sections, we go deeper into understanding the Semantic We
 RDF, and its querying standard, SPARQL.
 
 \subsection{Resource Description Framework}
+\label{cap2:semWeb/rdf}
 The \textbf{Resource Description Framework} (RDF) standard~\cite{key:rdfprimer} provides 
 a data-model on the Semantic Web, which can be serialized using the Turtle syntax~\cite{key:turtle}. 
 Having this data-model allows for any content framed in RDF to be generically processed 
@@ -202,6 +205,7 @@ represented in the same RDF data model; thus it is possible to convert any RDF c
 in one syntax to another while keeping the same RDF data.
 
 \subsection{SPARQL Query Language}
+\label{cap2:semWeb/sparql}
 The \textbf{SPARQL} protocol defines how SPARQL queries retrieve results over the RDF 
 data-model~\cite{key:sparql11protocol}. These standards became W3C Recommendations in 
 2008~\cite{key:sparql} and then were extended in 2013 in the SPARQL 1.1 version~\cite{key:sparql11} 
@@ -302,6 +306,7 @@ Though many other SPARQL features are left to be mentioned, we focused on the fe
 above since those are the important ones for the development of this work.
 
 \subsection{Linked Open Data Cloud}
+\label{cap2:semWeb/linkedData}
 Having briefly mentioned some core components of the Semantic Web, we have scratched just a tiny 
 portion of what the Semantic Web concept means, and how it can be deployed on the Web. Most of 
 what defines the use of the Semantic Web on the Web itself resides in understanding 
@@ -354,9 +359,10 @@ based on Wikipedia articles, Freebase~\cite{KG:freebase}, a dataset previously s
 and Wikidata~\cite{KG:wikidata}, a large dataset supported by its community. Our work is mainly 
 focused on the latter knowledge graph, which we will introduce in the next section.
 
-\subsection{Wikidata} 
+\subsection{Wikidata}
+\label{cap2:semWeb/wikidata}
 As described by Vrandečić and Krötzsch~\cite{KG:wikidata}, \textbf{Wikidata} is a free 
-collaborative knowledge graph founded by the Wikimedia Foundation\footnote{https://wikimediafoundation.org/our-work/wikimedia-projects/} 
+collaborative knowledge graph founded by the Wikimedia Foundation\footnote{\url{https://wikimediafoundation.org/our-work/wikimedia-projects/}} 
 in October 2012. Given the constant growth of its sister project Wikipedia, one of the most 
 popular online encyclopedias, Wikidata is introduced as a new multilingual 
 \textit{“Wikipedia for data”}. 
@@ -451,7 +457,7 @@ different languages, which allows any service to present and/or or translate inf
 various audiences. Some applications are built to access Wikidata’s data more conveniently and 
 effectively. One example is illustrated by Figure~\ref{fig:wikidataReasonator}, showing 
 information about Gabriela Mistral retrieved by the data browser 
-Reasonator\footnote{https://reasonator.toolforge.org/} using the Wikidata API. Additionally 
+Reasonator\footnote{\url{https://reasonator.toolforge.org/}} using the Wikidata API. Additionally 
 applications can be enriched with information provided by Wikidata, such as how Google Maps 
 uses Wikidata’s geographical labels to enhance its application interface. 
 
