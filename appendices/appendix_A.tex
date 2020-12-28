@@ -1,13 +1,13 @@
 \chapter{Neural Networks overview}
 \label{appendix:neuralNetworks}
 We provide an overview of the main concepts and techniques relating to Neural Networks as are 
-important for this work. Section~\ref{appendix:fundamentalsNN} and~\ref{appendix:recurrentNN} 
+important for this work. Section~\ref{appendix:neuralNetworks/fundamentals} and~\ref{appendix:neuralNetworks/rnn} 
 are based on Graves~\cite{seqlab:Graves2012-385} work description for Supervised Sequence 
-Labeling with Recurrent Networks and Section~\ref{appendix:convolutionalNN} is based 
+Labeling with Recurrent Networks and Section~\ref{appendix:neuralNetworks/cnn} is based 
 on~\cite{appendix:OSheaN15}.
 
 \section{Neural Networks Fundamentals}
-\label{appendix:fundamentalsNN}
+\label{appendix:neuralNetworks/fundamentals}
 Artificial Neural Networks (ANNs), or simply Neural Networks (NNs), are mathematical models 
 inspired by how biological brains process information. Their basic structure is a network of 
 small processing units, also seen as nodes, joined to each other by weighted connections. 
@@ -16,6 +16,7 @@ input to some or all nodes, which spreads this activation throughout the rest of
 along the weighted connections.
 
 \subsection{Multilayer Perceptrons}
+\label{appendix:neuralNetworks/fundamentals/mlp}
 Among the different varieties of neural networks, \textbf{Feedforward Neural Networks} are 
 structured in an acyclic way, meaning their connections do not form a cycle. One example are 
 the multilayer perceptrons (MLP), which are arranged in layers with connections feeding 
@@ -26,8 +27,8 @@ suitable for classification or function approximation tasks~\cite{seqlab:Graves2
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/insertImage.png}
-    \caption{Multilayer perceptron [ref].}
+    \includegraphics[scale=.45]{imagenes/appendices/appendix_a/mlpModel.PNG}
+    \caption{Multilayer perceptron~\cite{seqlab:Graves2012-385}.}
     \label{fig:multilayerPerceptron}
 \end{figure}
 
@@ -95,6 +96,7 @@ In the context of pattern classification, the class label that should be chosen 
 the most active output unit, i.e. the higher value from all target probabilities.
 
 \subsection{Network Training}
+\label{appendix:neuralNetworks/fundamentals/training}
 In order to have an idea whether a neural network is working as expected, a loss function is 
 used. As per activation functions, the loss function to be used depends on the task the Neural 
 Network is performing.  For example, for multiple classification the maximum-likelihood function 
@@ -105,7 +107,7 @@ is commonly used as a loss function~\cite{appendix:bishop1995neural}:
 \]
 
 Neural networks are able to learn, i.e. they can generalize to unseen data, so they can be 
-trained by minimizing the loss function L. One of the simplest algorithms to perform such 
+trained by minimizing the loss function $L$. One of the simplest algorithms to perform such 
 training process is the \textit{gradient descent} algorithm. \text{Gradient descent} consists 
 of repeatedly taking a small, fixed-size step in the direction of the negative error gradient 
 of the loss function, which can also be seen as going in the opposite direction of the 
@@ -200,7 +202,7 @@ structured and trained, we will review two neural networks architectures used in
 Recurrent Neural Networks and Convolutional Neural Networks.
 
 \section{Recurrent Neural Networks}
-\label{appendix:recurrentNN}
+\label{appendix:neuralNetworks/rnn}
 A Recurrent Neural Network (RNN) is a generalization of traditional feedforward Neural 
 Networks that allows cyclical connections~\cite{seqlab:Graves2012-385}. While MLPs can only 
 map from input to output vectors, RNNs can map the entire history of previous inputs to an 
@@ -210,8 +212,8 @@ data, such as text or audio. An example of a RNN architecture can be seen in Fig
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/insertImage.png}
-    \caption{Recurrent Neural Network architecture example.}
+    \includegraphics[scale=.45]{imagenes/appendices/appendix_a/rnnModel.PNG}
+    \caption{Recurrent Neural Network architecture example~\cite{seqlab:Graves2012-385} .}
     \label{fig:recurrentNN}
 \end{figure}
 
@@ -268,6 +270,7 @@ input sequence in the opposite direction. The output layer is not updated until 
 layers have processed the entire input sequence.
 
 \subsection{Long Short-Term Memory}
+\label{appendix:neuralNetworks/rnn/lstm}
 Though RNNs work well with short sentences, their performance decreases with long sentences 
 that involve long term dependencies due to the \textbf{vanishing gradient} 
 problem~\cite{seqlab:HochreiterS97, appendix:hochreiter2001gradient}, which occurs when the 
@@ -287,8 +290,8 @@ thereby reducing the effects of the vanishing gradient problem.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/insertImage.png}
-    \caption{LSTM memory block with one cell}
+    \includegraphics[scale=.45]{imagenes/appendices/appendix_a/lstmModel.PNG}
+    \caption{LSTM memory block with one cell~\cite{seqlab:Graves2012-385}.}
     \label{fig:oneCellLSTM}
 \end{figure}
 
@@ -357,7 +360,7 @@ identity function can be used.
 
 
 \section{Convolutional Neural Networks}
-\label{appendix:convolutionalNN}
+\label{appendix:neuralNetworks/cnn}
 The creation of \textbf{Convolutional Neural Networks} (CNNs) responds to the need to process 
 certain types of data: images~\cite{appendix:OSheaN15}. Traditional ANNs do not perform well 
 when processing images since its architecture does not properly support the computational 
@@ -383,12 +386,13 @@ classification is shown in Figure~\ref{fig:convNet}.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/insertImage.png}
-    \caption{Convolutional Neural Network for pattern image classification.}
+    \includegraphics[scale=.45]{imagenes/appendices/appendix_a/cnnModel.PNG}
+    \caption{Convolutional Neural Network for pattern image classification~\cite{seqlab:Graves2012-385}.}
     \label{fig:convNet}
 \end{figure}
 
 \subsection{Convolutional layer}
+\label{appendix:neuralNetworks/cnn/convLayer}
 A \textbf{convolution layer} is the central component of CNNs, which determines the output of 
 neurons using calculations based on local regions of the input. This type of layer is based on 
 learnable kernels, which define local convolution operations over the input vector. A 
@@ -412,7 +416,7 @@ reduce the dimension of the activation output.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/insertImage.png}
+    \includegraphics[scale=.45]{imagenes/appendices/appendix_a/convolution.PNG}
     \caption{Convolution operation example.}
     \label{fig:convolutionPoolingExample}
 \end{figure}
@@ -440,6 +444,7 @@ volume. The most common choice is the rectified linear unit (ReLu) which is an e
 function that given a certain threshold $\alpha$ will set all values less than $\alpha$ to 0 .
 
 \subsection{Pooling layer}
+\label{appendix:neuralNetworks/cnn/poolLayer}
 A pooling layer aims to reduce the volume of an input representation with the purposes of 
 reducing the computational complexity of the model. After each activation from a convolutional 
 layer, a pooling layer can be applied to scale its dimensionality through a reducing function. 
@@ -454,6 +459,7 @@ calculate the gradients. Lastly, it is recommended to keep a low stride and kern
 its application could affect negatively performance if large values are used.
 
 \subsection{Common architectures}
+\label{appendix:neuralNetworks/cnn/architectures}
 As mentioned before, a CNN architecture is commonly built with an input layer, which receives 
 the values of the image, followed by various stacked convolutional layers, each one followed 
 by pooling layers, and a final stack of fully-connected layers. However, defining exactly the 
