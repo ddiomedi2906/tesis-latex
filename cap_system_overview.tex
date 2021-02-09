@@ -346,7 +346,7 @@ settings.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/esembleEntityLinkingSystem.png}
+    \includegraphics[scale=.45]{imagenes/3_system_overview/ensembleEntityLinkingSystem.png}
     \caption{Ensemble Entity Linking system pipeline.}
     \label{fig:esembleEntityLinking}
 \end{figure}
@@ -421,7 +421,7 @@ For example shown above, the PPrior system would rank each entity in the followi
 
 \begin{lstlisting}[
     basicstyle=\ttfamily,frame=single]
-1. FC Barcelona -1. FC Barcelona - Q7156
+1. FC Barcelona - Q7156
 2. Juan Jose Ibarretxe - Q351738
 3. chairperson - Q140686
 4. Does - Q302057     
@@ -455,6 +455,8 @@ but votes go to the \textit{Q351738} entity).
 Since ties are possible, the entities that come from more precise systems would have priority 
 (following the same reasoning as with the PPrior system). For example, the Voting system 
 would rank each entity in the following way:
+
+\newpage
 
 \begin{lstlisting}[
     basicstyle=\ttfamily,frame=single]
