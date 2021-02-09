@@ -1,0 +1,8 @@
+
+# SPARQL Query
+SELECT ?obj WHERE { wd:Q14752155 wdt:P19 ?obj }
+
+# Query Template
+SELECT ?obj WHERE { <sbj_1> wdt:P19 ?obj }
+
+
