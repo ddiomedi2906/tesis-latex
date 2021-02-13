@@ -90,7 +90,7 @@
   % \addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}
 }{\vfill\null}
 \newenvironment{conclusion}{
-  \chapter*{Conclusion}
+  \chapter{Conclusion}
   \addcontentsline{toc}{chapter}{\protect\numberline{}Conclusion}
 }{\vfill\null}
 
@@ -219,6 +219,7 @@
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\G}{\mathcal{G}}
 \renewcommand{\H}{\mathcal{H}}
+\newcommand{\I}{\mathcal{I}}
 \newcommand{\K}{\mathcal{K}}
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\M}{\mathcal{M}}
