@@ -1,2 +1,395 @@
 \chapter{Question Answering Dataset}
 \label{appendix:qaDataset}
+We provide more details on the data used for the training and validation of our system.
+
+\section{Normalized Dataset Format}
+\label{appendix:qaDataset/normalizedFormat}
+As mentioned in the \textit{Experimental Design} chapter, we proposed a dataset format so the process 
+of generating the Query Template dataset and the Sequence Labeling datasets could be simplified. This 
+normalized format is also used for the other test datasets (QALD-7 and WikiSPARQL). In 
+Listing~\ref{lst:normalizedDatasetExample} we can see an example of what information each case contains:
+
+\begin{itemize}
+    \item \textbf{Question ID}: the unique identifier of the question; for LC-QuAD 2 we decided to 
+    treat each verbalized and paraphrased version of the normalized question as a separate case. 
+    Verbalized cases are then numbered from $0$ to $30,225$, and paraphrased cases from $30,226$ to $60,451$.
+    \item \textbf{Natural Language Question}: the question text (verbalized or paraphrased version).
+    \item \textbf{Query Answer}: a list of possible SPARQL query valid responses. We allow more than 
+    one possible query since for each question there are many ways to reach the expected answer (for 
+    example, \textit{“What is the biggest country?”} may refer to population, area, etc.; however in 
+    this work we only have one SPARQL query per case). Each query answer case has the following fields:
+    \begin{itemize}
+        \item \textbf{Query ID}: unique identifier to identify query answers for the same question.
+        \item \textbf{SPARQL query}: the SPARQL query string.
+        \item \textbf{Entities}: list of expected annotations of the entities being used in the 
+        SPARQL query answer. Each annotation contains the entity URL and the label of the question 
+        associated with that entity.
+        \item \textbf{Slots}: list of expected slots to use for the Slot Filling system. Each slot 
+        contains the associated label in the question and its corresponding placeholder in the Query 
+        Template.
+        \item \textbf{SPARQL Template}: the Query Template derived from the SPARQL query.
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+\begin{lstlisting}[captionpos=b, 
+    caption=Example of one LC-QuAD 2 case following our proposed normalized format., 
+    label=lst:normalizedDatasetExample,
+    basicstyle=\ttfamily,frame=single]
+{
+    "question_id": 30226,
+    "natural_language_question": "Did Alexander Hamilton practice law?",
+    "query_answer": [
+        {
+            "query_id": 0,
+            "sparql_query": 
+                "ASK WHERE { wd:Q178903 wdt:P106 wd:Q40348 }",
+            "entities": [
+                {
+                    "label": "Alexander Hamilton",
+                    "entity": "wd:Q178903"
+                },
+                {
+                    "label": "lawyer",
+                    "entity": "wd:Q40348"
+                }
+            ],
+            "slots": [
+                {
+                    "slot": "<sbj_1>",
+                    "label": "Alexander Hamilton"
+                },
+                {
+                    "slot": "<obj_1>",
+                    "label": "lawyer"
+                }
+            ],
+            "sparql_template": "ASK WHERE { <sbj_1> wdt:P106 <obj_1> }"
+        }
+    ]
+}
+\end{lstlisting}
+
+\section{LC-QuAD 2 base templates}
+\label{appendix:qaDataset/baseTemplates}
+In the Results chapter we displayed some analysis based on the 22 base templates used for building 
+the LC-QuAD 2 dataset~\cite{dataset:lcquad2-DubeyBA019}. According to each base template structure, 
+we established which cases are considered \textbf{complex cases}, which allows us to estimate the 
+percentage of complex questions this dataset contains. A base template is considered a \textit{complex 
+case} if it includes any of the following operations: (1) counting, (2) filtering, (3) ordering, 
+(4) use of strings or numbers,(5) use of property statements, or (6) returns more than one variable. 
+
+Next, we present a brief overview of each one of these base templates along with a representative 
+example from the dataset:
+
+\begin{enumerate}
+    \item \textbf{ask\_one\_fact}: ASK query with one query triple.
+    \begin{itemize}
+        \item Example: \textit{Did Alexander Hamilton practice law?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+ASK WHERE { 
+    wd:Q178903 wdt:P106 wd:Q40348 
+}
+        \end{lstlisting}
+    \end{itemize}
+
+    \item \textbf{ask\_one\_fact\_with\_filter}: ASK query with one query triple and a numeric filter 
+    operation (either less than, equal, or greater than).
+    \begin{itemize}
+        \item Example: \textit{Does the standard molar entropy of silver equal 34.08?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+ASK WHERE { 
+    wd:Q1090 wdt:P3071 ?obj filter(?obj = 34.08) 
+}
+        \end{lstlisting}
+    \end{itemize}
+
+    \item \textbf{ask\_two\_facts}: ASK query with two query triples. Note that the same subject 
+    and property are used in both query triples.
+    \begin{itemize}
+        \item Example: \textit{Was William Henry Harrison both a United States senator and Governor of 
+        Indiana?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+ASK WHERE { 
+    wd:Q11869 wdt:P39 wd:Q16147601 . 
+    wd:Q11869 wdt:P39 wd:Q13217683 
+}
+        \end{lstlisting}
+    \end{itemize}
+
+    \item \textbf{count\_one\_fact\_object}: SELECT query with COUNT operation from one query triple. 
+    Count the number of objects that match the query triple.
+    \begin{itemize}
+        \item Example: \textit{How many Latin conjugations are there?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT (COUNT(?obj) AS ?value ) WHERE { 
+    wd:Q397 wdt:P5206 ?obj 
+}
+        \end{lstlisting}
+    \end{itemize}
+
+    \item \textbf{count\_one\_fact\_subject}: SELECT query with COUNT operation from one query triple. 
+    Count the number of subjects that match the query triple.
+    \begin{itemize}
+        \item Example: \textit{What is the number of spore print colors for olive?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT (COUNT(?sbj) AS ?value ) WHERE { 
+    ?sbj wdt:P787 wd:Q864152 
+}
+        \end{lstlisting}
+    \end{itemize}
+
+    \item \textbf{rank\_instance\_of\_type\_one\_fact}: SELECT query with two query triples with 
+    sorting and limit. The first query triple always uses the property instance of (wdt:P31). 
+    Ordering might vary (ascending or descending).
+    \begin{itemize}
+        \item Example: \textit{What battery power station has the highest amount of energy storage 
+        capacity?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?ent WHERE { 
+    ?ent wdt:P31 wd:Q810924 . 
+    ?ent wdt:P4140 ?obj 
+} ORDER BY DESC(?obj) LIMIT 5
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{rank\_max\_instance\_of\_type\_two\_facts}: SELECT query with three query triples using 
+    sorting and limit. The first query triple always uses the property instance of (wdt:P31). 
+    Descending ordering is used to get the maximum value.
+    \begin{itemize}
+        \item Example: \textit{What is the largest village in Muchinigi Puttu?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?ent WHERE { 
+    ?ent wdt:P31 wd:Q532 . 
+    ?ent wdt:P2046 ?obj . 
+    ?ent wdt:P131 wd:Q11107378 
+} ORDER BY DESC(?obj) LIMIT 5
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{rank\_min\_instance\_of\_type\_two\_facts}: Same as the previous base template but with 
+    ascending ordering to get the minimum value.
+    \begin{itemize}
+        \item Example: \textit{What is the name of a manned spacecraft in low Earth orbit with 
+        smallest periapsis?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?ent WHERE { 
+    ?ent wdt:P31 wd:Q7217761 . 
+    ?ent wdt:P2244 ?obj . 
+    ?ent wdt:P522 wd:Q663611
+} ORDER BY ASC(?obj) LIMIT 5
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_object\_instance\_of\_type}: SELECT query with two query triples. The first 
+    query triple always uses the property instance of (wdt:P31). Return the entities that are the 
+    object of the first query triple.
+    \begin{itemize}
+        \item Example: \textit{What is the prefecture of Hiroshima in Japan?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT DISTINCT ?obj WHERE { 
+    wd:Q34664 wdt:P131 ?obj . 
+    ?obj wdt:P31 wd:Q50337 
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_object\_using\_one\_statement\_property}: SELECT query with three query triples. 
+    Uses one property statement and one property qualifier. 
+    \begin{itemize}
+        \item Example: \textit{When did Louis XVIII of France, husband of Marie Josephine of Savoy, 
+        die?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?value WHERE { 
+    wd:Q7750 p:P26 ?s . 
+    ?s ps:P26 wd:Q231844 . 
+    ?s pq:P582 ?value
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_one\_fact\_object}: SELECT query with one query triple. Return the entities 
+    that are the subject of that query triple.
+    \begin{itemize}
+        \item Example: \textit{Which are the characters for La Malinche?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT DISTINCT ?answer WHERE { 
+    ?answer wdt:P674 wd:Q230314
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_one\_fact\_subject}: SELECT query with one query triple. Return the entities 
+    that are the object of that query triple.
+    \begin{itemize}
+        \item Example: \textit{Which is the electric charge for antihydrogen?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT DISTINCT ?answer WHERE { 
+    wd:Q216121 wdt:P2200 ?answer
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_one\_qualifier\_value\_and\_object\_using\_one\_statement\_property}: SELECT query 
+    with three query triples. Uses one property statement and one property qualifier. Only one entity 
+    used for the first query triple.
+    \begin{itemize}
+        \item Example: \textit{What grant did Konrad Lorenz win, and who won it with him?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?value1 ?obj WHERE { 
+    wd:Q78496 p:P166 ?s . 
+    ?s ps:P166 ?obj . 
+    ?s pq:P1706 ?value1 . 
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_one\_qualifier\_value\_using\_one\_statement\_property}: SELECT query with three 
+    query triples. Uses one property statement and one property qualifier. Two entities used for 
+    building each query, where the second entity was used as the object of the property qualifier 
+    triple.
+    \begin{itemize}
+        \item Example: \textit{What role did Theodore Roosevelt occupy after William McKinley?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?obj WHERE { 
+    wd:Q33866 p:P39 ?s . 
+    ?s ps:P39 ?obj . 
+    ?s pq:P1365 wd:Q35041 
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_subject\_instance\_of\_type}: SELECT query with two query triples. The first 
+    query triple always uses the property instance of (wdt:P31). Return the entities that are the 
+    subject of the first query triple.
+    \begin{itemize}
+        \item Example: \textit{Which irresistible illness is caused by Staphylococcus aureus?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT DISTINCT ?sbj WHERE { 
+    ?sbj wdt:P828 wd:Q188121 . 
+    ?sbj wdt:P31 wd:Q18123741 
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_subject\_instance\_of\_type\_contains\_word}: SELECT query with two query triples. 
+    The first query triple always uses the property instance of (wdt:P31). The second query triple 
+    also includes a filter over the string value to check whether the target word is contained in 
+    this string (includes filtering for the English language).
+    \begin{itemize}
+        \item Example: \textit{What is the title of a human that contains the word vitellius in their 
+        name.}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT DISTINCT ?sbj ?sbj_label WHERE { 
+    ?sbj wdt:P31 wd:Q5 . 
+    ?sbj rdfs:label ?sbj_label . 
+    FILTER(CONTAINS(lcase(?sbj_label), 'vitellius')) . 
+    FILTER (lang(?sbj_label) = 'en') 
+} LIMIT 25
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_subject\_instance\_of\_type\_starts\_with}: SELECT query with two query triples. 
+    The first query triple always uses the property instance of (wdt:P31). The second query triples 
+    also includes a filtering over the string value to check whether this string starts with a target 
+    letter (including filtering for the  English language).
+    \begin{itemize}
+        \item Example: \textit{What are the video games which start with the letter W?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT DISTINCT ?sbj ?sbj_label WHERE { 
+    ?sbj wdt:P31 wd:Q7058673 . 
+    ?sbj rdfs:label ?sbj_label . 
+    FILTER(STRSTARTS(lcase(?sbj_label), 'w')) . 
+    FILTER (lang(?sbj_label) = 'en') 
+} LIMIT 25
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_two\_answers}: SELECT query with two query triples. Return two variables 
+    (also known as double intention), with each one being the object of each query triple.
+    \begin{itemize}
+        \item Example: \textit{Where was Jane Austen born and where did she die?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?ans_1 ?ans_2 WHERE { 
+    wd:Q36322 wdt:P19 ?ans_1 . 
+    wd:Q36322 wdt:P20 ?ans_2 
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_two\_facts\_left\_subject}: SELECT query with two query triples.
+    \begin{itemize}
+        \item Example: \textit{Who were the creators of The Late Awesome Planet Soil?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?answer WHERE { 
+    wd:Q22081649 wdt:P144 ?obj . 
+    ?obj wdt:P50 ?answer
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_two\_facts\_right\_subject}: SELECT query with two query triples. Similar to 
+    the previous template (in fact we could not find any difference between both cases).
+    \begin{itemize}
+        \item Example: \textit{What time zone is Arizona State University in?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?answer WHERE { 
+    wd:Q670897 wdt:P17 ?obj . 
+    ?obj wdt:P421 ?answer
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_two\_facts\_subject\_object}: SELECT query with two query triples. Uses one 
+    entity in the subject of the first query triple, and another one in the object of the second 
+    query triple.
+    \begin{itemize}
+        \item Example: \textit{What lake of Sao Jorge island has the tributary Curoca River?}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?answer WHERE { 
+    wd:Q743362 wdt:P206 ?answer . 
+    ?answer wdt:P974 wd:Q10361834
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+    \item \textbf{select\_two\_qualifier\_values\_using\_one\_statement\_property}: SELECT query with four 
+    query triples. Uses one property statement and two property qualifiers. Return the two object 
+    values of each query triple using a property qualifier.
+    \begin{itemize}
+        \item Example: \textit{Give me the year and name of the person with whom Bob Barker shared the 
+        MTV Movie Award for Best Fight.}
+        \item Query:
+        \begin{lstlisting}[basicstyle=\ttfamily,frame=single]        
+SELECT ?value1 ?value2 WHERE { 
+    wd:Q381178 p:P166 ?s . 
+    ?s ps:P166 wd:Q734036 . 
+    ?s pq:P585 ?value1 . 
+    ?s pq:P1706 ?value2 
+}
+        \end{lstlisting}
+    \end{itemize}
+    
+\end{enumerate}
