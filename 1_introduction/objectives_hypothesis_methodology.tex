@@ -1,19 +1,19 @@
 \section{Hypothesis}
-In this work, we propose the following hypothesis: “a combination of Information 
+In this work, we propose the following hypothesis: \dquotesit{a combination of Information 
 Extraction with Semantic Parsing can develop a Question-Answering system that outperforms 
 a system that relies only on Semantic Parsing in the Question Answering over Knowledge 
-Graphs task”.
+Graphs task}.
 
 In order to measure performance, this work will use metrics based on two perspectives: 
 one focuses on the final answers that are derived from Question Answering over Knowledge 
 Graphs (QAKG) benchmarks (i.e., a Question Answering-based evaluation), and the second 
-focuses on how close is the generated SPARQL query compared with the expected query (i.e., 
+focuses on how close is the generated \SPARQL{} query compared with the expected query (i.e., 
 a Machine Translation-based evaluation).
 
 The scope of this work will be limited to answering questions in English, but similar 
 techniques should be applicable in any other language assuming the availability of similar 
 datasets for that language. In the same way, this hypothesis will be explored in the context of 
-questions over Wikidata, so the results might differ for other knowledge graphs. Nevertheless, 
+questions over Wikidata, so the results might differ for other Knowledge Graphs. Nevertheless, 
 the selected approach should be generalizable to other domains. 
 
 \section{Objectives}
@@ -37,7 +37,7 @@ Accomplishing the proposed objectives involves the following tasks:
     \item Define a benchmark that should include QAKG datasets for training, validation and 
     testing along with metrics to compare all involved systems.
     \item Define a baseline system for Question Answering based on Neural Machine Translation.
-    \item Define a pipeline process to convert a natural language question into a SPARQL query 
+    \item Define a pipeline process to convert a natural language question into a \SPARQL{} query 
     by combining Entity Linking techniques with Neural Machine Translation.
     \item Implement a Question-Answering system over Wikidata in English based on the designed pipeline.
     \item Validate the proposed system by comparing it with baseline approaches over the 
