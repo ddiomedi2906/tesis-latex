@@ -233,3 +233,19 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\1}{\mathbf{1}}
 \let\epsilon\varepsilon
+
+% Utils
+\newcommand{\RDF}{\texttt{RDF}}
+\newcommand{\SPARQL}{\texttt{SPARQL}}
+\newcommand{\NLtoSPARQL}{\texttt{NL-to-SPARQL}}
+\newcommand{\SQL}{\texttt{SPARQL}}
+\newcommand{\DBNQA}{\texttt{DBNQA}}
+\newcommand{\QALDseven}{\texttt{QALD-7}}
+\newcommand{\LCQuADone}{\texttt{LC-QuAD 1}}
+\newcommand{\LCQuADtwo}{\texttt{LC-QuAD 2}}
+
+\newcommand{\squotes}[1]{{`#1'}}
+\newcommand{\squotesit}[1]{\textit{`#1'}}
+\newcommand{\dquotes}[1]{{``#1''}}
+\newcommand{\dquotesit}[1]{\textit{``#1''}}
+

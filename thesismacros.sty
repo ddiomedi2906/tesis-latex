@@ -1,0 +1,62 @@
+\ProvidesClass{thesismacros}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{fullpage}
+\RequirePackage{listings}
+\RequirePackage{hyperref}
+\RequirePackage{enumitem}
+\RequirePackage{xcolor}
+\RequirePackage{xspace}
+\RequirePackage{upquote}
+\RequirePackage{calc}
+\RequirePackage{comment}
+\RequirePackage{etoolbox}
+
+\RequirePackage[normalem]{ulem}
+
+\lstnewenvironment{sparqlcode}{\minipage{0.95\linewidth}\renewcommand\lstlistingname{Sparql}\lstset{language=sparql,style=sparqld}}{\endminipage}
+
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{120,20,40}
+\colorlet{numb}{magenta!60!black} 
+
+\lstdefinelanguage{sparql}{
+    sensitive=false,
+    extendedchars=true,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'{\i}}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 
+		{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 
+		{ü}{{\"u}}1 {Ü}{{\"U}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?``}}1 {¡}{{!``}}1  
+		{<}{{{\color{delim}<}}}{1} {>}{{{\color{delim}>}}}{1}  
+		{(}{{{\color{delim}(}}}{1} {)}{{{\color{delim})}}}{1}  
+		{?}{{{\color{delim}?}}}{1}
+		{*}{{{\color{delim}*}}}{1}
+		{+}{{{\color{delim}+}}}{1}
+		{/}{{{\color{delim}/}}}{1}
+		{,}{{{\color{punct}{,}}}}{1} {;}{{{\color{punct}{;}}}}{1} {.}{{{\color{punct}{.}}}}{1}
+		{\{}{{{\color{delim}{\{}}}}{1} {\}}{{{\color{delim}{\}}}}}{1},
+	morecomment=[l]{\#},
+	morekeywords={select,from,where,order,by,distinct,limit,offset,optional,union,filter,prefix,bound,desc,regex,str,group,count,construct,nearest,as,state,sum,rename,sample,minus,let,be,values,do,while,ask,load,into,graph,named,insert,service,delete}
+}
+
+% no funciona: 		{(}{{{\color{delim}(}}}{1} {)}{{{\color{delim})}}}{1}
+
+\lstdefinestyle{sparqld}{
+	basicstyle=\footnotesize\ttfamily,
+    identifierstyle=\color{black},
+    keywordstyle=\color{blue!80!black}\bfseries,
+    ndkeywordstyle=\color{greenCode}\bfseries,
+    stringstyle=\color{ocherCode}\ttfamily,
+    commentstyle=\color{gray}\ttfamily,
+    language={sparql},
+    tabsize=2,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    extendedchars=true,
+	escapechar=`,
+	frame={single},
+	basewidth=0.5em, 
+	moredelim=**[is][\color{gray}]{£}{£},
+	moredelim=**[is][\color{blue!50!black}]{$}{$},
+	moredelim=**[is][\color{green!50!black}]{¬}{¬},
+}
