@@ -15,181 +15,190 @@ To give semantic meaning to all this information available on the Web in a manne
 humans and machines can understand, a common framework is required. Thus, 
 the Semantic Web~\cite{key:semwebsa} was proposed as an extension of the World Wide Web built on 
 standards set by the World Wide Web Consortium (W3C). The primary purpose of this 
-initiative is to support a “Web of Data” where data can be searched like in databases, but 
+initiative is to support a \dquotesit{Web of Data} where data can be searched like in databases, but 
 at the scope of the Web. The compilation of Semantic Web techniques and tools provides 
 a framework where applications can query that data, draw inferences using vocabulary, etc. 
 Thus, the ultimate goal is to extend the variety of tasks that computational systems can 
 support, while developing trusted interactions over the network. 
 
 The Semantic Web establishes a standard method to describe data using the Resource 
-Description Framework (RDF)~\cite{key:rdfprimer11}. This data model describes resources using statements 
-of the form subject-predicate-object, also called triples, and can be represented as a directed 
-edge-labelled graph. A collection of RDF statements is known as a knowledge graph (KG)~\cite{key:ldbook}. 
-Altogether, these KGs when linked together on the Web give shape to what is called 
-the Linked Data Cloud~\cite{key:ldprinciples}: a large amount of interlinked RDF datasets that comprise more 
-than 30 billion RDF triples. Among the most popular KGs, Wikidata~\cite{KG:wikidata} and DBpedia~\cite{KG:dbpedia} 
-are huge and become more useful and accessible each day for research fields and applications~\cite{wikidata:usage-MalyshevKGGB18, EL:dbpedia-spotlight-MendesJGB11}. 
+Description Framework (\RDF)~\cite{key:rdfprimer11}. This data model describes resources using 
+statements of the form subject-predicate-object, also called triples, and can be represented as a 
+directed edge-labelled graph. A collection of \RDF{} statements is known as a Knowledge Graph 
+(KG)~\cite{key:ldbook}. Altogether, these KGs when linked together on the Web give shape to what is 
+called the Linked Data Cloud~\cite{key:ldprinciples}: a large amount of interlinked RDF datasets that 
+comprise more than 30 billion RDF triples. Among the most popular KGs, Wikidata~\cite{KG:wikidata} and 
+DBpedia~\cite{KG:dbpedia} are huge and become more useful and accessible each day for research fields 
+and applications~\cite{wikidata:usage-MalyshevKGGB18, EL:dbpedia-spotlight-MendesJGB11}. 
 
-Wikidata~\cite{KG:wikidata} is a free open knowledge graph that can be read and edited by both humans 
-and machines. Since the Wikimedia Foundation first launched Wikidata in October 2012, 
-it has grown vastly. It has served as a reference resource for many of Wikimedia’s sister 
+Wikidata~\cite{KG:wikidata} is a free open Knowledge Graph that can be read and edited by both humans 
+and machines. Since the Wikimedia Foundation first launched Wikidata in October 2012, it has grown 
+vastly. It has served as a reference resource for many of Wikimedia’s sister 
 projects, like Wikipedia, the largest virtual encyclopedia on the Web. Wikidata is a valuable 
 and comprehensive source of knowledge. It is supported mainly by its community and is 
 designed in a way that people from all over the world can contribute. Many applications have 
-used Wikidata as an information provider such as Apple’s Siri; it has also been used for research activities in life 
-sciences and social science, and it even is used by Google to empower its search engine~\cite{wikidata:usage-MalyshevKGGB18}.
+used Wikidata as an information provider such as Apple’s Siri; it has also been used for research 
+activities in life sciences and social science, and it even is used by Google to empower its search 
+engine~\cite{wikidata:usage-MalyshevKGGB18}.
 
-Thereafter, for querying this vast amount of data available on the web, a query language is 
-needed. SPARQL~\cite{key:sparql11} is a query language able to retrieve and manipulate data stored in RDF 
-format. The main advantages of SPARQL are that it allows for writing queries that follow RDF 
-specifications and provides a specific graph transversal syntax for querying arbitrary-length 
-paths in graphs.
+Thereafter, for querying this vast amount of data available on the web, a query language is needed. 
+SPARQL~\cite{key:sparql11} is a query language able to retrieve and manipulate data stored in \RDF{} 
+format. The main advantages of \SPARQL{} are that it allows for writing queries that follow \RDF{} 
+specifications and provides a specific graph transversal syntax for querying arbitrary-length paths 
+in graphs.
 
 While all of this knowledge available in the public domain drives growing interest in doing 
 research regarding the Semantic Web, there is also a need to have a basic understanding of 
-how data is structured (RDF) and how to access this data (SPARQL). These requirements 
+how data is structured (\RDF) and how to access this data (\SPARQL). These requirements 
 represent a barrier-to-entry for non-expert users. Hence these barriers lead to the broad and 
 complex challenge of developing intuitive and easy-to-use interfaces for end-users.
 
-Many solutions have emerged to approach this issue, among which natural language interfaces 
-such as Question Answering Systems (QAS)~\cite{qa:survey-BOUZIANE2015366, qa:intro-UngerFC14, qa:nn-qakg-Chakraborty19} 
-have been receiving much attention. 
-These systems aim to answer questions posed by humans in natural language, extracting the 
-answer from one or more sources. There are QASs able to retrieve answers from an unstructured 
-collection of natural language~\cite{qa:survey-BOUZIANE2015366}. However, we are interested in systems able to 
-construct their responses by querying structured data, like relational databases or knowledge 
-graphs from the Linked Data Cloud.
+Many solutions have emerged to approach this issue, among which natural language interfaces such as 
+Question Answering Systems (QASs)~\cite{qa:survey-BOUZIANE2015366, qa:intro-UngerFC14, 
+qa:nn-qakg-Chakraborty19} have been receiving much attention. These systems aim to answer questions 
+posed by humans in natural language, extracting the answer from one or more sources. There are QASs 
+able to retrieve answers from an unstructured collection of natural language~\cite{qa:survey-BOUZIANE2015366}. 
+However, we are interested in systems able to construct their responses by querying structured data, 
+like relational databases or knowledge graphs from the Linked Data Cloud.
 
-More specifically, the task of answering natural language questions using knowledge graphs 
+More specifically, the task of answering natural language questions using Knowledge Graphs 
 is known as Question Answering over Knowledge Graphs (QAKG)~\cite{qa:nn-qakg-Chakraborty19} or Question 
-Answering over Linked Data (QALD)~\cite{qa:intro-UngerFC14, qa:qald-Lopezetal2013}. Unger et al.~\cite{qa:intro-UngerFC14} define the QALD task
-as follows: \textit{“translate the users’ information need into a form such that they can be evaluated using 
-standard Semantic Web query processing and inference techniques.”} Their work also describes 
-the types of questions these systems aim to answer, which often focus on definition questions 
-(“Who was Tom Jobim?”) or factoid questions. These last ones that can be divided into 
-predicative questions (“Who was the first man in space?”), list questions (“Give me all cities 
-in Germany”) or boolean questions (“Was Margaret Thatcher a chemist?”). 
+Answering over Linked Data (QALD)~\cite{qa:intro-UngerFC14, qa:qald-Lopezetal2013}. Unger et 
+al.~\cite{qa:intro-UngerFC14} define the QALD task as follows: \dquotesit{translate the users’ 
+information need into a form such that they can be evaluated using standard Semantic Web query 
+processing and inference techniques}. Their work also describes the types of questions these systems 
+aim to answer, which often focus on definition questions (\dquotesit{Who was Tom Jobim?}) or factoid 
+questions. These last ones that can be divided into predicative questions (\dquotesit{Who was the 
+first man in space?}), list questions (\dquotesit{Give me all cities in Germany}) or boolean questions 
+(\dquotesit{Was Margaret Thatcher a chemist?}). 
 
 Several Question Answering systems have been developed to address some of the main 
-challenges in Question Answering, commonly using pattern matching~\cite{qa:pattern-FaderZE13, qa:pattern-LopezFMS12}, 
-grammar-based techniques~\cite{qa:grammar-DamljanovicAC10, qa:grammar-2-Marginean17}, 
-or graph exploration~\cite{qa:graph-XuFZ14, qa:graph-2-ZouHWYHZ14} approaches. Although these systems have 
-shown good results when dealing with a considerable amount of questions, their performance 
-decreases~\cite{qa:challenges-semweb-HoffnerWMULN17} with questions involving more complex graph patterns or with vocabulary 
-mismatches caused by the user typing different terms to the ones contained in the knowledge 
-graph from which the information is being retrieved (this issue is also known as the lexical gap~\cite{semPar:lexical-gap-HakimovUWC15}). One example 
-is the question \textit{“Which US player is the highest scorer in World Cups?”} which could require 
-complex operations like aggregation and sorting (count goals, sort and retrieve the maximum 
+challenges in Question Answering, commonly using pattern matching~\cite{qa:pattern-FaderZE13, 
+qa:pattern-LopezFMS12}, grammar-based techniques~\cite{qa:grammar-DamljanovicAC10, 
+qa:grammar-2-Marginean17}, or graph exploration~\cite{qa:graph-XuFZ14, qa:graph-2-ZouHWYHZ14} 
+approaches. Although these systems have shown good results when dealing with a considerable amount of 
+questions, their performance decreases~\cite{qa:challenges-semweb-HoffnerWMULN17} with questions 
+involving more complex graph patterns or with vocabulary mismatches caused by the user typing 
+different terms to the ones contained in the knowledge graph from which the information is being 
+retrieved (this issue is also known as the lexical gap~\cite{semPar:lexical-gap-HakimovUWC15}). One 
+example is the question \dquotesit{Which US player is the highest scorer in World Cups?} which could 
+require complex operations like aggregation and sorting (count goals, sort and retrieve the maximum 
 scorer) and might have vocabulary mismatches (it is not made explicit that we refer to FIFA World 
 Cups, or the US might not be registered as an abbreviation of United States).
 
-Aside from works that have tried to mitigate these problems~\cite{semPar:lexical-gap-HakimovUWC15, semPar:complex-queries-GliozzoK12}, some approaches 
-that rely on Semantic Parsing have shown positive results due to recent advances in Deep 
-Learning applied to Natural Language Processing~\cite{semPar:sempar-as-mt-AndreasVC13}. Semantic Parsing is the process of 
-mapping a natural language sentence into a formal representation of its meaning~\cite{semPar:sempar-as-mt-AndreasVC13}. Some 
-applications include code generation~\cite{semPar:code-gen-RabinovichSK17, semPar:tranx-code-gen-YinN18}, 
-automated reasoning~\cite{semPar:ITPKaliszykUV17} or query construction~\cite{semPar:txt-to-sql-RadevKZZFRS18}. 
-In particular, Andreas et al.~\cite{semPar:sempar-as-mt-AndreasVC13} discussed how Semantic Parsing could benefit from using 
-Machine Translation methods, whereby natural language is “translated” into a structured 
-representation. Following their work, some Neural Machine Translation (NMT) approaches 
+Aside from works that have tried to mitigate these problems~\cite{semPar:lexical-gap-HakimovUWC15, 
+semPar:complex-queries-GliozzoK12}, some approaches that rely on Semantic Parsing have shown positive 
+results due to recent advances in Deep Learning applied to Natural Language 
+Processing~\cite{semPar:sempar-as-mt-AndreasVC13}. Semantic Parsing is the process of mapping a 
+natural language sentence into a formal representation of its 
+meaning~\cite{semPar:sempar-as-mt-AndreasVC13}. Some applications include code 
+generation~\cite{semPar:code-gen-RabinovichSK17, semPar:tranx-code-gen-YinN18}, automated 
+reasoning~\cite{semPar:ITPKaliszykUV17} or query construction~\cite{semPar:txt-to-sql-RadevKZZFRS18}. 
+In particular, Andreas et al.~\cite{semPar:sempar-as-mt-AndreasVC13} discussed how Semantic Parsing 
+could benefit from using Machine Translation methods, whereby natural language is \dquotes{translated} 
+into a structured representation. Following their work, some Neural Machine Translation (NMT) approaches 
 have brought about a growing interest in applying deep neural networks to Semantic Parsing 
-problems~\cite{nmt:CaiXZYLL18, nmt:DongL16, nmt:ZhongCoRR17}. In NMT, pairs of sequences are given as input to a Deep Neural Network 
-model, which is expected to learn the translation model. A natural idea is then to try to apply 
-the NMT approach for translating Natural Language (NL) to SPARQL, and some works have begun to explore such techniques~\cite{nmt:CoRRLuz18, nmt:nspm-SoruMMPVEN17, nmt:CoRRSoru18}.
+problems~\cite{nmt:CaiXZYLL18, nmt:DongL16, nmt:ZhongCoRR17}. In NMT, pairs of sequences are given as 
+input to a Deep Neural Network model, which is expected to learn the translation model. A natural idea 
+is then to try to apply the NMT approach for translating Natural Language (NL) to \SPARQL{}, and some 
+works have begun to explore such techniques~\cite{nmt:CoRRLuz18, nmt:nspm-SoruMMPVEN17, nmt:CoRRSoru18}.
 
-There are multiple challenges relating to converting a NL question to its SPARQL query 
-representation (NL-to-SPARQL); some of these challenges are directly inherited from the 
+There are multiple challenges relating to converting a NL question to its \SPARQL{} query 
+representation (\NLtoSPARQL); some of these challenges are directly inherited from the 
 original NL-to-NL translation problem, while others are distinct. First, there isn’t a one-to-one 
-mapping for every NL question to a SPARQL query. On one hand, there are multiple ways to 
-express a question in NL. For example, the question \textit{“How far away is the Earth from the Sun?”} 
-can also be rephrased as \textit{“What is the distance between the Sun and Earth?”}. On the other 
-hand, questions can be translated to SPARQL in different ways. For example, a question \textit{“What 
-is the largest country in Africa?”} might be translated to a query based on population or area, 
+mapping for every NL question to a \SPARQL{} query. On one hand, there are multiple ways to 
+express a question in NL. For example, the question \dquotesit{How far away is the Earth from the Sun?} 
+can also be rephrased as \dquotesit{What is the distance between the Sun and Earth?}. On the other 
+hand, questions can be translated to \SPARQL{} in different ways. For example, a question \dquotesit{What 
+is the largest country in Africa?} might be translated to a query based on population or area, 
 where one such translation must be chosen, and where both give different answers. Moreover, 
-one SPARQL query has potentially equivalent queries that will return the same results (over any 
+one \SPARQL{} query has potentially equivalent queries that will return the same results (over any 
 data). In the question about US players, for example, we can first retrieve US players and then 
 count their scores, or vice versa; thus there is a need to establish some common conventions 
-when designing NL-to-SPARQL systems. 
+when designing \NLtoSPARQL{} systems. 
 
-Another issue is the lack of corpora for training NL-to-SPARQL models when compared to 
+Another issue is the lack of corpora for training \NLtoSPARQL{} models when compared to 
 the enormous amount of documents in different languages that can be found on the Web for 
-training NL-to-NL models (e.g. news, blogs, articles, academic documents, etc.). Generating 
-data for NL-to-SPARQL is not an easy task considering the need for a basic SPARQL understanding 
+training \texttt{NL-to-NL} models (e.g. news, blogs, articles, academic documents, etc.). Generating 
+data for \NLtoSPARQL{} is not an easy task considering the need for a basic \SPARQL{} understanding 
 to build such datasets, although there is some work regarding automating parts 
-of the process of generating NL-to-SPARQL pairs~\cite{dataset:dbnqa-hartmann-marx-soru-2018, dataset:lcquad-TrivediMDL17}. 
-Furthermore, the queries required to answer a question change from dataset to dataset, where the SPARQL queries needed for 
-DBpedia are not the same as those for Wikidata.
+of the process of generating \NLtoSPARQL{} pairs~\cite{dataset:dbnqa-hartmann-marx-soru-2018, 
+dataset:lcquad-TrivediMDL17}. Furthermore, the queries required to answer a question change from 
+dataset to dataset, where the \SPARQL{} queries needed for DBpedia are not the same as those for Wikidata.
 
-One of the most recent works in regards to using NMT for SPARQL is that 
-the Neural SPARQL Machine (NSpM)~\cite{nmt:nspm-SoruMMPVEN17}, which considers SPARQL as a foreign language. 
-The main idea is to train an end-to-end learning model to translate any NL expression 
-into a sequence of tokens in the SPARQL grammar that expresses a query equivalent to the 
+One of the most recent works in regards to using NMT for \SPARQL{} is that 
+the Neural SPARQL Machine (NSpM)~\cite{nmt:nspm-SoruMMPVEN17}, which considers \SPARQL{} as a foreign 
+language. The main idea is to train an end-to-end learning model to translate any NL expression 
+into a sequence of tokens in the \SPARQL{} grammar that expresses a query equivalent to the 
 question over a given dataset. Question Answering systems based on neural networks usually 
-aim to generate the whole SPARQL query in an attempt to perform the entire process of 
+aim to generate the whole \SPARQL{} query in an attempt to perform the entire process of 
 identifying the relevant entities along with deducing the KB properties, triples, and operators 
 that would retrieve the expected answer. 
 
-An analysis of the performance of many NMT models on translating NL to SPARQL 
-has been performed by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where eight deep neural network models were tested 
-over different datasets based on questions over DBpedia. One relevant dataset is the \textit{Large 
-Complex Question Answering Dataset} (LC-QuAD)~\cite{dataset:lcquad-TrivediMDL17}, consisting of 5,000 complex questions 
-based on 38 hand-made templates. Another dataset is the \textit{DBpedia Neural Question Answering} 
-dataset (DBNQA)~\cite{dataset:dbnqa-hartmann-marx-soru-2018} that includes almost 900,000 questions based on templates extracted 
-from questions of the LC-QuAD dataset and the 7\textsuperscript{th} version of the \textit{Question Answering over 
-Linked Data} dataset (QALD-7)~\cite{dataset:qald7-UsbeckNHKRN17}.
+An analysis of the performance of many NMT models on translating NL to \SPARQL{} 
+has been performed by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where eight deep neural network models 
+were tested over different datasets based on questions over DBpedia. One relevant dataset is the 
+\textit{Large Complex Question Answering Dataset} (\LCQuADone)~\cite{dataset:lcquad-TrivediMDL17}, 
+consisting of 5,000 complex questions based on 38 hand-made templates. Another dataset is the 
+\textit{DBpedia Neural Question Answering} dataset (\DBNQA)~\cite{dataset:dbnqa-hartmann-marx-soru-2018} 
+that includes almost 900,000 questions based on templates extracted from questions of the \LCQuADone{} 
+dataset and the 7\textsuperscript{th} version of the \textit{Question Answering over Linked Data} 
+dataset (\QALDseven)~\cite{dataset:qald7-UsbeckNHKRN17}.
 
 Though the performance of these models shows promising potential for constructing meaningful 
-and useful SPARQL queries, they present some key limitations relating to the data 
+and useful \SPARQL{} queries, they present some key limitations relating to the data 
 used to train the models. First, despite the fact that many NMT models report positive results 
-when evaluated over simple and large datasets like the DBNQA dataset~\cite{nmt:nl-to-sparql-Yin19}, which 
-contains questions with little variation in syntax and phrasing, such regular data do not give an accurate 
-understanding of the real performance of these systems. In fact, the performance of such models drops 
-dramatically when evaluated over more complex questions like the ones included in the LC-QuAD 
-dataset, which might not contain enough questions to learn accurately~\cite{nmt:nl-to-sparql-Yin19}. Second, 
-the current models are vocabulary-dependent, which means there is no capability for recognizing 
-new entities or properties that were not used in the training data~\cite{nmt:nl-to-sparql-Yin19}. These issues lead 
-to the constant need to train the model with new, manually created pairs of NL questions 
-and SPARQL queries.
+when evaluated over simple and large datasets like the \DBNQA{} dataset~\cite{nmt:nl-to-sparql-Yin19}, 
+which contains questions with little variation in syntax and phrasing, such regular data do not give 
+an accurate understanding of the real performance of these systems. In fact, the performance of such 
+models drops dramatically when evaluated over more complex questions like the ones included in the 
+\LCQuADone dataset, which might not contain enough questions to learn 
+accurately~\cite{nmt:nl-to-sparql-Yin19}. Second, the current models are vocabulary-dependent, which 
+means there is no capability for recognizing new entities or properties that were not used in the 
+training data~\cite{nmt:nl-to-sparql-Yin19}. These issues lead to the constant need to train the model 
+with new, manually created pairs of NL questions and \SPARQL{} queries.
 
 The first issue can be addressed by building a more comprehensive dataset that has enough 
 cases for an NMT to learn properly while maintaining an abstraction level that allows us to 
 respond accurately to complex and diverse questions. Regardless, creating new datasets does 
 not necessarily help with the vocabulary dependency issue, unless we have examples using 
-every entity and property in the knowledge graph, which seems infeasible to generate in the 
+every entity and property in the Knowledge Graph, which seems infeasible to generate in the 
 short-to-medium term. Therefore, an important the goal is to maximize the available training examples, 
 where there is a need to find an alternative approach to complement the parsing power 
 of NMTs with a system that helps to address vocabulary dependency by extracting the 
 information NMTs cannot generalize.
 
-For example, NMTs cannot be expected to extract entities from a question and translate them to their identifiers in the KG. 
-Developing labelled examples for each entity does not seem feasible, as mentioned before. 
-Plenty of solutions have addressed the entity extraction task over Linked Data. In particular, 
-the Information Extraction area, which involves the automatic extraction of implicit 
+For example, NMTs cannot be expected to extract entities from a question and translate them to their 
+identifiers in the KG. Developing labelled examples for each entity does not seem feasible, as 
+mentioned before. Plenty of solutions have addressed the entity extraction task over Linked Data. In 
+particular, the Information Extraction area, which involves the automatic extraction of implicit 
 information from unstructured or semi-structured sources, intersects in many ways with the 
 Semantic Web~\cite{infExtr:MartinezHL19}. Some examples are systems that perform Named Entity 
-Recognition~\cite{ner:LampleBSKD16}, Sequence Labeling~\cite{seqlab:MaH16, seqlab:contextual-emb-AkbikBV18}, 
-or Entity Linking~\cite{EL:dbpedia-spotlight-MendesJGB11, EL:aida-tool-YosefHBSW11, EL:tagme-FerraginaS10, EL:opentapioca-Delpeuch19} 
-while leveraging Semantic Web resources and/or techniques. 
-In particular, Entity Linking (EL) systems aim to perform the entire process of identifying entity names in a 
-text, mapping names to KB resources, and disambiguating them depending on the context 
-of a given corpus~\cite{EL:survey-WuHH18}. Considering again the question \textit{“Which US player is the highest scorer 
-in World Cups?”}, an EL system could effectively identify the resources associated with the 
-country US or the FIFA World Cup. Many EL systems~\cite{EL:dbpedia-spotlight-MendesJGB11, EL:aida-tool-YosefHBSW11, EL:tagme-FerraginaS10, EL:opentapioca-Delpeuch19} 
-have achieved positive results when linking KB entities over text and these systems tend to generalize well 
-over any new corpus. 
+Recognition~\cite{ner:LampleBSKD16}, Sequence Labeling~\cite{seqlab:MaH16, 
+seqlab:contextual-emb-AkbikBV18}, or Entity Linking~\cite{EL:dbpedia-spotlight-MendesJGB11, 
+EL:aida-tool-YosefHBSW11, EL:tagme-FerraginaS10, EL:opentapioca-Delpeuch19} while leveraging Semantic 
+Web resources and/or techniques. In particular, Entity Linking (EL) systems aim to perform the entire 
+process of identifying entity names in a text, mapping names to KB resources, and disambiguating them 
+depending on the context of a given corpus~\cite{EL:survey-WuHH18}. Considering again the question 
+\dquotesit{Which US player is the highest scorer in World Cups?}, an EL system could effectively 
+identify the resources associated with the country US or the FIFA World Cup. Many EL 
+systems~\cite{EL:dbpedia-spotlight-MendesJGB11, EL:aida-tool-YosefHBSW11, EL:tagme-FerraginaS10, 
+EL:opentapioca-Delpeuch19} have achieved positive results when linking KB entities over text and 
+these systems tend to generalize well over any new corpus. 
 
 Furthermore, these Information Extraction tools can be complemented along with intermediate 
 representation of structured queries. An example can be found on a proposed 
-Text-to-SQL system~\cite{semPar:txt-to-sql-RadevKZZFRS18}, where given a question in NL, an intermediate representation of 
-an SQL query is generated, consisting of a SQL template with slots to be filled later with 
-relevant words identified in the question using Named Entity Recognition tools~\cite{ner:dynet-NeubigDGMAABCCC17}.
+Text-to-SQL system~\cite{semPar:txt-to-sql-RadevKZZFRS18}, where given a question in NL, an 
+intermediate representation of an \SQL{} query is generated, consisting of a \SQL{} template with slots to 
+be filled later with relevant words identified in the question using Named Entity Recognition 
+tools~\cite{ner:dynet-NeubigDGMAABCCC17}.
 
 We see an opportunity to improve state-of-the-art performance for QASs in the context 
-of RDF/SPARQL by exploring the idea of combining the parsing capacity of NMT to get an 
-intermediate representation of a SPARQL query, with the entity extraction and disambiguation 
+of \RDF/\SPARQL{} by exploring the idea of combining the parsing capacity of NMT to get an 
+intermediate representation of a \SPARQL{} query, with the entity extraction and disambiguation 
 power of Entity Linking systems to identify the relevant entities in questions, decreasing 
 the dependency of current QA systems on training examples that cover the full vocabulary of a 
-knowledge graph. Additionally, there are many challenges to address – as we have previously mentioned 
+Knowledge Graph. Additionally, there are many challenges to address – as we have previously mentioned 
 – like how to deal with different representations of the same question (e.g. paraphrased questions), 
-what canonical representation of SPARQL queries we should adopt, how to evaluate 
+what canonical representation of \SPARQL{} queries we should adopt, how to evaluate 
 that a QAS is fulfilling its purposes, among others.
