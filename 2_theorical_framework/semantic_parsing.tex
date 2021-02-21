@@ -338,19 +338,19 @@ Table~\ref{table:nmtYinResults}.
 \begin{table}[h!]
     \centering
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \begin{tabular}{|l|ll|ll|ll|ll|ll|ll|}
     \hline
-    \multirow{2}{*}{} & \multicolumn{4}{c|}{Perplexity}                           & \multicolumn{4}{c|}{BLEU Score}                           & \multicolumn{4}{c|}{Accuracy}                             \\ \cline{2-13} 
-                    & \multicolumn{2}{c|}{LC-QuAD} & \multicolumn{2}{c|}{DBNQA} & \multicolumn{2}{c|}{LC-QuAD} & \multicolumn{2}{c|}{DBNQA} & \multicolumn{2}{c|}{LC-QuAD} & \multicolumn{2}{c|}{DBNQA} \\ \hline
-    Models            & Train         & Valid        & Train        & Valid       & Valid         & Test         & Valid        & Test        & Valid         & Test         & Valid        & Test        \\ \hline
-    LSTM\_Luong       & 1.12          & 4.92         & 1.9          & 2.15        & 52.43         & 51.06        & 77.64        & 77.67       & 0             & 0            & 34           & 34          \\ \hline
-    ConvS2S           & 1.14          & 3.25         & 1.12         & 1.25        & 61.89         & 59.54        & 96.05        & 96.07       & 8             & 8            & 85           & 85          \\ \hline
-    Transformer       & 1.16          & 3.15         & 2.21         & 3.34        & 58.99         & 57.43        & 68.68        & 68.82       & 7             & 4            & 3            & 3           \\ \hline
+    \multirow{2}{*}{} & \multicolumn{4}{c|}{\textbf{Perplexity}}                                                                    & \multicolumn{4}{c|}{\textbf{BLEU Score}}                                                                  & \multicolumn{4}{c|}{\textbf{Accuracy}}                                                                    \\ \cline{2-13} 
+                      & \multicolumn{2}{c|}{\textbf{LC-QuAD 1}}              & \multicolumn{2}{c|}{\textbf{DBNQA}}                  & \multicolumn{2}{c|}{\textbf{LC-QuAD 1}}             & \multicolumn{2}{c|}{\textbf{DBNQA}}                 & \multicolumn{2}{c|}{\textbf{LC-QuAD 1}}             & \multicolumn{2}{c|}{\textbf{DBNQA}}                 \\ \hline
+    \textbf{Models}   & \multicolumn{1}{l|}{\textbf{Train}} & \textbf{Valid} & \multicolumn{1}{l|}{\textbf{Train}} & \textbf{Valid} & \multicolumn{1}{l|}{\textbf{Valid}} & \textbf{Test} & \multicolumn{1}{l|}{\textbf{Valid}} & \textbf{Test} & \multicolumn{1}{l|}{\textbf{Valid}} & \textbf{Test} & \multicolumn{1}{l|}{\textbf{Valid}} & \textbf{Test} \\ \hline
+    LSTM\_Luong       & 1.12                                & 4.92           & 1.9                                 & 2.15           & 52.43                               & 51.06         & 77.64                               & 77.67         & 0                                   & 0             & 34                                  & 34            \\
+    ConvS2S           & 1.14                                & 3.25           & 1.12                                & 1.25           & 61.89                               & 59.54         & 96.05                               & 96.07         & 8                                   & 8             & 85                                  & 85            \\
+    Transformer       & 1.16                                & 3.15           & 2.21                                & 3.34           & 58.99                               & 57.43         & 68.68                               & 68.82         & 7                                   & 4             & 3                                   & 3             \\ \hline
     \end{tabular}%
     }
-    \caption{Performance comparison of three models included in Yin et al.\cite{nmt:nl-to-sparql-Yin19}}
+    \caption{Performance comparison of three models included in Yin et al.\cite{nmt:nl-to-sparql-Yin19}.}
     \label{table:nmtYinResults}
-\end{table}
+    \end{table}
 
 Based on the perplexity results, there is a serious overfit for all models over the \LCQuADone{} 
 dataset which Yin et al. attributes to the small size of the dataset and its complex questions. 
