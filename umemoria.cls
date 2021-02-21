@@ -246,6 +246,8 @@
 
 \newcommand{\squotes}[1]{{`#1'}}
 \newcommand{\squotesit}[1]{\textit{`#1'}}
+\newcommand{\squotestt}[1]{`\texttt{#1}'}
 \newcommand{\dquotes}[1]{{``#1''}}
 \newcommand{\dquotesit}[1]{\textit{``#1''}}
+\newcommand{\dquotestt}[1]{``\texttt{#1}''}
 
