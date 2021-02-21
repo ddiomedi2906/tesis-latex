@@ -13,7 +13,18 @@
 
 \RequirePackage[normalem]{ulem}
 
-\lstnewenvironment{sparqlcode}{\minipage{0.95\linewidth}\renewcommand\lstlistingname{Sparql}\lstset{language=sparql,style=sparqld}}{\endminipage}
+\lstnewenvironment{sparqlcode}[1][]{%
+	\minipage{0.95\linewidth}
+	%\renewcommand\lstlistingname{Sparql}
+	\lstset{%
+		language=sparql,
+		style=sparqld,
+		breaklines=true,
+		postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+		captionpos=b,
+		#1
+		}
+	}{\endminipage}
 
 \colorlet{punct}{red!60!black}
 \definecolor{background}{HTML}{EEEEEE}
