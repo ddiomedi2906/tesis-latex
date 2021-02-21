@@ -44,11 +44,11 @@ Linking process in more detail.
 Entity Linking is the task of linking mentions in text to their corresponding entities in a 
 knowledge graph (e.g. Wikipedia, Wikidata, DBpedia)~\cite{EL:survey-WuHH18}. Aside from 
 extracting entities from a knowledge graph, a disambiguation step is also needed. For example, 
-for the question \textit{“Has Claudio Bravo played for Manchester City FC?”}, Entity Linking 
-with respect to Wikidata should link the mention \textit{“Claudio Bravo”} to the Chilean 
-football goalkeeper Claudio Bravo (wd:Q313161) instead of the Chilean painter Claudio Bravo 
-(wd:Q491787), given the context of the sentence (a person playing in a football club). Some 
-applications of Entity Linking involve fields such as information 
+for the question \dquotesit{Has Claudio Bravo played for Manchester City FC?}, Entity Linking 
+with respect to Wikidata should link the mention \dquotesit{Claudio Bravo} to the Chilean 
+football goalkeeper Claudio Bravo (\texttt{wd:Q313161}) instead of the Chilean painter Claudio Bravo 
+(\texttt{wd:Q491787}), given the context of the sentence (a person playing in a football club). 
+Some applications of Entity Linking involve fields such as information 
 retrieval~\cite{infExtr:CornoltiFCRS16, infExtr:BlancoOM15, infExtr:BollegalaMI07} knowledge 
 fusion~\cite{infExtr:DongGHHMSZ15, infExtr:BohmFHLMNEHHS12}, or knowledge base 
 population~\cite{infExtr:RaoMD13, infExtr:DredzeMRGF10, infExtr:FreedmanMM17}.
@@ -161,7 +161,6 @@ The criteria to choose these systems were:
 Given these criteria, the selected systems are: \textit{DBpedia Spotlight}, \textit{AIDA}, 
 \textit{TAGME} and \textit{OpenTapioca}.
 
-% TODO: check EL explanations
 \subsubsection{DBpedia Spotlight}
 \label{cap2:theoFrame/infExtr/entityLinking/dbpediaSpotlight}
 DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11} is a system that automatically 
@@ -255,20 +254,20 @@ entities connect to~\cite{infExtr:ThaterFP10}. These include phrases in the enti
 contain category names, citation titles, external references or titles of incoming links. This 
 process forms a keyphrase set $KP(e)$ for each entity $e$. 
 
-The \textit{Mutual Information} (MI) measure, which quantifies the ``amount of information'' one 
-random variable obtained from observing another one, is used to quantify the specificity weight 
+The \textit{Mutual Information} (MI) measure, which quantifies the \dquotes{amount of information} 
+one random variable obtained from observing another one, is used to quantify the specificity weight 
 of a keyword with regard to an entity. In this context, the MI for each keyword $w$ is based on 
 a joint probability $P(e, w)$ that reflects the probability of $w$ to be contained in either the 
 keyphrase $KP(e)$, or any of the keyphrase sets of entities linked to $e$. 
 
-Since keyphrases can rarely match multi-word keyphrases (e.g. the phrase ``Nobel Prize winner'' 
-may occur in the form of ``Nobel winner''), a partial-match model is added to 
+Since keyphrases can rarely match multi-word keyphrases (e.g. the phrase \dquotesit{Nobel Prize 
+winner} may occur in the form of \dquotesit{Nobel winner}), a partial-match model is added to 
 improve coverage~\cite{infExtr:taneva2011}. This model match individual words and rewards their
 proximity. Following this approach, a phrase's cover is computed for each keyphrase, which 
 consists of the shortest window of words that maximize the number of words of the keyphrase. 
-For example, the text ``winner of many prizes including a Nobel'' the cover length of the 
-keyphrase ``Nobel award winner'' is 7. Then, the partial-match score of a phrase in a text is
-calculated using the MI weights of the keyphrase words contained in the phrase and the ones
+For example, the text \dquotesit{winner of many prizes including a Nobel} the cover length of the 
+keyphrase \dquotesit{Nobel award winner} is 7. Then, the partial-match score of a phrase in a text 
+is calculated using the MI weights of the keyphrase words contained in the phrase and the ones
 included on the phrase's cover.
 
 Lastly, the similarity score between a mention and a candidate entity is computed by summing all 
@@ -392,7 +391,7 @@ The resulting matrix $M_D$ defines a Markov chain on the candidate entities that
 propagate the local evidence, which helps to classify entities according to the context. A 
 Markov chain is a mathematical model used to model transitions from one state to another, 
 usually in a stochastic way. One particularity of Markov chains is that the stochastic 
-process is “memoryless”. That is, the probability of transitioning to any particular state 
+process is \dquotes{memoryless}. That is, the probability of transitioning to any particular state 
 depends solely on the current state and time elapsed\footnote{One example of a Markov chain 
 process is the probability question of getting a certain color ball from a bag of balls, when 
 replacement is allowed each time a ball is drawn.}.
@@ -414,8 +413,8 @@ Its service keeps synchronous with Wikidata in real time.
 Another application of Information Extraction methods is Sequence Labeling~\cite{seqlab:Graves2012-385, seqlab:MaH16}, 
 also known as Semantic Role Labeling~\cite{seqlab:GildeaJ02}. Sequence Labeling is a 
 semantic analysis tool that can be used to detect meaningful entities, relationships or 
-semantic properties in a given sentence. For example, for the sentence \textit{“Barbara lives 
-in Santiago”}, the name \textit{Barbara} could be identified as the subject of the sentence 
+semantic properties in a given sentence. For example, for the sentence \dquotesit{Barbara lives 
+in Santiago}, the name \textit{Barbara} could be identified as the subject of the sentence 
 or as a person, while the name \textit{Santiago} could be recognized as the object of the 
 sentence or as a location.
 
@@ -453,9 +452,8 @@ The performance of a Sequence Tagger is measured using a per-word accuracy~\cite
 Let $W=(w_0,\ldots,w_n)$ denote a sequence of words, $(l_0,\ldots,l_n)$ a sequence of 
 expected BIO labels and ($(l_{0}',\ldots,l_{n}')$ a sequence of BIO labels output by a Sequence 
 Tagger; a word $w_i$ would be labeled correctly if its expected label $l_i$ matches with the label 
-$l_{i}'$ delivered by the Sequence Tagger. Then, the accuracy over $W$ will be:
-
-\[accuracy(W)=\frac{\mbox{\#words correctly labeled}}{\mbox{total \# words}}\]
+$l_{i}'$ delivered by the Sequence Tagger. Then, the accuracy over $W$ will be $accuracy(W)=
+\frac{\mbox{\#words correctly labeled}}{\mbox{total \# words}}$.
 
 In this work, we will use the Flair Framework~\cite{seqlab:flair-AkbikBBRSV19}, which provides 
 up-to-date state-of-the-art language models and word embeddings in a simple interface. Flair is 
@@ -470,13 +468,14 @@ Bidirectional LSTM-CRF model.
 \label{cap2:theoFrame/infExtr/sequenceLabeling/contextualEmbeddings}
 The construction of Contextual String Embeddings (aka Flair embeddings) is based on two 
 Language Models (LM) where each one captures semantic-syntactic information for each word in 
-the sentence; one model captures information from the \textit{“past”} and the other model from 
-the \textit{“future”} of each word. The information from both models is combined to construct 
+the sentence; one model captures information from the \dquotes{past} and the other model from 
+the \dquotes{future} of each word. The information from both models is combined to construct 
 representations of words based on their surrounding context.
 
-% TODO: add breakline after paragraph command
-\paragraph{Language Models}
+\paragraph{Language Models} 
 \label{cap2:theoFrame/infExtr/sequenceLabeling/contextualEmbeddings/languageModel}
+\mbox{}\\
+\mbox{}\\
 A Language Model (LM) is a probability distribution over sequences of words~\cite{seqlab:PonteC98}. 
 Language models can be character-level or word-level, where the difference lies in the atomic 
 unit selected for the language model~\cite{seqlab:PonteC98}. For a character-level language model, 
@@ -501,6 +500,8 @@ architecture).
 
 \paragraph{Extracting Flair Embeddings}
 \label{cap2:theoFrame/infExtr/sequenceLabeling/contextualEmbeddings/flairEmbeddings}
+\mbox{}\\
+\mbox{}\\
 As mentioned earlier, the goal of a character-level language model is to estimate the 
 distribution $P(x_{0:T})$ over a sequence of characters $x_0:T =(x_0, x_1,\ldots, x_T)$. This 
 results in a joint distribution over the entire sentence, which is the product of the 
@@ -517,7 +518,7 @@ as a function of the network output $h_t$:
     P(x_T|x_{0:t-1}) \approx \prod_{t=0}^{T} P(x_T|h_t;\theta)    
 \]
 
-where $h_t$ represents the past context of the character sequence and is computed recursively 
+\noindent where $h_t$ represents the past context of the character sequence and is computed recursively 
 using an additional memory cell $c_t$:
 
 \begin{align*}
@@ -525,15 +526,15 @@ using an additional memory cell $c_t$:
     c_t(x_{0:t-1})=f_c(x_{t-1},h_{t-1},c_{t-1};\theta)    
 \end{align*}
 
-where $\theta$ denotes all the parameters of the model. The proposed model includes a fully 
+\noindent where $\theta$ denotes all the parameters of the model. The proposed model includes a fully 
 connected softmax layer on top of $h_t$, so the likelihood of every character is given by:
 
 \[
     P(x_t|h_t;V) = \frac{exp(V h_t+b)}{\| exp(V h_t+b) \Vert }
 \]
 
-where $h_t^b$ is denoted as the hidden states of the backward model calculated the same way as 
-Equation~\ref{eq:flairProb}. We also denote $h_t^f$ as the hidden states ht of the forward model. 
+\noindent where $h_t^b$ is denoted as the hidden states of the backward model calculated the same way as 
+Equation~\ref{eq:flairProb}. We also denote $h_t^f$ as the hidden states $h_t$ of the forward model. 
 
 Finally, output hidden states from both models are concatenated to form the final embedding 
 which represents the surrounding context of a word itself. Formally, the contextual string 
@@ -579,11 +580,11 @@ final word representation chosen in this work is given by:
 where $w_i^{GloVe}$ is a precomputed GloVe embedding~\cite{seqlab:PenningtonSM14}. Note that 
 these word representations are the input words for the BiLSTM-CRF. An example is shown in 
 Figure~\ref{fig:flairArchitecture}, where the Character Language Model mentioned before is fed 
-the sentence \textit{“George Washington was born”} as a sequence of characters. The output 
+the sentence \dquotesit{George Washington was born} as a sequence of characters. The output 
 delivered by the Language Model corresponds to the vector representation of each word following 
 Equation~\ref{eq:flairWordRepr}. Then, these sequences of words are taken by the Sequence 
 Labeling Model, which gives an output of a sequence of BIO labels such as to indicate that 
-the phrase \textit{“George Washington”} is tagged as a person (PER).
+the phrase \dquotesit{George Washington} is tagged as a person (PER).
 
 \begin{figure}[!h]
     \centering
