@@ -3,24 +3,22 @@
 As mentioned by Kamath and Das~\cite{semPar:KamathD19}, Semantic Parsing is defined as the 
 mapping from a natural language utterance into a semantic representation. These 
 representations usually refer to logical forms, meaning representations or programs, which 
-are executed over an underlying context such as relational tables or knowledge graphs. This 
+are executed over an underlying context such as relational tables or Knowledge Graphs. This 
 execution yields a desired output like an answer to a question. For example, given a question 
-in natural language, a semantic parser can aim to generate a valid SPARQL query based on the 
+in natural language, a semantic parser can aim to generate a valid \SPARQL{} query based on the 
 Wikidata’s ontology grammar that produces the correct answer when executed over a Wikidata 
 endpoint.
 
 The first component of a Semantic Parsing framework is the \textbf{language} to represent 
-logical forms or meaning representations such as 
-logic based formalisms~\cite{semPar:LiangBLFL16,semPar:ArtziFZ13}, 
-graph based formalisms~\cite{semPar:BanarescuBCGGHK13,semPar:OepenKMZCFHU15} 
-or programming languages~\cite{semPar:FeurerKESBH15}. In particular, we focus on query 
-languages such as SQL or SPARQL. Another component is the \textbf{grammar}, which is a set of 
-rules used to decide the expressivity of a semantic parser. Some examples are the Combinatory 
-Categorial Grammar for complex structured queries~\cite{semPar:steedman1996}, or the Abstract 
-Syntax Tree associated with a programming language’s defined grammar on general purpose code 
-generation [ref]. A last component is the \textbf{underlying context}, which is the 
-environment over which the output mappings are interpreted or executed. Knowledge Graphs such 
-as Wikidata or DBpedia serve as examples of an underlying context.
+logical forms or meaning representations such as logic based 
+formalisms~\cite{semPar:LiangBLFL16,semPar:ArtziFZ13}, graph based 
+formalisms~\cite{semPar:BanarescuBCGGHK13,semPar:OepenKMZCFHU15} or programming 
+languages~\cite{semPar:FeurerKESBH15}. In particular, we focus on query languages such as \SQL{} 
+or \SPARQL{}. Another component is the \textbf{grammar}, which is a set of rules used to decide the 
+expressivity of a semantic parser. An examples is the Combinatory Categorial Grammar for complex 
+structured queries~\cite{semPar:steedman1996}. A last component is the \textbf{underlying context}, 
+which is the environment over which the output mappings are interpreted or executed. Knowledge 
+Graphs such as Wikidata or DBpedia serve as examples of an underlying context.
 
 The early attempts for Semantic Parsing were systems based on rules or statistical techniques. 
 Among the rule-based systems, systems could be based on pattern matching~\cite{semPar:Johnson84a} 
@@ -47,7 +45,7 @@ In the following subsections, we discuss in more depth how systems based on
 Sequence-to-Sequence models work. First, we will briefly explain Sequence-to-Sequence models 
 along with the approach we will use in this work: the Convolutional Sequence-to-Sequence model. 
 Then, we will introduce Neural Machine Translation systems and how these models can be used 
-for the task of translating natural language questions to SPARQL queries.
+for the task of translating natural language questions to \SPARQL{} queries.
 
 \subsection{Sequence to Sequence models}
 \label{cap2:semPar/seq2seq}
@@ -112,11 +110,11 @@ Once the model is trained, it can be used to generate a target sequence given an
 sequence. Though Seq2seq models were originally designed based on RNNs, other variants have 
 emerged~\cite{semPar:SutskeverVL14,nmt:DongL16}; among the more modern ones, a recent work 
 introduces a sequence learning approach based on convolutional neural networks, which has 
-shown to outperform many RNN-based models in the task of NL-to-SPARQL~\cite{nmt:nl-to-sparql-Yin19}.
+shown to outperform many RNN-based models in the task of \NLtoSPARQL~\cite{nmt:nl-to-sparql-Yin19}.
 
 \subsubsection{Convolutional Sequence to Sequence Model}
 \label{cap2:semPar/seq2seq/convS2S}
-A Sequence-to-Sequence model based completely on convolutional neural networks (CNNs) is 
+A Seq2seq model based completely on convolutional neural networks (CNNs) is 
 proposed by Gehring et al.~\cite{nmt:convS2S-GehringAGYD17}, called the Convolutional 
 Sequence-to-Sequence model (ConvS2S). For this subsection we will assume a basic 
 understanding of CNNs, where more details about this topic can be found on 
@@ -187,7 +185,7 @@ between the decoder state summary $d_i^l$ and each output $z_j^u$ of the last en
 
 Subsequently, the conditional input $c_i^l$ to the current decoder block is a weighted sum of 
 the encoder outputs as well as the input element embeddings $e_j = w_j + p_j$ which corresponds 
-to the center right part of Figure 1, and is defined as:
+to the center right part of Figure~\ref{fig:convBlockStruct}, and is defined as:
 
 \[
     c_i^l = \sum_{j=1}^m a_{ij}^l (z_j^u + e_j)
@@ -227,10 +225,10 @@ otherwise~\cite{semPar:SutskeverVL14}.
 
 \subsection{Natural Language to SPARQL}
 \label{cap2:semPar/nlToSparql}
-Though most works have focused on translating text to SQL queries~\cite{nmt:CaiXZYLL18,nmt:ZhongCoRR17}, 
-recent work has also addressed the translation of natural language to SPARQL. In particular, 
+Though most works have focused on translating text to \SQL{} queries~\cite{nmt:CaiXZYLL18,nmt:ZhongCoRR17}, 
+recent work has also addressed the translation of natural language to \SPARQL{}. In particular, 
 Neural Machine Translation (NMT), which involves Machine Translation systems based on Neural 
-Networks, has been used to develop systems that translate questions to SPARQL queries. An 
+Networks, has been used to develop systems that translate questions to \SPARQL{} queries. An 
 evaluation of eight different NMT models was performed by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}]. 
 The NMT models included in this work were based on the aforementioned encoder-decoder Seq2seq 
 architecture. Among these models, six of them are based on recurrent neural networks (RNN), 
@@ -255,18 +253,17 @@ layer of the encoder.
 
 \subsubsection{Neural Machine Translation}
 \label{cap2:semPar/nlToSparql/nmt}
-Though the architecture of each model varies, the encoding of SPARQL queries used in all 
+Though the architecture of each model varies, the encoding of \SPARQL{} queries used in all 
 approaches is the same as that proposed by Soru et al.~\cite{nmt:nspm-SoruMMPVEN17}. Their 
 encoding suggests that URIs are abbreviated using their prefixes  followed by an underscore; 
-brackets and dots are replaced by their verbal description, and SPARQL keywords are lower-cased. 
+brackets and dots are replaced by their verbal description, and \SPARQL{} keywords are lower-cased. 
 For example, a query over Wikidata is shown in Listing~\ref{lst:decodedWikidataSparqlExample}, 
 when after an encoding conversion, it is converted to an encoded query as seen in 
 Listing~\ref{lst:encodedWikidataSparqlExample}.
 
-\begin{lstlisting}[captionpos=b, 
-    caption=SPARQL query before encoding., 
-    label=lst:decodedWikidataSparqlExample,
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[%
+    caption={\SPARQL{} query before encoding.}, 
+    label={lst:decodedWikidataSparqlExample}]
 PREFIX wd: <http://wikidata.org/wiki/>
 PREFIX wdt: <http://wikidata.org/prop/direct/>
 
@@ -275,26 +272,23 @@ WHERE {
     ?sbj wdt:P19 wd:Q201007 .
     ?sbj wdt:P166 wd:Q37922 .
 }
-\end{lstlisting}
+\end{sparqlcode}
 
 After training, the system will output an encoded form that can be transformed back to the 
-original SPARQL representation. 
+original \SPARQL{} representation. 
 
-\begin{lstlisting}[captionpos=b, 
-    caption=SPARQL query after encoding (note it excludes the PREFIX clauses)., 
-    label=lst:encodedWikidataSparqlExample,
-    basicstyle=\ttfamily,frame=single]
-select var_sbj where brack_open var_sbj wdt_p19 
-wd_q201007 sep_dot var_sbj wdt_p166 wd_q37922 
-sep_dot brack_close
-\end{lstlisting}
+\begin{sparqlcode}[%
+    caption={\SPARQL{} query after encoding (note it excludes the \texttt{PREFIX} clauses).}, 
+    label={lst:encodedWikidataSparqlExample}]
+select var_sbj where brack_open var_sbj wdt_p19 wd_q201007 sep_dot var_sbj wdt_p166 wd_q37922 sep_dot brack_close
+\end{sparqlcode}
 
 The evaluation metrics typically used to compare these systems are string-matching accuracy, 
 BLEU score and perplexity. The string-matching accuracy is used to measure the amount of exact 
 matches delivered by each system. The global accuracy is then the percentage of cases that are 
 syntactically equal to the expected answer. This metric is particularly useful when measured 
-over a dataset based on SPARQL templates, giving insights into whether or not the expected 
-SPARQL form is being correctly generated.
+over a dataset based on \SPARQL{} templates, giving insights into whether or not the expected 
+\SPARQL{} form is being correctly generated.
 
 The Bilingual Evaluation Understudy (BLEU) score is used to measure how similar two sentences 
 are by using a geometric average of modified n-gram precision~\cite{nlToSparql:PapineniRWZ02}, 
@@ -309,7 +303,7 @@ reference translation(s), takes the maximum count of each n-gram among the refer
 then clips the count of each n-gram in the candidate translation to the maximum count. To avoid 
 short candidate translations getting higher scores than desired, a brevity penalty (BP) is 
 applied which is set to 1 if the candidate length $c$ is larger than the maximal reference 
-length $r$ or set to $exp(1-r/c)$ otherwise. The wn represents weights for each modified 
+length $r$ or set to $exp(1-r/c)$ otherwise. The $w_n$ represents weights for each modified 
 precision. By default $w_n=\frac{1}{N}$ and $N=4$. In this case, the BLEU score goes from 0 to 
 100, where a score closer to 100 means the model is performing better. Note that BLEU does not 
 account for word order. 
@@ -321,7 +315,7 @@ entropy H(p,q) which is defined as follows:
     H(p,q)= -\sum_x p(x) \; log \: q(x)
 \]
 
-where $p$ represents the target probability distribution and q is the estimated probability 
+\noindent where $p$ represents the target probability distribution and q is the estimated probability 
 distribution. Their similarity is defined by all possible values $x$ in the distribution. In 
 this case, $p$ is the one-hot encoding vector of the target vocabulary and q is deduced from 
 the result of the output softmax layer. Then the perplexity is defined as the exponentiation 
@@ -332,12 +326,12 @@ of the cross entropy:
 
 According to the experiments conducted by Ying et al.~\cite{nmt:nl-to-sparql-Yin19}, the model 
 that performs best was the ConvS2S model. Although many datasets were used in their experiments, 
-we are only interested in LC-QuAD~\cite{dataset:lcquad2-DubeyBA019} and 
-DBNQA~\cite{dataset:dbnqa-hartmann-marx-soru-2018}, two datasets that represent opposite traits 
+we are only interested in \LCQuADone~\cite{dataset:lcquad2-DubeyBA019} and 
+\DBNQA~\cite{dataset:dbnqa-hartmann-marx-soru-2018}, two datasets that represent opposite traits 
 of a Question Answering Dataset: the LC-QuAD dataset contains few questions (5000) but with high 
-complexity and high variance of its questions while the DBNQA dataset contains a huge volume of 
+complexity and high variance of its questions while the \DBNQA{} dataset contains a huge volume of 
 questions (nearly 900,000) but it lacks variety in its questions. We explain with more details 
-what we understand by a “good dataset” in the \textit{Question Answering} section. The results 
+what we understand by a \dquotes{good dataset} in the \textit{Question Answering} section. The results 
 of the three best models among the eight selected over the mentioned datasets are shown in 
 Table~\ref{table:nmtYinResults}.
 
@@ -358,13 +352,13 @@ Table~\ref{table:nmtYinResults}.
     \label{table:nmtYinResults}
 \end{table}
 
-Based on the perplexity results, there is a serious overfit for all models over the LC-QuAD 
+Based on the perplexity results, there is a serious overfit for all models over the \LCQuADone{} 
 dataset which Yin et al. attributes to the small size of the dataset and its complex questions. 
-No evident overfit is spotted over DBNQA, and the ConvS2S shows better results which is 
+No evident overfit is spotted over \DBNQA, and the ConvS2S shows better results which is 
 reflected in the other results as well. The BLEU score results reflect that ConS2S again 
 outperformed all other models and shows a correlation between perplexity and BLEU, especially 
-when looking at DBQNA results. Finally, accuracy results clearly show that RNN based models and 
+when looking at \DBNQA{} results. Finally, accuracy results clearly show that RNN based models and 
 the Transformer do not perform positively in any case when compared to the ConvS2S model. 
-However, the results over the LC-QuAD again shows there is still a challenge to handle more 
+However, the results over the \LCQuADone{} dataset shows there is still a challenge on handling more 
 complex questions among all NMT models.
 
