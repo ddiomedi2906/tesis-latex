@@ -577,18 +577,19 @@ final word representation chosen in this work is given by:
     w_i := \begin{bmatrix} w_i^{CharLM} \\ w_i^{GloVe} \end{bmatrix}
 \end{equation}
 
-where $w_i^{GloVe}$ is a precomputed GloVe embedding~\cite{seqlab:PenningtonSM14}. Note that 
-these word representations are the input words for the BiLSTM-CRF. An example is shown in 
+\noindent where $w_i^{GloVe}$ is a precomputed GloVe embedding~\cite{seqlab:PenningtonSM14}. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=.5]{imagenes/2_theorical_framework/information_extraction/sequenceLabelingModel.PNG}
+    \caption{Flair Sequence Labeling architecture~\cite{seqlab:flair-AkbikBBRSV19}.}
+    \label{fig:flairArchitecture}
+\end{figure}
+
+Note that these word representations are the input words for the BiLSTM-CRF. An example is shown in 
 Figure~\ref{fig:flairArchitecture}, where the Character Language Model mentioned before is fed 
 the sentence \dquotesit{George Washington was born} as a sequence of characters. The output 
 delivered by the Language Model corresponds to the vector representation of each word following 
 Equation~\ref{eq:flairWordRepr}. Then, these sequences of words are taken by the Sequence 
 Labeling Model, which gives an output of a sequence of BIO labels such as to indicate that 
 the phrase \dquotesit{George Washington} is tagged as a person (PER).
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=.5]{imagenes/2_theorical_framework/information_extraction/sequenceLabelingModel.PNG}
-    \caption{Flair Sequence Labeling architecture~\cite{seqlab:flair-AkbikBBRSV19}}
-    \label{fig:flairArchitecture}
-\end{figure}
