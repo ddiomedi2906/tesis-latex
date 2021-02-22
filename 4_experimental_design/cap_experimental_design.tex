@@ -8,11 +8,11 @@ the main challenges that still remains is answering complex questions. Current a
 mostly on hand-crafted rules, achieving decent performance over simple questions (that only 
 require a few query triple patterns), but not for more complex questions. Complex questions are 
 difficult to handle mainly because they may be structured in a more elaborate way, and most of 
-them require the use of more advanced SPARQL operations (such as aggregations, ranking, or the 
+them require the use of more advanced \SPARQL{} operations (such as aggregations, ranking, or the 
 use of more complex graph patterns).
 
 Some recent approaches based on Neural Networks have shown some potential for handling more 
-complex questions. These Neural-based approaches usually aim to build the entire SPARQL query 
+complex questions. These Neural-based approaches usually aim to build the entire \SPARQL{} query 
 given a natural question, reducing the problem of Question Answering to Semantic Parsing. The 
 main weakness of these systems is that they are dependent on the vocabulary of the data used 
 for training such models, so even though these systems can generalize to different question 
@@ -40,9 +40,9 @@ required to improve the quality of the data used for training, validation and te
 the modules (Query Generation, Entity Linking, and Slot Filling) and the final end-to-end 
 Question Answering System. 
 
-First, we describe the revision and cleaning performed over the LC-QuAD 2 dataset, which is the 
-main source we use to train the Neural Network-based models. Second, we explain the SPARQL query 
-encoding used for the training of the Query Template generation and the baseline SPARQL Query 
+First, we describe the revision and cleaning performed over the \LCQuADtwo{} dataset, which is the 
+main source we use to train the Neural Network-based models. Second, we explain the \SPARQL{} query 
+encoding used for the training of the Query Template generation and the baseline \SPARQL{} Query 
 Generation models. Third, we describe the process for generating the Query Templates used for 
 training the Query Template generation model. Fourth, we describe the same process for the Slot 
 Filling dataset. Finally, we present the normalized dataset format which we designed to handle 
@@ -50,13 +50,13 @@ all the datasets used.
 
 \subsection{LC-QuAD 2 Dataset Cleaning}
 \label{cap4:experimentalDesign/QaDataset/cleaning}
-The LC-QuAD 2.0 dataset requires a cleaning process where some cases were discarded or fixed due 
-to various issues in either their question or SPARQL query answer. First we mention which cases 
+The \LCQuADtwo{} dataset requires a cleaning process where some cases were discarded or fixed due 
+to various issues in either their question or \SPARQL{} query answer. First we mention which cases 
 were discarded according to some problems found in their paraphrased or verbalized question. 
-Next, we describe which cases were discarded according to problems found in their SPARQL query. 
+Next, we describe which cases were discarded according to problems found in their \SPARQL{} query. 
 Since there are some queries with an easy fix, we explain briefly those cases. 
 
-Given that the questions contained in the LC-QuAD 2.0 dataset were built from a two-step 
+Given that the questions contained in the \LCQuADtwo{} dataset were built from a two-step 
 question correction (a verbalization and a later paraphrasing), each dataset case contains 
 three representations of the same question: a normalized question, a verbalized question and a 
 paraphrased question. An example is shown in Listing~\ref{lst:questionExampleLcquad2}. Since 
@@ -65,14 +65,13 @@ verbalization (e.g., the human that performed the verbalization didn’t underst
 question) or loss of the question’s semantics through the conversion from normalized to 
 paraphrased questions.
 
-\begin{lstlisting}[captionpos=b, 
-    caption=Example of questions contained in one case of the LC-QuAD 2 dataset., 
-    label=lst:questionExampleLcquad2,
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[%
+    caption={Example of questions contained in one case of the \LCQuADtwo{} dataset.}, 
+    label={lst:questionExampleLcquad2}]
 normalized question  -> Did {Alexander_Hamilton} {occupation} {lawyer}?
 verbalized question  -> Is Alexander Hamilton a lawyer?
 paraphrased question -> Did Alexander Hamilton practice law?
-\end{lstlisting}
+\end{sparqlcode}
 
 Since some cases may have issues on either the verbalized or the paraphrased question, we 
 decided to maintain a one-to-one correspondence between question and query. Although it would 
@@ -84,20 +83,20 @@ question as the case’s question. However, if the paraphrased question is not v
 verbalised question instead (if it is valid). A case is discarded if both the verbalised and 
 the paraphrased questions present an issue.
 
-To define if a question is an invalid verbalisation/paraphrase, the following issues are taken 
+To define if a question is an invalid verbalization/paraphrase, the following issues are taken 
 into account:
 
 \begin{enumerate}
-    \item Question is null, empty or not applicable (marked as “NA”). 
-    \item Question has not been corrected, e.g., it still contains brackets from the normalised 
-    question, or it is the same question as the normalised version without brackets.
-    \item The question contains the answer to the previous normalised or verbalised question 
-    instead of the verbalisation or paraphrasing, respectively. 
+    \item Question is null, empty or not applicable (marked as \dquotestt{NA}). 
+    \item Question has not been corrected, e.g., it still contains brackets from the normalized 
+    question, or it is the same question as the normalized version without brackets.
+    \item The question contains the answer to the previous normalized or verbalised question 
+    instead of the verbalization or paraphrasing, respectively. 
     \item The length of the actual version compared with the previous version is too long or too 
-    short, which for us is a way to identify issue 3 or an indicator of a question that did not 
-    aintain the semantic meaning of the previous version.
-    \item The question is too short or too long. We set a minimum of 4 tokens and a maximum of 
-    30, where each token is divided by whitespace characters.
+    short, which for us is a way to identify the third issue or an indicator of a question that 
+    did not maintain the semantic meaning of its previous version.
+    \item The question is either too short or too long. We set a minimum of 4 tokens and a 
+    maximum of 30, where each token is divided by whitespace characters.
 \end{enumerate}
 
 Note that given the large number of questions in the dataset, this validation was not performed 
@@ -105,23 +104,24 @@ manually but rather using a script to identify these issues as best as possible.
 may slip into the final preprocessed dataset, though we consider that as an acceptable amount of 
 noise.
 
-Other cases presented issues with their Wikidata SPARQL query, where either the query was 
+Other cases presented issues with their Wikidata \SPARQL{} query, where either the query was 
 empty/null, or contained invalid entities or tokens. An entity is considered invalid if it does 
 not present the common Wikidata pattern: a valid prefix (e.g. wd, wdt, etc) along with a valid 
-identifier, which always is composed by a Q and a number (e.g. Q80871). A few queries contained 
-invalid numbers such as \textit{“t1231“} which are corrected by removing the \textit{t}. Some 
-other queries presented syntax errors or had some clauses missing, which were corrected. Finally, 
-a simple canonicalization process was performed over the variable names in order to follow 
-similar conventions (e.g. use sbj and obj as base variable names).
+identifier, which always is composed by a \texttt{Q} and a number (e.g. \texttt{Q80871}). A few 
+queries contained invalid numbers such as \dquotestt{t1231} which are corrected by removing the 
+\textit{t}. Some other queries presented syntax errors or had some clauses missing, which were 
+corrected. Finally, a simple canonicalization process was performed over the variable names in 
+order to follow similar conventions (e.g. use \texttt{sbj} and \texttt{obj} as base variable 
+names).
 
 Aside from that, some cases were duplicated due to the observation that they contained the same 
-normalised question or the same SPARQL query. Those with the same normalised question but 
-different SPARQL queries were merged into one case, though just one SPARQL query is used later. 
-Other cases with the same SPARQL query (regardless of whether their normalised question is the 
+normalized question or the same \SPARQL{} query. Those with the same normalized question but 
+different \SPARQL{} queries were merged into one case, though just one \SPARQL{} query is used later. 
+Other cases with the same \SPARQL{} query (regardless of whether their normalized question is the 
 same or not) were discarded.
 
 % TODO: add explanation of complex cases
-In summary, from the 30,226 cases contained in the LC-QuAD 2.0 dataset, 2,520 cases were 
+In summary, from the 30,226 cases contained in the \LCQuADtwo{} dataset, 2,520 cases were 
 discarded: of these, 2,478 cases were discarded for having an invalid question or query, and 42 
 cases were duplicate cases. Note that 52\% of this final preprocessed dataset is composed of 
 complex questions (a deeper explanation of which cases are considered complex can be found in 
@@ -130,65 +130,63 @@ this work.
 
 \subsection{Query Template Dataset}
 \label{cap4:experimentalDesign/QaDataset/queryTemplate}
-From the cleaned LC-QuAD 2.0 dataset, a Query Template dataset was created for training the 
+From the cleaned \LCQuADtwo{} dataset, a Query Template dataset was created for training the 
 Query Template generator model. More specifically, a query template was inferred from each 
-SPARQL query by replacing every subject and object entity in the query with a placeholder. In 
+\SPARQL{} query by replacing every subject and object entity in the query with a placeholder. In 
 order to maintain some part of the semantic meaning of the entity that is being replaced, we 
 used different types of placeholder labels. For example, an entity that was the subject of the 
-first query triple will be replaced by a placeholder labeled as \textit{“sbj\_1”}. For numerical 
-or string values, the placeholder would be \textit{“num”} or \textit{“str\_value”}, respectively. 
+first query triple will be replaced by a placeholder labeled as \dquotestt{sbj\_1}. For numerical 
+or string values, the placeholder would be \dquotestt{num} or \dquotestt{str\_value}, respectively. 
 This is a different approach to generate query templates than the one followed by 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where instead they replaced entities by one-letter 
-names such as A, B or C. 
+names such as \texttt{A}, \texttt{B} or \texttt{C}. 
 
-\begin{lstlisting}[captionpos=b, 
-    caption=SPARQL query and its Query Template version., 
-    label=lst:queryTemplateExampleLcquad2,
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[%
+    caption={\SPARQL{} query and its Query Template version.}, 
+    label={lst:queryTemplateExampleLcquad2}]
 # SPARQL Query
 SELECT ?obj WHERE { wd:Q14752155 wdt:P19 ?obj }
 
 # Query Template
 SELECT ?obj WHERE { <sbj_1> wdt:P19 ?obj }
-\end{lstlisting}
+\end{sparqlcode}
 
-An example can be seen in Listing~\ref{lst:queryTemplateExampleLcquad2}, where in the SPARQL 
-query for the question \textit{“Where was Pedro Pascal born?”} the entity Q14752155 from Pedro 
-Pascal was replaced for the sbj\_1 placeholder. All queries from the cleaned dataset were able 
-to be transformed into their query template version.
+An example can be seen in Listing~\ref{lst:queryTemplateExampleLcquad2}, where in the \SPARQL{} 
+query for the question \dquotesit{Where was Pedro Pascal born?} the entity \texttt{Q14752155} 
+from Pedro Pascal was replaced for the \texttt{sbj\_1} placeholder. All queries from the cleaned dataset 
+were able to be transformed into their query template version.
 
 \subsection{Sequence Labeling Dataset}
 \label{cap4:experimentalDesign/QaDataset/queryTemplate}
 In order to train the Sequence Labeling model from the Slot Filling module, a dataset was 
 needed. As per the Query Template dataset, the Slot Labeling dataset is based on the cleaned 
-LC-QuAD 2 dataset. The creation of this dataset is divided into two stages. 
+\LCQuADtwo{} dataset. The creation of this dataset is divided into two stages. 
 
 The first stage consists of identifying the entity-label mapping in terms of which part of the 
-question corresponds to each entity from the ones contained in the SPARQL query. In the example 
-of \textit{“Where was Pedro Pascal born?”}, the label \textit{“Pedro Pascal”} contained in the 
-question should correspond to the entity Q14752155 corresponding to the Chilean actor Pedro 
+question corresponds to each entity from the ones contained in the \SPARQL{} query. In the example 
+of \dquotesit{Where was Pedro Pascal born?}, the label \dquotesit{Pedro Pascal} contained in the 
+question should correspond to the entity \texttt{Q14752155} corresponding to the Chilean actor Pedro 
 Pascal. 
 
 In the second stage, the labels identified previously are associated with the placeholders used 
-for the creation of the Query Template. In this case, the placeholder sbj\_1 shown in Listing X 
-was corresponding to the entity Q14752155, therefore the label \textit{“Pedro Pascal”} will be 
-associated with the placeholder sbj\_1. We use the BIO label format as the output format for the
-Sequence Tagger, as shown in Listing~\ref{lst:sequenceLabelingExampleLcquad2} (the '?' is 
-ignored).
+for the creation of the Query Template. In this case, the placeholder \texttt{sbj\_1} shown in 
+Listing~\ref{lst:sequenceLabelingExampleLcquad2} corresponds to the entity \texttt{Q14752155}, 
+therefore the label \dquotesit{Pedro Pascal} will be associated with the placeholder \texttt{sbj\_1}. 
+We use the BIO label format as the output format for the Sequence Tagger, as shown in 
+Listing~\ref{lst:sequenceLabelingExampleLcquad2} (the \squotestt{?} is ignored).
 
-\begin{lstlisting}[captionpos=b, 
-    caption=BIO label representation for a Natural Language Question., 
-    label=lst:sequenceLabelingExampleLcquad2,
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[%
+    caption={BIO label representation for a Natural Language Question.}, 
+    label={lst:sequenceLabelingExampleLcquad2}]
 # NL Question
 Where was Pedro Pascal born ?
 
 # Expected label output
 O O B-sbj_1 B-sbj_1 O
-\end{lstlisting}
+\end{sparqlcode}
 
-Some labels weren’t able to be associated with their corresponding placeholders due to the 
-question rephrasing performed over the LC-QuAD. The main issue was the discrepancy between the 
+Some labels were not able to be associated with their corresponding placeholders due to the 
+question rephrasing performed over the \LCQuADtwo{} dataset. The main issue was the discrepancy between the 
 Wikidata label associated with an entity, and its current label in the question (which may be 
 modified due to the rephrasing). To compensate for the loss of information we decided to add 
 both verbalised and paraphrased valid cases. This gives us 36,854 valid cases from the 52,853 
@@ -198,9 +196,9 @@ initial cases (counting for each case its verbalised and paraphrased version), w
 \subsection{Final Dataset Format}
 \label{cap4:experimentalDesign/QaDataset/finalFormat}
 After extracting the query templates, the entities, and their entity/placeholder slots, a final 
-LC-QuAD 2 dataset was built containing all this information. In summary, each case possesses a 
-question identifier, the question string, a Wikidata SPARQL query, their entities with the 
-corresponding label, a query template deduced from the SPARQL query, and a mapping between the 
+\LCQuADtwo{} dataset was built containing all this information. In summary, each case possesses a 
+question identifier, the question string, a Wikidata \SPARQL{} query, their entities with the 
+corresponding label, a query template deduced from the \SPARQL{} query, and a mapping between the 
 entity labels and the query template placeholders. 
 
 We proposed a normalized format and delivered a dataset that not only can be used to evaluate 
@@ -213,9 +211,9 @@ found in Appendix B.
 The system implementation was divided into three main modules which represent each stage 
 described in the \textit{System Overview} chapter: Query Generation, Entity Linking, and Slot 
 Filling. These modules were assembled in our proposed Question Answering system, which receives 
-a Natural Language question as an input, and returns a Wikidata SPARQL query that can be executed 
+a Natural Language question as an input, and returns a Wikidata \SPARQL{} query that can be executed 
 on the Wikidata service endpoint as an output. The Question Answering system only returns a valid 
-SPARQL query; otherwise, if one cannot be computed, it will return nothing.
+\SPARQL{} query; otherwise, if one cannot be computed, it will return nothing.
 
 The implementation of the two variants on the Query Generation module (SPARQL Query Generator 
 and Query Template Generator) was divided into two stages. First the models were trained on 
@@ -226,7 +224,7 @@ Fairseq Model subsection in the \textit{System Overview} chapter (we recall that
 the best performance in the comparison of Yin et al.~\cite{nmt:nl-to-sparql-Yin19}). After the 
 training phase, a Fairseq Wrapper was implemented in order to import the models and perform the 
 prediction over new data. These wrappers receive the NL question as the input and can return 
-either the best predicted sequence, or a list with the best N predictions (where N can be a 
+either the best predicted sequence, or a list with the best $N$ predictions (where $N$ can be a 
 number defined by the user).
 
 The various individual Entity Linking systems (DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, 
@@ -245,7 +243,7 @@ Sequence Tagger from the Flair framework\footnote{\url{https://github.com/flairN
 the setting described in the \textit{System Overview} chapter. Then, a Flair wrapper was 
 implemented to import the Sequence Labeling model and perform the tagging over new data. This 
 wrapper was used to implement the Slot Filling system, where the input consists of an NL question, 
-a SPARQL Template, and the Entity Linking annotations. Then, the output is a SPARQL query built 
+a Query Template, and the Entity Linking annotations. Then, the output is a \SPARQL{} query built 
 from the given set of values, only if the Slot Filling is successful.
 
 The entire system was implemented using Python 3.6. The implementation and the datasets used can 
@@ -265,7 +263,7 @@ Filling) and the end-to-end QA system overall.
 As a summary, the datasets that are used to perform the experiments are the following:
 
 \begin{itemize}
-    \item LC-QuAD 2~\cite{dataset:lcquad2-DubeyBA019} (cleaned version), which contains 27,706 
+    \item \LCQuADtwo{}~\cite{dataset:lcquad2-DubeyBA019} (cleaned version), which contains 27,706 
     questions over Wikidata (from the original 30,000) that are divided into a training set and 
     a validation set in a ratio of 80/20. The training set is only used to train the Query 
     Generator models and the Sequence Tagger model. The validation set is used to evaluate the 
@@ -273,14 +271,14 @@ As a summary, the datasets that are used to perform the experiments are the foll
     guarantees that all the Wikidata properties are included in at least one case in the 
     training set, thus giving the possibility to a Query Template Generator model to learn from 
     all properties contained in the dataset.
-    \item QALD-7~\cite{dataset:qald7-UsbeckNHKRN17}, which is divided into a training set (100 
+    \item \QALDseven{}~\cite{dataset:qald7-UsbeckNHKRN17}, which is divided into a training set (100 
     cases) and a test set (50 cases) for Wikidata. Since neither of these datasets are used for 
     training in our experiments, both splits are merged to be used as one dataset to evaluate 
-    the performance of the end-to-end QA system and some of its modules. Note that some LC-QuAD 2 
-    templates are based on QALD-7 cases.
-    \item WikiSPARQL, which is a novel dataset generated in this work with the objective of 
+    the performance of the end-to-end QA system and some of its modules. Note that some \LCQuADtwo{} 
+    templates are based on \QALDseven{} cases.
+    \item \WikiSPARQL{}, which is a novel dataset generated in this work with the objective of 
     measuring how capable our system is to generalize to cases that are not necessarily based on 
-    the templates used in the LC-QuAD 2 dataset. This dataset consists of 100 cases of manually 
+    the templates used in the \LCQuADtwo{} dataset. This dataset consists of 100 cases of manually 
     created questions over Wikidata, and is used to evaluate the performance of the end-to-end 
     QA system and its modules.
 \end{itemize}
@@ -292,9 +290,9 @@ An overview of the each datasets used in this work can be see in Table 1.
     \begin{tabular}{|l|l|l|l|l|}
     \hline
     \textbf{Dataset} & \textbf{Size} & \textbf{Entities} & \textbf{Properties} & \textbf{Type} \\ \hline
-    LC-QuAD 2        & 27,706        & 21,151            & 4,447               & Tran/Valid    \\ \hline
-    QALD-7           & 150           & 178               & 100                 & Test          \\ \hline
-    WikiSPARQL       & 100           & 132               & 86                  & Test          \\ \hline
+    \LCQuADtwo{}        & 27,706        & 21,151            & 4,447               & Tran/Valid    \\ \hline
+    \QALDseven{}           & 150           & 178               & 100                 & Test          \\ \hline
+    \WikiSPARQL{}       & 100           & 132               & 86                  & Test          \\ \hline
     \end{tabular}
     \caption{Comparison of Wikidata datasets used for experiments.}
     \label{table:datasetsOverview}
@@ -302,14 +300,14 @@ An overview of the each datasets used in this work can be see in Table 1.
 
 \subsection{Query Template Generation}
 \label{cap4:experimentalDesign/queryTemplateGeneration}
-The Query Template Generator is trained using the LC-QuAD training set, and is evaluated over 
+The Query Template Generator is trained using the \LCQuADtwo{} training set, and is evaluated over 
 the training and validation datasets using Perplexity, and BLEU score. Then, the model is 
-evaluated over the LC-QuAD validation, QALD-7 and WikiSPARQL datasets using BLEU score and 
+evaluated over the \LCQuADtwo{} validation, \QALDseven{} and \WikiSPARQL{} datasets using BLEU score and 
 string-match accuracy.
 
 The only point of reference for this model is to use the Baseline Query Generator model, and 
 evaluate which one of the two better predicts which Query Template corresponds for each case. 
-The way this comparison can be done is to take the Baseline SPARQL query output, and convert it 
+The way this comparison can be done is to take the Baseline's \SPARQL{} query output, and convert it 
 into its Query Template version by removing the Wikidata entities that the query contains.
 
 \subsection{Entity Linking}
@@ -324,13 +322,13 @@ configurations described in the \textit{System Overview} chapter.
 
 The performance of each Entity Linking system is measured using Precision, Recall and F1-score 
 over their output annotations. Both macro and micro measures are used. First, IEL systems are 
-evaluated over the LC-QuAD 2 validation set in order to select the priority that each IEL system 
+evaluated over the \LCQuADtwo{} validation set in order to select the priority that each IEL system 
 will have for the EEL systems. The priority is determined by comparing the IEL systems’ precision, 
 so an IEL system with higher Precision will have higher priority. Then, EEL systems are also 
-evaluated over the LC-QuAD 2 validation set. After that, both EEL and IEL are evaluated over 
-QALD-7 and our WikiSPARQL datasets.
+evaluated over the \LCQuADtwo{} validation set. After that, both EEL and IEL are evaluated over 
+\QALDseven{} and our \WikiSPARQL{} datasets.
 
-As a point of reference we calculate the best scenario for an EEL system with an \textit{“oracle”}, 
+As a point of reference we calculate the best scenario for an EEL system with an \dquotes{oracle}, 
 where given the results from the IEL systems, the EEL system is capable of choosing only the 
 correct entities. Note that if there is any correct entity that is not recognized for any of the 
 IEL systems, the EEL system itself will not be able to deliver that entity as part of the output 
@@ -344,9 +342,9 @@ will refer to this best EEL system scenario, as the Oracle Entity Linking system
 The Slot Filling system is evaluated in two phases: evaluation over the Sequence Tagger 
 performance, and evaluation over the Slot Filling algorithm. 
 
-First, the Sequence Tagger model is trained using the LC-QuAD 2 training set, and is evaluated 
+First, the Sequence Tagger model is trained using the \LCQuADtwo{} training set, and is evaluated 
 using Precision, Recall, and F1-score over the output labels. Then, the model is evaluated over 
-the LC-QuAD 2 validation, QALD-7 and WikiSPARQL datasets using the same metrics.
+the \LCQuADtwo{} validation, \QALDseven{} and \WikiSPARQL{} datasets using the same metrics.
 
 After that, the Slot Filling system is evaluated in terms of how the filling process is performed. 
 Then, using the results obtained from the \textit{Query Template Generation} and the 
@@ -358,7 +356,7 @@ incorrect output, and so on).
 \label{cap4:experimentalDesign/QAKG}
 The evaluation of the overall QA system is performed using two approaches: the traditional 
 approach of evaluating answers given by the system~\cite{qa:qald-Lopezetal2013}, and (as used by 
-many Neural-based systems) the approach of evaluating the SPARQL query 
+many Neural-based systems) the approach of evaluating the \SPARQL{} query 
 returned~\cite{nmt:nl-to-sparql-Yin19}. The baseline for both approaches is the SPARQL Query 
 generator based on the ConvS2S model that performs the best among the Neural-based models 
 according to the Ying et al.’s work~\cite{nmt:nl-to-sparql-Yin19}.
@@ -368,27 +366,27 @@ Recall and F1-score over the system’s answers. This approach values more the f
 system, regardless of how it was retrieved. The second approach consists of evaluating the 
 performance of the QA system using BLEU score and string-match accuracy. This last approach 
 values more the query string used to generate the answer, and how close it is for the expected 
-query. Both approaches are evaluated over the LC-QuAD 2 validation set, QALD-7, and WikiSPARQL.
+query. Both approaches are evaluated over the \LCQuADtwo{} validation set, \QALDseven{}, and \WikiSPARQL{}.
 
 Aside from a general performance evaluation, we study the performance of the system considering 
-not only the best SPARQL query answer, but the five SPARQL queries with the highest scores given 
+not only the best \SPARQL{} query answer, but the five \SPARQL{} queries with the highest scores given 
 by the system. This can be performed given that the Query Template Generator is capable of 
 returning a list of templates. We believe that this is an interesting analysis given that a 
 possible heuristic to improve the system performance is to look for the correct answer by trying 
-more than one possible SPARQL query, which would work particularly well under the assumption 
-that the input question indeed has some answer, and that many of the incorrect SPARQL query 
-outputs will not generate answers. This analysis is evaluated over the LC-QuAD 2 validation set, 
-QALD-7, and WikiSPARQL.
+more than one possible \SPARQL{} query, which would work particularly well under the assumption 
+that the input question indeed has some answer, and that many of the incorrect \SPARQL{} query 
+outputs will not generate answers. This analysis is evaluated over the \LCQuADtwo{} validation set, 
+\QALDseven{}, and \WikiSPARQL{}.
 
-Then, in order to understand which components of a question and its SPARQL query influence the 
+Then, in order to understand which components of a question and its \SPARQL{} query influence the 
 QA system performance more, an evaluation per template is performed. The same evaluation over 
-the entire dataset is split into partitions corresponding to each LC-QuAD 2 base template. Given 
-that only LC-QuAD 2 is a template-based dataset, this analysis is only performed over that 
+the entire dataset is split into partitions corresponding to each \LCQuADtwo{} base template. Given 
+that only \LCQuADtwo{} is a template-based dataset, this analysis is only performed over that 
 dataset.
 
 Finally, a more granular analysis is conducted in order to understand how much each stage 
 influences the overall results. We compare the correct and incorrect cases of each module (Query 
 Template generation, Entity Linking, and Slot Filling) with the correct/incorrect cases of the 
 QA system, and calculate the ratio of error of each module and how much each one of them 
-contributes to the overall error the QA system has. This analysis is evaluated over the LC-QuAD 2 
-validation set, QALD-7, and WikiSPARQL.
+contributes to the overall error the QA system has. This analysis is evaluated over the \LCQuADtwo{} 
+validation set, \QALDseven{}, and \WikiSPARQL{}.

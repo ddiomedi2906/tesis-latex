@@ -243,6 +243,7 @@
 \newcommand{\QALDseven}{\texttt{QALD-7}}
 \newcommand{\LCQuADone}{\texttt{LC-QuAD 1}}
 \newcommand{\LCQuADtwo}{\texttt{LC-QuAD 2}}
+\newcommand{\WikiSPARQL}{\texttt{WikiSPARQL}}
 
 \newcommand{\squotes}[1]{{`#1'}}
 \newcommand{\squotesit}[1]{\textit{`#1'}}
