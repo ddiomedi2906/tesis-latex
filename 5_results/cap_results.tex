@@ -16,9 +16,9 @@ of the model with the lowest loss value over the validation set.
     \centering
     \begin{tabular}{|c|cc|cc|}
         \hline
-        \multirow{3}{*}{System} & \multicolumn{2}{c|}{LC-QuAD 2 (train)}       & \multicolumn{2}{c|}{LC-QuAD 2 (valid)}       \\ \cline{2-5} 
-                                & \multicolumn{2}{c|}{Size: 21,394}            & \multicolumn{2}{c|}{Size: 5,772}             \\ \cline{2-5} 
-                                & \multicolumn{1}{c|}{Perplexity} & BLEU score & \multicolumn{1}{c|}{Perplexity} & BLEU score \\ \hline
+        \multirow{3}{*}{\textbf{System}} & \multicolumn{2}{c|}{\textbf{LC-QuAD 2 (train)}}       & \multicolumn{2}{c|}{\textbf{LC-QuAD 2 (valid)}}       \\ \cline{2-5} 
+                                & \multicolumn{2}{c|}{\textbf{Size: 21,394}}            & \multicolumn{2}{c|}{\textbf{Size: 5,772}}             \\ \cline{2-5} 
+                                & \multicolumn{1}{c|}{\textbf{Perplexity}} & \textbf{BLEU score} & \multicolumn{1}{c|}{\textbf{Perplexity}} & \textbf{BLEU score} \\ \hline
         ConvS2S                 & 1.17                            & 91.88      & 1.47                            & 73.42      \\ \hline
     \end{tabular}
     \caption{Perplexity and BLEU score after training the ConvS2S model.}
@@ -26,14 +26,14 @@ of the model with the lowest loss value over the validation set.
 \end{table}
 
 Table~\ref{table:queryTemplateResults} shows the results of the Query Template task evaluated 
-over the LC-QuAD 2 validation dataset and the other two test datasets. We include the results of 
-the Query Template generator which uses the trained ConvS2S model over LC-QuAD 2 data. Aside 
+over the \LCQuADtwo{} validation dataset and the other two test datasets. We include the results of 
+the Query Template generator which uses the trained ConvS2S model over \LCQuADtwo{} data. Aside 
 from the evaluation over the best predicted query template, we also include an evaluation over 
 the best prediction among the top 5 predictions. We consider the best prediction as the one with 
 the highest BLEU score if compared with the expected answer. The baseline is the ConvS2S model 
 trained over complete SPARQL queries (as done by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}), but 
 adding an extra layer that removes the entities from the output SPARQL queries, in a similar way 
-as was done for generating the actual LC-QuAD 2 Query Template dataset. The training results of 
+as was done for generating the actual \LCQuADtwo{} Query Template dataset. The training results of 
 the baseline are shown later in this chapter.
 
 \begin{table}[h!]
@@ -41,9 +41,9 @@ the baseline are shown later in this chapter.
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{|c|cc|cc|cc|}
     \hline
-    \multirow{3}{*}{System} & \multicolumn{2}{c|}{LC-QuAD 2 (valid)}          & \multicolumn{2}{c|}{QALD-7}                     & \multicolumn{2}{c|}{WikiSPARQL}                 \\ \cline{2-7} 
-                            & \multicolumn{2}{c|}{Size: 21,394}               & \multicolumn{2}{c|}{Size: 5,772}                & \multicolumn{2}{c|}{Size: 100}                  \\ \cline{2-7} 
-                            & \multicolumn{1}{c|}{BLEU score} & Accuracy (\%) & \multicolumn{1}{c|}{BLEU score} & Accuracy (\%) & \multicolumn{1}{c|}{BLEU score} & Accuracy (\%) \\ \hline
+    \multirow{3}{*}{\textbf{System}} & \multicolumn{2}{c|}{\textbf{LC-QuAD 2 (valid)}}          & \multicolumn{2}{c|}{\textbf{QALD-7}}                     & \multicolumn{2}{c|}{\textbf{WikiSPARQL}}                 \\ \cline{2-7} 
+                            & \multicolumn{2}{c|}{\textbf{Size: 21,394}}               & \multicolumn{2}{c|}{\textbf{Size: 5,772}}                & \multicolumn{2}{c|}{\textbf{Size: 100}]}                  \\ \cline{2-7} 
+                            & \multicolumn{1}{c|}{\textbf{BLEU score}} & \textbf{Accuracy (\%)} & \multicolumn{1}{c|}{\textbf{BLEU score}} & \textbf{Accuracy (\%)} & \multicolumn{1}{c|}{\textbf{BLEU score}} & \textbf{Accuracy (\%)} \\ \hline
     QTG - Top 1             & 65.18                           & 34.27         & 20.29                           & 0             & 20.12                           & 0             \\
     QTG - Top 5             & 76.86                           & 49.53         & 22.58                           & 0.67          & 23.1                            & 0             \\ \hline
     Baseline                & 63.06                           & 29.82         & 19.72                           & 0.67          & 20.31                           & 0             \\ \hline
@@ -55,8 +55,8 @@ the baseline are shown later in this chapter.
 
 According to the results of Tables \ref{table:queryTemplateTraining} and \ref{table:queryTemplateResults}, 
 we see that the Query Template generation has a better performance than the Baseline in both 
-BLEU score and accuracy. If we look at the best 5 for the LC-QuAD 2 validation dataset, we find 
-there are better results. On the other hand, we see that the models trained on the LC-QuAD 2 
+BLEU score and accuracy. If we look at the best 5 for the \LCQuADtwo{} validation dataset, we find 
+there are better results. On the other hand, we see that the models trained on the \LCQuADtwo{} 
 training set do not generalize well to other datasets.
 
 % Please add the following required packages to your document preamble:
@@ -101,7 +101,7 @@ training set do not generalize well to other datasets.
 
 Finally, we present in Table 3 a more granular comparison between our proposed Query Template 
 generator and the baseline by dividing the results into the 22 base templates used for generating 
-the LC-QuAD 2 dataset (more details on each base template can be found in 
+the \LCQuADtwo{} dataset (more details on each base template can be found in 
 Appendix~\ref{appendix:qaDataset}). We note that, even though our Query Template generator 
 performs better in many cases, there are some others where the Baseline performs better. A 
 possible explanation for this difference is that the Baseline still maintains an advantage in 
@@ -116,7 +116,7 @@ generating Query Templates as it does for SPARQL query generation, obtaining sco
 accuracy equal or greater than the ones obtained from the baseline. On the other side, we still 
 identified a certain degree of overfitting in the model (similar to the results obtained by 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19}), thus not being able to perform well on the proposed 
-test datasets (QALD-7 and WikiSPARQL). However, we think the metric used for measuring 
+test datasets (\QALDseven{} and \WikiSPARQL{}). However, we think the metric used for measuring 
 performance here (BLEU score and accuracy) do not quantify the equivalences between query 
 templates properly. For example, queries in the test data could have a different ordering in 
 their query triples than the generator uses to build query templates.
@@ -124,7 +124,7 @@ their query triples than the generator uses to build query templates.
 \section{Entity Linking}
 \label{cap5:results/entityLinking}
 First, we calculate the performance of each Individual Entity Linking (IEL) system over the 
-validation LC-QuAD 2 dataset. These results were used to determine the priority each IEL system 
+validation \LCQuADtwo{} dataset. These results were used to determine the priority each IEL system 
 will have when being used by the Ensemble Entity Linking (EEL) systems. As mentioned before, the 
 priority of each IEL system is determined by their precision results where more precise systems 
 have higher priority. Therefore, according to the results in Table~\ref{table:ielResultsLcquad2}, 
@@ -147,7 +147,7 @@ the priority used is the following: Aida, OpenTapioca, TAGME, and DBpedia Spotli
     DBpedia Spotlight                & 52.7                                 & 20.8                                    & 29.9              & 52.5                                 & 23.3                                    & 30.8              \\ \hline
     \end{tabular}%
     }
-    \caption{Performance of the Individual Entity Linking systems over LC-QuAD 2 validation.}
+    \caption{Performance of the Individual Entity Linking systems over \LCQuADtwo{} validation.}
     \label{table:ielResultsLcquad2}
     \end{table}
 
@@ -166,7 +166,7 @@ result given the results of the IEL systems.
 
 Various variants for both EEL systems are shown in Table~\ref{table:eelResultsLcquad2}, where we 
 tried different combinations of the proposed heuristics. Here we evaluate the results over the 
-LC-QuAD 2 validation dataset, resulting in the Voting system having a slight better performance 
+\LCQuADtwo{} validation dataset, resulting in the Voting system having a slight better performance 
 for most variations. 
 
 % Please add the following required packages to your document preamble:
@@ -193,7 +193,7 @@ for most variations.
     \multicolumn{4}{|c|}{Baseline: Oracle system}                                                                                                                                                                                                                                            & 68.6                                 & 70.4                                    & 69.5              & 68.4                                 & 68.4                                    & 68.4              \\ \hline
     \end{tabular}%
     }
-    \caption{Results of the Ensemble Entity Linking systems over LC-QuAD 2 validation.}
+    \caption{Results of the Ensemble Entity Linking systems over \LCQuADtwo{} validation.}
     \label{table:eelResultsLcquad2}
 \end{table}
 
@@ -235,7 +235,7 @@ while slightly degrading recall.
     Oracle system                    & 74.4                                 & 76.2                                    & 75.3              & 76.6                                 & 76.8                                    & 76.6              \\ \hline
     \end{tabular}%
     }
-    \caption{ Results of the Entity Linking systems over QALD-7 (train+test).}
+    \caption{ Results of the Entity Linking systems over \QALDseven{} (train+test).}
     \label{table:elResultsQald7}
 \end{table}
 
@@ -263,14 +263,14 @@ while slightly degrading recall.
     Oracle system                                          & 75.3                                 & 76.4                                    & 75.8                                   & 76.5                                 & 76.7                                    & 76.6                                   \\ \hline
     \end{tabular}%
     }
-    \caption{Results of the Entity Linking systems over our proposed WikiSPARQL dataset.}
+    \caption{Results of the Entity Linking systems over our proposed \WikiSPARQL{} dataset.}
     \label{table:elResultsWikiSparql}
 \end{table}
 
-Finally, we evaluate both IEL systems and EEL systems over the test datasets: QALD-7, and our 
-proposed WikiSPARQL dataset. For each EEL system we include the three variants in output size
+Finally, we evaluate both IEL systems and EEL systems over the test datasets: \QALDseven{}, and our 
+proposed \WikiSPARQL{} dataset. For each EEL system we include the three variants in output size
 used for Table~\ref{table:eelResultsLcquad2}. Tables~\ref{table:elResultsQald7} and \ref{table:elResultsWikiSparql} 
-display the result for the QALD-7, and WikiSPARQL, respectively.
+display the result for the \QALDseven{}, and \WikiSPARQL{}, respectively.
 
 From the results of Tables ~\ref{table:elResultsQald7} and \ref{table:elResultsWikiSparql} we can 
 see that overall the Voting system is the system with the best F1 score. The EEL system variants 
@@ -296,7 +296,7 @@ language question.
     \hline
     \multirow{2}{*}{\textbf{Dataset}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Number \\ of cases\end{tabular}}} & \multicolumn{3}{c|}{\textbf{Micro}}                                                                         & \multicolumn{3}{c|}{\textbf{Macro}}                                                                         \\ \cline{3-8} 
                                       &                                                                                      & \multicolumn{1}{c|}{\textbf{Recall}} & \multicolumn{1}{c|}{\textbf{Precision}} & \textbf{F1-score} & \multicolumn{1}{c|}{\textbf{Recall}} & \multicolumn{1}{c|}{\textbf{Precision}} & \textbf{F1-score} \\ \hline
-    LC-QuAD 2.0 (valid)               & 5772                                                                                 & 66.9                                 & 62.0                                    & 64.4              & 66.9                                 & 63.8                                    & 64.8              \\
+    LC-QuAD 2 (valid)               & 5772                                                                                 & 66.9                                 & 62.0                                    & 64.4              & 66.9                                 & 63.8                                    & 64.8              \\
     QALD-7                            & 150                                                                                  & 43.6                                 & 37.0                                    & 40.0              & 45.3                                 & 45.4                                    & 44.8              \\
     WikiSPARQL                        & 100                                                                                  & 29.8                                 & 22.7                                    & 25.8              & 31.8                                 & 30.9                                    & 31.0              \\ \hline
     \end{tabular}%
@@ -327,7 +327,7 @@ Query generation} section.
     \hline
     \multirow{2}{*}{\textbf{Dataset}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Number \\ of cases\end{tabular}}} & \multicolumn{3}{c|}{\textbf{Micro}}                                                                         & \multicolumn{3}{c|}{\textbf{Macro}}                                                                         \\ \cline{3-8} 
                                       &                                                                                      & \multicolumn{1}{c|}{\textbf{Recall}} & \multicolumn{1}{c|}{\textbf{Precision}} & \textbf{F1-score} & \multicolumn{1}{c|}{\textbf{Recall}} & \multicolumn{1}{c|}{\textbf{Precision}} & \textbf{F1-score} \\ \hline
-    LC-QuAD 2.0 (valid)               & 5772                                                                                 & 45.7                                 & 61.4                                    & 52.4              & 46.7                                 & 54.2                                    & 49.2              \\
+    LC-QuAD 2 (valid)               & 5772                                                                                 & 45.7                                 & 61.4                                    & 52.4              & 46.7                                 & 54.2                                    & 49.2              \\
     QALD-7                            & 150                                                                                  & 27.9                                 & 52.6                                    & 36.4              & 35.2                                 & 39.0                                    & 36.3              \\
     WikiSPARQL                        & 100                                                                                  & 13.2                                 & 26.3                                    & 17.6              & 19.8                                 & 22.3                                    & 20.5              \\ \hline
     \end{tabular}%
@@ -346,7 +346,7 @@ Query generation} section.
     \hline
     \multirow{2}{*}{\textbf{Dataset}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Number \\ of cases\end{tabular}}} & \multicolumn{3}{c|}{\textbf{Micro}}                                                                         & \multicolumn{3}{c|}{\textbf{Macro}}                                                                         \\ \cline{3-8} 
                                       &                                                                                      & \multicolumn{1}{c|}{\textbf{Recall}} & \multicolumn{1}{c|}{\textbf{Precision}} & \textbf{F1-score} & \multicolumn{1}{c|}{\textbf{Recall}} & \multicolumn{1}{c|}{\textbf{Precision}} & \textbf{F1-score} \\ \hline
-    LC-QuAD 2.0 (valid)               & 5772                                                                                 & 49.2                                 & 51.0                                    & 50.1              & 50.3                                 & 52.7                                    & 50.5              \\
+    LC-QuAD 2 (valid)               & 5772                                                                                 & 49.2                                 & 51.0                                    & 50.1              & 50.3                                 & 52.7                                    & 50.5              \\
     QALD-7                            & 150                                                                                  & 39.2                                 & 31.3                                    & 32.1              & 40.8                                 & 34.0                                    & 35.9              \\
     WikiSPARQL                        & 100                                                                                  & 17.0                                 & 16.5                                    & 16.7              & 20.6                                 & 16.8                                    & 17.7              \\ \hline
     \end{tabular}%
@@ -389,7 +389,7 @@ Yin et al~\cite{nmt:nl-to-sparql-Yin19}, where there is notable overfitting for 
 Next, the results of the Entity Linking Neural Question Answering (ElNeuQA) system proposed in 
 this work are displayed in Table~\ref{table:queryGenerationResults}. In this case, we try four 
 different variants where we chose the best variant of both PPrior and Voting systems and both 
-slot filling methods. These variations are tested over the LC-QuAD 2 validation dataset. We also 
+slot filling methods. These variations are tested over the \LCQuADtwo{} validation dataset. We also 
 output results picking best among the top 5 predicted results per case over both variants that 
 utilized the Force filling method. In this context, the criteria to select the best results is 
 the answer with the highest BLEU score when comparing to the expected answer.
@@ -420,7 +420,7 @@ the answer with the highest BLEU score when comparing to the expected answer.
     \label{table:queryGenerationResults}
 \end{table}
 
-The results obtained for LC-QuAD 2 do not transfer to the other test datasets. As seen in 
+The results obtained for \LCQuADtwo{} do not transfer to the other test datasets. As seen in 
 Table~\ref{table:queryGenerationTestResults}, our system is not capable of generalizing the results 
 obtained from training over other types of datasets given that the type of queries contained in 
 test datasets are not based on template generation, thus making it difficult to generate an exact 
@@ -447,7 +447,7 @@ executed), and the way we are evaluating these results does not consider SPARQL 
 
 The same analysis per template performed over the Query Template generation task are done for the 
 SPARQL query generation task. In Table~\ref{table:queryGenerationComparison} the results in terms 
-of accuracy are displayed for each LC-QuAD 2 base template. We see that there are more cases than 
+of accuracy are displayed for each \LCQuADtwo{} base template. We see that there are more cases than 
 before where our proposed system performed better than the Baseline, especially due to the 
 inability of the latter system to generate a single valid query for some templates. Among those 
 cases, the ask one fact template is the most noticeable case since it should be the simplest one. 
@@ -589,7 +589,7 @@ non-empty answer (True or False).
 
 \newpage
 
-Finally, an analysis over the different LC-QuAD 2 templates is presented in Table~\ref{table:qakgMacroF1Diff}. 
+Finally, an analysis over the different \LCQuADtwo{} templates is presented in Table~\ref{table:qakgMacroF1Diff}. 
 We noticed that our proposal does better in almost every case compared with the baseline. The 
 cases with the best performance include templates like \texttt{ASK} queries, \texttt{SELECT} 
 queries that include property statements and qualifiers. 
