@@ -151,7 +151,7 @@ boost training time, many variants of gradient descent have been proposed such a
 gradient descent or mini-batch gradient descent~\cite{appendix:lecun1998efficient}.
 
 Another issue related with bad performance is \textbf{overfitting}, which causes the network 
-not to be able to generalise properly since it \textit{“memorizes”} the data from the training 
+not to be able to generalise properly since it \dquotesit{memorizes} the data from the training 
 dataset. One way to see if a model is overfitted is to check the loss function values 
 evolution over the training process for the training and the test set: if the loss for the 
 test is not decreasing but instead increasing while the loss for the training set is 
@@ -171,7 +171,7 @@ amount of training steps. Then, the loss values for the validation steps are use
 when to stop training. For example, Figure~\ref{fig:earlyStopppingExample} shows the losses 
 over all three data sets (train, validation, test) through the training process Then, we can 
 detect that the best weight values are found just before the validation loss stops its 
-decreasing tendency and start increasing again (where the “best” stripped vertical line is 
+decreasing tendency and start increasing again (where the \dquotes{best} stripped vertical line is 
 placed). There are other techniques to reduce overfitting known as regularizers based on 
 input noise~\cite{appendix:an1996effects, appendix:koistinen1991kernel, appendix:bishop1995neural} 
 or weight noise~\cite{appendix:murray1994enhanced,appendix:jim1996analysis}.
@@ -192,7 +192,7 @@ Note that the validation set and test set have to be standardised using the same
 used for the training set. 
 
 Another procedure is \textbf{weight initialisation}, which helps gradient descent to 
-\textit{“break symmetry”} between units~\cite{appendix:lecun1998efficient} and avoid training 
+\dquotes{break symmetry} between units~\cite{appendix:lecun1998efficient} and avoid training 
 divergence. Weight initialisation then is to initialise weights with either a random 
 distribution in the range of small values or a Gaussian distribution with mean 0 and 
 standard deviation 0.1.
@@ -206,7 +206,7 @@ Recurrent Neural Networks and Convolutional Neural Networks.
 A Recurrent Neural Network (RNN) is a generalization of traditional feedforward Neural 
 Networks that allows cyclical connections~\cite{seqlab:Graves2012-385}. While MLPs can only 
 map from input to output vectors, RNNs can map the entire history of previous inputs to an 
-output. Hence, RNN connections allow the network to have “memory” of previous inputs, thus 
+output. Hence, RNN connections allow the network to have \dquotes{memory} of previous inputs, thus 
 influencing the network output. Furthermore, RNNs are more fit for tasks involving sequence 
 data, such as text or audio. An example of a RNN architecture can be seen in Figure 1.
 
@@ -387,7 +387,7 @@ classification is shown in Figure~\ref{fig:convNet}.
 \begin{figure}[!h]
     \centering
     \includegraphics[scale=.45]{imagenes/appendices/appendix_a/cnnModel.PNG}
-    \caption{Convolutional Neural Network for pattern image classification~\cite{seqlab:Graves2012-385}.}
+    \caption{Convolutional Neural Network for pattern image classification~\cite{appendix:OSheaN15}.}
     \label{fig:convNet}
 \end{figure}
 
@@ -417,7 +417,7 @@ reduce the dimension of the activation output.
 \begin{figure}[!h]
     \centering
     \includegraphics[scale=.45]{imagenes/appendices/appendix_a/convolution.PNG}
-    \caption{Convolution operation example.}
+    \caption{Convolution operation example~\cite{appendix:OSheaN15}.}
     \label{fig:convolutionPoolingExample}
 \end{figure}
 
@@ -432,8 +432,8 @@ be optimised.
 Kernel values are the trainable parameters which a CNN can tuned in through the same type 
 of learning process ANNs perfom. The composition of convolutional layers allows to reduce the 
 dimensionality of a Neural Network in terms of learnable parameters, based on the assumption 
-of parameter sharing. This assumption says that \textit{“if one region is useful to compute at 
-a set spatial region, then it is likely to be useful in another region”}. The constraints of 
+of parameter sharing. This assumption says that \dquotesit{if one region is useful to compute at 
+a set spatial region, then it is likely to be useful in another region}. The constraints of 
 each activation within the output volume to the same weights and bias means a significant 
 decrease in the number of parameters used in a convolution layer. Then, the backward pass for 
 each neuron in the output represents the overall gradient across channels, where only a 
