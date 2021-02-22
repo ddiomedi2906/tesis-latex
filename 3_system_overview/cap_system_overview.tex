@@ -11,37 +11,39 @@ Figure~\ref{fig:questionAnsweringOverview}, which do not differ much from the st
 Question Answering pipeline described by Lopez et al.~\cite{qa:core-techniques-DiefenbachLSM18}. 
 We assume that the target Knowledge Graph is Wikidata for the purposes of the example, but 
 the architecture can be applied more generally to any Knowledge Graph. For the question 
-\textit{“Was Gabriela Mistral a poet?”}, the expected answer can be retrieved from the 
-Wikidata query service by executing an ASK SPARQL query. In other cases a SELECT query may be 
+\dquotesit{Was Gabriela Mistral a poet?}, the expected answer can be retrieved from the 
+Wikidata query service by executing an ASK-type \SPARQL{} query. In other cases a SELECT query may be 
 required.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/questionAnsweringPipeline.png}
-    \caption{Question Answering system pipeline.}
-    \label{fig:questionAnsweringOverview}
-\end{figure}
-
-In order to build this SPARQL query, the Question Answering system starts with an Entity 
-Linking stage where relevant entities are identified (e.g., \textit{“Gabriel Mistral”}, 
-\textit{“poet”}) and linked to the Knowledge Graph. Then, a Query Template Generation stage 
-is performed to generate SPARQL query template candidates with placeholders to be filled 
+In order to build this \SPARQL{} query, the Question Answering system starts with an Entity 
+Linking stage where relevant entities are identified (e.g., \dquotesit{Gabriel Mistral}, 
+\dquotesit{poet}) and linked to the Knowledge Graph. Then, a Query Template Generation stage 
+is performed to generate \SPARQL{} Query Template candidates with placeholders to be filled 
 using the entities recognized in the previous stage. Next, a Slot Filling stage comes to 
 identify which entities should be used to fill which placeholders of the query template 
 candidates. This pipeline describing the Question Answering system is implemented by building 
 three modules that perform each one of the described stages. 
 
+\newpage
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=.5]{imagenes/3_system_overview/QuestionAnsweringPipeline.png}
+    \caption{Question Answering system pipeline.}
+    \label{fig:questionAnsweringOverview}
+\end{figure}
+
 \section{Query Generation Module}
 \label{cap3:system/queryGenModule}
 In this section we describe the Query Generation Module, which is used by the Baseline system 
 and adapted for the system proposed in this work. Given a Natural Language (NL) question, the 
-goal is to generate its logical form in terms of SPARQL grammar, which can be either a 
-complete SPARQL query representation (baseline) or an intermediate Query Template 
+goal is to generate its logical form in terms of \SPARQL{} grammar, which can be either a 
+complete \SPARQL{} query representation (baseline) or an intermediate Query Template 
 representation (our system). 
 
 We now explain the main components that encapsulate the Query Generation module. First, we 
 describe the Query Generation pipeline, which does not differ much between the generation of 
-an entire SPARQL query or its Query Template. Then, we explain the Query Encoding used to 
+an entire \SPARQL{} query or its Query Template. Then, we explain the Query Encoding used to 
 deliver a normalized expression of the expected output for the model that performs the 
 generation process. Finally, we describe in more detail how the model is trained and used to 
 generate queries based on the FairSeq library for implementing Sequence to Sequence models in 
@@ -49,47 +51,46 @@ Python.
 
 \subsection{Query Generation pipeline}
 \label{cap3:system/queryGenModule/pipeline}
-This module addresses two different tasks: translation from NL to SPARQL queries, and 
+This module addresses two different tasks: translation from NL to \SPARQL{} queries, and 
 generation of query templates from NL. 
 
-On one hand, when we refer to SPARQL queries, we refer to complete queries with all the 
-entities, properties, SPARQL keywords and operators necessary to be executable on any 
+On one hand, when we refer to \SPARQL{} queries, we refer to complete queries with all the 
+entities, properties, \SPARQL{} keywords and operators necessary to be executable on any 
 Wikidata endpoint. Previous works on this task are usually based on Sequence-to-Sequence 
 models, where many have SQL as their target language~\cite{nmt:DongL16, nmt:CaiXZYLL18, 
-nmt:ZhongCoRR17}. Most recent works apply similar models targeting SPARQL~\cite{nmt:CoRRLuz18, 
+nmt:ZhongCoRR17}. Most recent works apply similar models targeting \SPARQL{}~\cite{nmt:CoRRLuz18, 
 nmt:nspm-SoruMMPVEN17, nmt:CoRRSoru18}.
 
-On the other hand, Query Templates refer to intermediate representations of SPARQL queries, 
-which instead of containing the necessary entities included in a complete SPARQL query, 
+On the other hand, Query Templates refer to intermediate representations of \SPARQL{} queries, 
+which instead of containing the necessary entities included in a complete \SPARQL{} query, 
 contain placeholders that will be later filled using the entities obtained in the Entity 
 Linking stage. An example of both cases can be found in Figure~\ref{fig:queryGenerationOverview}, 
-where the left side shows a SPARQL query, and the right side its Query Template. 
+where the left side shows a \SPARQL{} query, and the right side its Query Template. 
 
-% TODO: tune in image to include more details
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/queryGenerationPipeline.png}
+    \includegraphics[scale=.5]{imagenes/3_system_overview/queryGenerationPipeline.png}
     \caption{Query Generation pipeline example.}
     \label{fig:queryGenerationOverview}
 \end{figure}
 
 In Figure~\ref{fig:queryGenerationOverview}, we can see the Query Generation pipeline and 
-expected output for both tasks given the input NL question \textit{“Was Gabriela Mistral a 
-poet?”}. On the left, the SPARQL query pipeline outputs an ASK-type SPARQL question with two 
+expected output for both tasks given the input NL question \dquotesit{Was Gabriela Mistral a 
+poet?}. On the left, the \SPARQL{} query pipeline outputs an ASK-type \SPARQL{} question with two 
 entities involved. On the other side, a Query Template is returned, which looks like an 
-ASK-type SPARQL query but it replaces the entities for two placeholders indicating that there 
+ASK-type \SPARQL{} query but it replaces the entities for two placeholders indicating that there 
 is a subject entity and an object entity expected in the first triple of the Query Clause. 
 The idea of the Query Template is that these placeholders will later be filled by the Slot 
 Filling module.
 
 As we mentioned before, the Query Generation pipeline does not change whether the model is 
-generating an entire SPARQL query or just an intermediate Query Template, and there are two 
+generating an entire \SPARQL{} query or just an intermediate Query Template, and there are two 
 reasons that explain this. First, both tasks can be seen as translating NL to a meaning 
 representation, where such representations only vary on the information they are displaying. 
-While generating a SPARQL query includes the entities involved in the query, the generation 
+While generating a \SPARQL{} query includes the entities involved in the query, the generation 
 of a Query Template replaces those entities for placeholders indicating that in those places 
 an entity or a plain value will be needed, without specifying which ones. The second reason 
-is that both models rely on the same data: a set of pairs of NL questions and SPARQL queries. 
+is that both models rely on the same data: a set of pairs of NL questions and \SPARQL{} queries. 
 The only difference is that the output data used for the Query Template model is adapted to 
 fit the Query Template generation task, where entities and plain values (e.g. numbers or 
 strings values) are replaced by a placeholder that keeps a certain degree of information for 
@@ -101,20 +102,18 @@ input and output data. In the case of the input NL questions, a normalization pr
 conducted where the question string is lower-cased and non-relevant symbols are removed. On 
 the output side, an encoding process is performed over the data used for training, and a 
 decoding process is done for the query string output by the Query Generator system. The Query 
-Encoding is done by tokenizing the SPARQL grammar, allowing to treat it as a target wordy 
+Encoding is done by tokenizing the \SPARQL{} grammar, allowing to treat it as a target wordy 
 language, following the idea of reducing this problem to a Machine Translation task used in 
 previous works~\cite{semPar:ChoMGBBSB14, semPar:sempar-as-mt-AndreasVC13, nmt:nl-to-sparql-Yin19}. 
 Then, each of the two Generator models shown in Figure~\ref{fig:queryGenerationOverview} 4 
 corresponds to a previously trained Fairseq model, which receives a normalized NL question 
 and returns an encoded meaning representation that has to be later decoded to obtain the 
-final SPARQL query or Query Template output.
-
-We now describe the different sub-tasks in more detail.
+final \SPARQL{} query or Query Template output.
 
 \subsection{Query Encoding}
 \label{cap3:system/queryGenModule/encoding}
 Following the same encoding approach used by Soru et al.~\cite{nmt:nspm-SoruMMPVEN17}, we 
-encode the SPARQL queries into tokens that describe entities, keywords, symbols, and 
+encode the \SPARQL{} queries into tokens that describe entities, keywords, symbols, and 
 operations. One difference is that we are using a dataset that includes new query components 
 such as numbers or string values; thus we proposed novel tokens to encode those values. An 
 example of this encoding can be seen in Listing~\ref{lst:encodingSPARQLSoru}. The main advantage of 
@@ -122,36 +121,32 @@ this encoding is that it allows the system to express chunks of commonly used pa
 order by asc/desc, or filter patterns) in a simpler way, thus reducing the complexity of the 
 translation task.
 
-\begin{lstlisting}[captionpos=b, 
-    caption=SPARQL query example with its encoded form., 
-    label=lst:encodingSPARQLSoru,
-    basicstyle=\ttfamily,frame=single]
-ASK WHERE { wd:Q658 wdt:P1108 ?obj filter(?obj < 1.2) }
+\begin{sparqlcode}[%
+    caption={\SPARQL{} query example with its encoded form.}, 
+    label={lst:encodingSPARQLSoru}]
+ASK WHERE { wd:Q658 wdt:P1108 ?obj FILTER(?obj < 1.2) }
 
-ask where brack_open wd_q658 wdt_p1108 var_obj 
-filter attr_open var_obj math_lt 1_dot_2 attr_close brack_close
-\end{lstlisting}
+ask where brack_open wd_q658 wdt_p1108 var_obj filter attr_open var_obj math_lt 1_dot_2 attr_close brack_close
+\end{sparqlcode}
 
 Query Templates are encoded in a similar way, but instead of encoding entities, numbers or 
 string values, placeholders are used to replace those values. Besides those components, there 
 is no other difference in the encoding process. Listing~\ref{lst:encodingTemplateSoru} shows 
 the Query Template of Listing~\ref{lst:encodingSPARQLSoru} and its encoded form.
 
-\begin{lstlisting}[captionpos=b, 
-    caption=SPARQL query example with its encoded form., 
-    label=lst:encodingTemplateSoru,
-    basicstyle=\ttfamily,frame=single]
-ASK WHERE { <sbj_1> wdt:P1108 ?obj filter(?obj < <num>) }
+\begin{sparqlcode}[%
+    caption={\SPARQL{} query example with its encoded form.}, 
+    label={lst:encodingTemplateSoru}]
+ASK WHERE { <sbj_1> wdt:P1108 ?obj FILTER(?obj < <num>) }
 
-ask where brack_open placeholder_sbj_1 wdt_p1108 var_obj 
-filter attr_open var_obj math_lt placeholder_num attr_close brack_close
-\end{lstlisting}
+ask where brack_open placeholder_sbj_1 wdt_p1108 var_obj filter attr_open var_obj math_lt placeholder_num attr_close brack_close
+\end{sparqlcode}
 
 Note that instead of using letters for naming each placeholder as done by Ying et al.~\cite{nmt:nl-to-sparql-Yin19} 
-(e.g. A, B or C) we use labels that provide more information about placeholders. For example, 
-we identify placeholder type (subject, object, string value or numeric value) and position 
-for entities placeholder (e.g. \textit{sbj\_1} corresponds to the subject of the first triple in the 
-query clause).
+(e.g. \texttt{A}, \texttt{B} or \texttt{C}) we use labels that provide more information about 
+placeholders. For example, we identify placeholder type (subject, object, string value or 
+numeric value) and position for entities placeholder (e.g. \texttt{sbj\_1} corresponds to the 
+subject of the first triple in the Query clause).
 
 These placeholder labels are also used in the Slot Filling system mentioned later in order to 
 identify which entities output by the Entity Linking system corresponds to each one of the 
@@ -159,8 +154,8 @@ Query Template placeholders.
 
 \subsection{Fairseq Model}
 \label{cap3:system/queryGenModule/fairseqModel}
-The Query Generation model is implemented using the Facebook AI Research Sequence-to-Sequence 
-Toolkit (Fairseq), which implements various Seq-to-Seq models based on Pytorch. Fairseq 
+The Query Generation model is implemented using the \textit{Facebook AI Research Sequence-to-Sequence 
+Toolkit} (Fairseq), which implements various Seq2seq models based on Pytorch. Fairseq 
 provides various off-the-shelf implementations and other settings to configure user 
 experiments. 
 
@@ -170,8 +165,8 @@ on the work done by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where eight Sequen
 models were implemented and compared regarding the NL-to-SQL task. From this comparison, 
 the ConvS2S model ended up having the best performance in terms of perplexity, BLEU score, 
 and string-match accuracy. This model has to be trained and can be used later to generate an 
-output depending on the given data. If we need to build a SPARQL Query generator, we have to 
-feed the system with pairs of NL questions and SPARQL queries. In the same way, for a Query 
+output depending on the given data. If we need to build a \SPARQL{} Query generator, we have to 
+feed the system with pairs of NL questions and \SPARQL{} queries. In the same way, for a Query 
 Template generator we instead use query templates as our output examples for training.
 
 We now explain the main components of the ConvS2S architecture, the hyperparameters used with 
@@ -214,7 +209,7 @@ The best values obtained from the training process can be imported later to the 
 model implementation to perform new evaluations. When decoding on the evaluation stage, beam 
 search is applied with a beam width of 5. As a last note, the same normalization process done 
 for the training data has to be done with every new NL question. On the other hand, to obtain 
-the SPARQL query or the Query template it is always necessary to perform the decoded process 
+the \SPARQL{} query or the Query template it is always necessary to perform the decoded process 
 over the Query Generator output.
 
 \section{Entity Linking Module}
@@ -225,8 +220,8 @@ follow.
 
 \subsection{Entity Linking pipeline}
 \label{cap3:system/entLinModule/pipeline}
-An example for the Entity Linking pipeline is shown in Figure 2, for the question \textit{“Was 
-Gabriela Mistral a poet?”}. We assume that the Entity Linking module is available through an 
+An example for the Entity Linking pipeline is shown in Figure 2, for the question \dquotesit{Was 
+Gabriela Mistral a poet?}. We assume that the Entity Linking module is available through an 
 API; the Entity Linking system first retrieves the annotations by querying the API service, 
 which returns annotations along with extra information (e.g. scores, second ranking entities, 
 etc). In the case that the Entity Linking system targets a different Knowledge Graph to the one 
@@ -236,15 +231,15 @@ mapping is made available).
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/entityLinkingPipeline.png}
+    \includegraphics[scale=.5]{imagenes/3_system_overview/individualEntityLinkingPipeline.png}
     \caption{Entity Linking pipeline example.}
     \label{fig:entityLinkingPipeline}
 \end{figure}
 
 In this example, we show for each spotted mention: the start and end position, the annotation 
 label and its associated resource. Then, an entity mapping process is performed to convert 
-the DBpedia resources (\textit{dbr:Gabriela\_Mistral} and \textit{dbo:Poet}) into Wikidata 
-resources (\textit{wd:Q80871} and \textit{wd:Q49757} respectively). As we mentioned, this 
+the DBpedia resources (\texttt{dbr:Gabriela\_Mistral} and \texttt{dbo:Poet}) into Wikidata 
+resources (\texttt{wd:Q80871} and \texttt{wd:Q49757} respectively). As we mentioned, this 
 mapping is optional and it depends on the target Knowledge Graph we are interested in, which 
 in this case is Wikidata, and whether the system returns entities on that target Knowledge 
 Graph.
@@ -257,22 +252,21 @@ which entities are more relevant for each system.
 
 The Entity Mapping process assumes an existing mapping between the entities of both Knowledge 
 Graphs. In this particular case, we can take advantage of the fact that many DBpedia resources 
-and Wikidata resources are both bound to Wikipedia articles via the schema:about property. 
-This information can be found on Wikidata, thereby, given a set of DBpedia entities, a SPARQL 
+and Wikidata resources are both bound to Wikipedia articles via the \texttt{schema:about} property. 
+This information can be found on Wikidata, thereby, given a set of DBpedia entities, a \SPARQL{} 
 query can be performed to retrieve their corresponding Wikipedia article and their related 
-Wikidata entities, if any. An example of a SPARQL query to map DBpedia entities to Wikidata 
+Wikidata entities, if any. An example of a \SPARQL{} query to map DBpedia entities to Wikidata 
 ones can be seen in Listing~\ref{lst:entityMappingExample}.
 
-\begin{lstlisting}[captionpos=b, 
-    caption=SPARQL query example to map DBpedia resources to Wikidata ones., 
-    label=lst:entityMappingExample,
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[%
+    caption={\SPARQL{} query example to map DBpedia resources to Wikidata ones.}, 
+    label={lst:entityMappingExample}]
 SELECT ?article ?wikidata ?dbpedia WHERE {
     ?article schema:about ?wikidata .
     BIND(IRI(CONCAT("https://en.wikipedia.org/wiki/", SUBSTR(STR(?dbpedia),29))) AS ?article)
     VALUES ?dbpedia { <http://dbpedia.org/resource/Gabriela_Mistral> <http://dbpedia.org/ontology/Poet> }
 }
-\end{lstlisting}
+\end{sparqlcode}
 
 Following the same logic, Wikipedia articles can be mapped to its associated Wikidata resource. 
 The opposite mapping from Wikidata resources to DBpedia ones can be easily performed as well. 
@@ -317,7 +311,7 @@ in the candidate ranking stage.
 The \textbf{TAGME} system~\cite{EL:tagme-FerraginaS10} makes annotations over Wikipedia. As 
 per AIDA, it requires a mapping stage to convert Wikipedia resources into Wikidata ones. 
 Aside from the query text input parameter, TAGME requires a token parameter for authentication 
-which can be retrieved from its API website. Each entity annotation has a \textit{“rho”} score 
+which can be retrieved from its API website. Each entity annotation has a \dquotesit{rho} score 
 assigned, which is derived from the candidate ranking stage.
 
 The \textbf{OpenTapioca} system~\cite{EL:opentapioca-Delpeuch19} is the only one that works 
@@ -326,10 +320,10 @@ the output annotation, a logarithmic likelihood score is assigned to each annota
 points out how prominent the entity is in the Wikidata Knowledge Graph.
 
 As a general aspect, the GET requests of most of the systems’ web services are done using the 
-\textit{request}\footnote{\url{https://pypi.org/project/requests/}} Python library, except for AIDA 
-where \textit{curl}\footnote{\url{https://curl.haxx.se/}} requests are done using the subprocess 
+\texttt{request}\footnote{\url{https://pypi.org/project/requests/}} Python library, except for AIDA 
+where \texttt{curl}\footnote{\url{https://curl.haxx.se/}} requests are done using the subprocess 
 Python library. Then, the mapping queries performed on the Wikidata query service are done 
-using the \textit{SPARQLWrapper}\footnote{\url{https://pypi.org/project/SPARQLWrapper/}} Python 
+using the \texttt{SPARQLWrapper}\footnote{\url{https://pypi.org/project/SPARQLWrapper/}} Python 
 library.
 
 \subsection{Ensemble Entity Linking system}
@@ -339,64 +333,59 @@ in order to improve the performance in terms of recognizing all the entities in 
 question. Since each individual system relies on different techniques or prioritizes different 
 features, they can identify entities that are either very prominent or quite rare. In the 
 context of Question Answering, if an Entity Linking system cannot identify all of the entities 
-needed to build the required SPARQL query, the Question Answering system will fail to provide 
+needed to build the required \SPARQL{} query, the Question Answering system will fail to provide 
 the right answer. The inability to identify all entities is more prone to happen when little 
 context is provided in the given text, which is a common situation in Question Answering 
 settings.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/ensembleEntityLinkingSystem.png}
-    \caption{Ensemble Entity Linking system pipeline.}
-    \label{fig:esembleEntityLinking}
-\end{figure}
-
 An ensemble Entity Linking system aims to get the most of all individual Entity Linking 
-systems by combining their results together to achieve better Recall and Precision. As seen 
-in Figure~\ref{fig:esembleEntityLinking}, an ensemble system is given the annotations of each 
-individual system and returns a final output annotation. Next, we present two variants to 
-combine the individual annotations: Precision Priority system and Voting system. To illustrate 
-better the variants proposed, let us assume that each individual Entity Linking system returns 
-the following annotations, for the question \textit{“Does FC Barcelona have Juan Jose 
-Ibarretxe as a chairperson?”}:
+systems by combining their results together to achieve better Recall and Precision. Then, an 
+ensemble system is given the annotations of each individual system as the system input and 
+returns a final output annotation set. We present two variants to combine the individual 
+annotations: Precision Priority system and Voting system. To illustrate better the variants 
+proposed in this work, let us assume that each individual 
+Entity Linking system returns the following annotations, for the question \dquotesit{Does FC 
+Barcelona have Juan Jose Ibarretxe as a chairperson?}:
 
-\textbf{AIDA}
-\begin{lstlisting}[
-    basicstyle=\ttfamily,frame=single]
+\newpage
+
+\noindent \textbf{AIDA}\\
+\mbox{}\\
+\begin{sparqlcode}[]
 FC Barcelona - wd:Q7156
-\end{lstlisting}
+\end{sparqlcode}
 
-\textbf{OpenTapioca}
-\begin{lstlisting}[
-    basicstyle=\ttfamily,frame=single]
+\noindent \textbf{OpenTapioca}\\
+\mbox{}\\
+\begin{sparqlcode}[]
 Juan Jose Ibarretxe - wd:Q351738  
-\end{lstlisting}
+\end{sparqlcode}
 
-\textbf{TAGME}
-\begin{lstlisting}[
-    basicstyle=\ttfamily,frame=single]
+\noindent \textbf{TAGME}\\
+\mbox{}\\
+\begin{sparqlcode}[]
 Juan Jose Ibarretxe - wd:Q351738    
 chairperson - wd:Q140686  
-\end{lstlisting}
+\end{sparqlcode}
 
-\textbf{DBpedia Spotlight}
-\begin{lstlisting}[
-    basicstyle=\ttfamily,frame=single]
+\noindent \textbf{DBpedia Spotlight}\\
+\mbox{}\\
+\begin{sparqlcode}[]
 Does - wd:Q302057
 FC Barcelona - wd:Q7156
 Juan Jose Ibarretxe - wd:Q351738
 chairperson - wd:Q140686    
-\end{lstlisting}
+\end{sparqlcode}
 
 After the description of each variant, an example of the expected output annotations is given 
 based on the results shown above.
 
-In this example, the annotations expected to be recognized are the entities from \textit{“FC 
-Barcelona”} and \textit{“Juan Jose Ibarretxe”}. Even though some systems recognized 
-\textit{“chairperson”} as an entity, the property \textit{“chairperson”} (\textit{wdt:P488}) 
-is more likely to be used when building the SPARQL query for this question, so its entity is 
+In this example, the annotations expected to be recognized are the entities from \dquotesit{FC 
+Barcelona} and \dquotesit{Juan Jose Ibarretxe}. Even though some systems recognized 
+\dquotesit{chairperson} as an entity, the property \dquotesit{chairperson} (\texttt{wdt:P488}) 
+is more likely to be used when building the \SPARQL{} query for this question, so its entity is 
 not expected to be identified. Though this ambiguity issue (whether something is a property or 
-an entity) can complicate building the SPARQL query, it is not something that we address in 
+an entity) can complicate building the \SPARQL{} query, it is not something that we address in 
 the Entity Linking stage. Returning more entities than the number expected is still acceptable 
 as long as the correct entities are included among the output annotations. However, we will 
 see in the \textit{Slot Filling module} section that the more entities are passed from the 
@@ -412,26 +401,26 @@ individual systems that tend to return fewer entities but with a high level of c
 i.e. systems that prioritize Precision over Recall.
 
 Then, the PPrior system assigns a priority to each individual system according to their 
-performance on the datasets we are interested in (LC-QuAD 2.0, DBNQA, and QALD 7). In 
+performance on the datasets we are interested in (\LCQuADtwo, \DBNQA, and \QALDseven). In 
 particular, systems with better precision have higher priority. These results can be found in 
-the Experimental Design chapter, which establishes the following priority: Aida, OpenTapioca, 
-TAGME, and DBpedia Spotlight. Next, the PP systems retrieves the annotations of each system 
-following the established priorities until the number of unique, expected entities is reached. 
+the \textit{Experimental Design} chapter (see~\ref{cap4:experimentalDesign/entityLinking}), 
+which establishes the following priority: Aida, OpenTapioca, TAGME, and DBpedia Spotlight. Next, 
+the PPrior system retrieves the annotations of each individual system following the established 
+priorities until the number of unique expected entities is reached. 
 For example shown above, the PPrior system would rank each entity in the following way:
 
-\begin{lstlisting}[
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[]
 1. FC Barcelona - Q7156
 2. Juan Jose Ibarretxe - Q351738
 3. chairperson - Q140686
 4. Does - Q302057     
-\end{lstlisting}
+\end{sparqlcode}
 
-The first entity (\textit{Q7156}) comes from the AIDA system, the second one (\textit{Q351738}) 
-from OpenTapioca, the third one (\textit{Q140686}) from one of the annotations output by 
-TAGME (since the other entity has already been considered), and the remaining one (\textit{Q302057}) 
+The first entity (\texttt{Q7156}) comes from the AIDA system, the second one (\texttt{Q351738}) 
+from OpenTapioca, the third one (\texttt{Q140686}) from one of the annotations output by 
+TAGME (since the other entity has already been considered), and the remaining one (\texttt{Q302057}) 
 comes from DBpedia Spotlight. Therefore, if the number of expected entities is two, the 
-entities of the mentions \textit{“FC Barcelona”} and \textit{“Juan Jose Ibarretxe”} would be 
+entities of the mentions \dquotesit{FC Barcelona} and \dquotesit{Juan Jose Ibarretxe} would be 
 output as final annotations.
 
 One advantage of this variant is that it would perform more efficiently in an online setting 
@@ -448,30 +437,27 @@ system are considered to be a vote that is used to rank entities. This is based 
 that if an entity is widely recognized across Entity Linking systems, that entity is more 
 likely to be a correct annotation. Note that votes go for the entity identifier and not for 
 the mention. Therefore, if two individual systems recognize the same entity but differ on the 
-mentions linked, both systems are voting for the recognized entity (e.g. the \textit{Q351738} 
-entity could have been assigned to \textit{“FC Barcelona”} or only to \textit{“Barcelona”}, 
-but votes go to the \textit{Q351738} entity).
+mentions linked, both systems are voting for the recognized entity (e.g. the \texttt{Q351738} 
+entity could have been assigned to \dquotesit{FC Barcelona} or only to \dquotesit{Barcelona}, 
+but votes go to the \texttt{Q351738} entity).
 
-Since ties are possible, the entities that come from more precise systems would have priority 
+Given that ties are possible, the entities that come from more precise systems would have priority 
 (following the same reasoning as with the PPrior system). For example, the Voting system 
 would rank each entity in the following way:
 
-\newpage
-
-\begin{lstlisting}[
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[]
 1. (3) Juan Jose Ibarretxe - Q351738
 2. (2) FC Barcelona - Q7156
 3. (2) chairperson - Q140686
 4. (1) Does - Q302057
-\end{lstlisting}
+\end{sparqlcode}
 
-The most voted entity is Q351738 with three votes, which comes from Open Tapioca, TAGME and 
-DBpedia Spotlight. Next, the entities \textit{Q7156} and \textit{Q140686} get the same amount 
-of two votes. Since \textit{Q7156} comes from a system with higher priority (AIDA), that 
-entity ranks higher. The last entity Q302057 only has one vote from the system with least 
-priority (DBpedia Spotlight). Thereafter, if the number of expected entities is two, the 
-entities of the mentions \textit{“Juan Jose Ibarretxe”} and \textit{“FC Barcelona”} would be 
+The most voted entity is \texttt{Q351738} with three votes, which comes from Open Tapioca, TAGME, 
+and DBpedia Spotlight. Next, the entities \texttt{Q7156} and \texttt{Q140686} get the same 
+amount of two votes. Since \texttt{Q7156} comes from a system with higher priority (AIDA), that 
+entity ranks higher. The last entity \texttt{Q302057} only has one vote from the system with 
+least priority (DBpedia Spotlight). Thereafter, if the number of expected entities is two, the 
+entities of the mentions \dquotesit{Juan Jose Ibarretxe} and \dquotesit{FC Barcelona} would be 
 output as final annotations.
 
 The main advantage of the Voting system is that it can benefit from every system equally (all 
@@ -489,22 +475,22 @@ optimizations are proposed to achieve better performance. These improvements are
 the two variants mentioned before, and are optional features that can be skipped if no 
 significant improvement is perceived. 
 
-First, some entities linked to stopwords (e.g. \textit{“Does”} linked to \textit{Q302057}) are 
+First, some entities linked to stopwords (e.g. \dquotesit{Does} linked to \texttt{Q302057}) are 
 filtered using an English stopwords list provided by the Natural Language Toolkit\footnote{\url{https://www.nltk.org/}}. 
 Before performing any join annotation process, the annotations that contain stop words are 
 discarded. The idea behind this filter is to avoid entities from systems with low precision 
 negatively affecting the identification of correct entities. However, some entities may 
-include stopwords in their names, such as “The Who”, where this approach may negatively 
-affect the results for such entities.
+include stopwords in their names (e.g. the rock band \dquotesit{The Who}), where this approach 
+may negatively affect the results for such entities.
 
 Lastly, a tiebreak system is implemented for entities that are ranked in the same position 
 and come from the same system. Since each individual system assigns a score to each annotation, 
 such scores can be used to break the tie and decide which entities will be considered in the 
 final output. For example, if only two entities are expected but the second and third are 
-tied (e.g. in the Voting system assume the entities from \textit{“Juan Jose Ibarretxe”} and 
-\textit{“chairperson”} comes from OpenTapioca and have two votes each), we look at which has 
-a higher score according to the individual Entity Linking system these annotations come from 
-(we would look which has a higher \textit{“log\_likelihood”} score according to OpenTapioca). 
+tied (e.g. in the Voting system let us assume the entities from \dquotesit{Juan Jose Ibarretxe} 
+and \dquotesit{chairperson} comes from OpenTapioca and have two votes each), we look at which 
+has a higher score according to the individual Entity Linking system these annotations come from 
+(i.e. which one has a higher \texttt{log\_likelihood} score according to OpenTapioca). 
 
 \section{Slot Filling Module}
 \label{cap3:system/slotFillModule}
@@ -519,13 +505,13 @@ Tagger and the Query Filling algorithm are implemented.
 In Figure~\ref{fig:slotFillingPipeline}, we can see an overview of the Slot Filling process. 
 Differently from the other modules, the Slot Filling system not only receives the input NL 
 question, but also the outputs from the Entity Linking system and the Query Template generator. 
-The expected output is a SPARQL query which is based on the query template output by the 
+The expected output is a \SPARQL{} query which is based on the query template output by the 
 Query Template generator, containing entities from the annotations returned by the Entity 
 Linking system.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.45]{imagenes/3_system_overview/slotFillingPipeline.png}
+    \includegraphics[scale=.5]{imagenes/3_system_overview/slotFillingPipeline.png}
     \caption{Slot Filling pipeline example.}
     \label{fig:slotFillingPipeline}
 \end{figure}
@@ -534,17 +520,17 @@ Before the actual Slot Filling process, the input NL question is passed to a Seq
 that performs Sequence Labelling in order to identify relevant named entities and their 
 corresponding placeholder tag. We understand a placeholder tag as a placeholder name in a 
 query template. As seen in Figure~\ref{fig:slotFillingPipeline}, given the question 
-\textit{“Was Gabriela Mistral a poet?”}, the expected output for the Sequence Tagger is to 
-identify \textit{“Gabriela Mistral”} and \textit{“poet”} as two relevant entities. Besides, 
-\textit{“Gabriela Mistral”} is tagged as \textit{“sbj\_1”}, meaning that the entity which 
-corresponds to the label \textit{“Gabriela Mistral”} should be assigned to the placeholder 
-\textit{<sbj\_1>} in the query template. The same happened with the label \textit{“poet”}, 
-which should be assigned to the placeholder \textit{<obj\_1>}.
+\dquotesit{Was Gabriela Mistral a poet?}, the expected output for the Sequence Tagger is to 
+identify \dquotesit{Gabriela Mistral} and \dquotesit{poet} as two relevant entities. Besides, 
+\dquotesit{Gabriela Mistral} is tagged as \dquotestt{sbj\_1}, meaning that the entity which 
+corresponds to the label \dquotesit{Gabriela Mistral} should be assigned to the placeholder 
+\texttt{<sbj\_1>} in the query template. The same happened with the label \dquotesit{poet}, 
+which should be assigned to the placeholder \texttt{<obj\_1>}.
 
 Then, the named entities tagged in the previous stage are passed to the Query Filling stage, 
 along with the Entity Linking annotations and the generated Query Template. A filling 
 algorithm is proposed to perform the Query Filling process. The algorithm will return a 
-SPARQL query only if the filling process is successful. As we will explain later, this filling 
+\SPARQL{} query only if the filling process is successful. As we will explain later, this filling 
 process could fail due to the previous systems failing to recognize some entities, or due to 
 a mismatch between the placeholders recognized in the tagging stage and the placeholder 
 contained in the given query template.
@@ -563,19 +549,19 @@ details in the \textit{Experimental design} chapter). A Sequence Tagger model re
 question, and returns a sequence of tags where each tag is related to one word (or token) in 
 the input question. These tags follow the BIO format, where each word is classified as the 
 beginning of a tag, as the intermediate part of it, or as a non-tag token. For example, if 
-given the question \textit{“Was Gabriela Mistral a poet?”}, the expected output would be 
-\textit{(O, B-sbj\_1, I-sbj\_1, O, B-obj\_1)}. From this output we can infer that \textit{“Gabriela 
-Mistral”} is identified as one tag (\textit{“Gabriela”} is the beginning of the tag and 
-\textit{“Mistral”} is an intermediate part of it), and \textit{“poet”} is also identified as 
-a tag. On the other hand, the words \textit{“Was”} and \textit{“a”} are identified as non-tag 
-tokens. Note that the length of the tagger output and the number of tokens in the input 
-question are always the same amount, so every token is assigned with a tag.
+given the question \dquotesit{Was Gabriela Mistral a poet?}, the expected output would be 
+\texttt{(O, B-sbj\_1, I-sbj\_1, O, B-obj\_1)}. From this output we can infer that 
+\dquotesit{Gabriela Mistral} is identified as one tag (\dquotesit{Gabriela} is the beginning of 
+the tag and \dquotesit{Mistral} is an intermediate part of it), and \dquotesit{poet} is also 
+identified as a tag. On the other hand, the words \dquotesit{Was} and \dquotesit{a} are identified 
+as non-tag tokens. Note that the length of the tagger output and the number of tokens in the 
+input question are always the same amount, so every token is assigned with a tag.
 
 In this work three types of tag were chosen for three types of values: entities, numbers, and 
 string values. The entity tag identifies entities from the Knowledge Graph resource (e.g. 
-\textit{wd:Q80871}). Each entity tag identifies two aspects of the entity: 1) its role in the 
+\texttt{wd:Q80871}). Each entity tag identifies two aspects of the entity: 1) its role in the 
 query triple (subject or object), and its query triple position. For example, if an entity is 
-tagged as \textit{“sbj\_1”}, it means it is the subject of the first query triple. As their 
+tagged as \dquotestt{sbj\_1}, it means it is the subject of the first query triple. As their 
 names may suggest, the number tag identifies numeric values, and the string value tag marks 
 text relevant to the query (e.g. for filtering entities that contain a certain string label).
 
@@ -603,43 +589,42 @@ epochs without an improvement in terms of loss value.
 \label{cap3:system/slotFillModule/fillingMethod}
 The placeholder tags for each named entity, along with the annotations from the Entity 
 Linking system and the query template from the Query Template generator, need to be combined 
-together to build the final SPARQL query output. The Slot Filling method decides which 
+together to build the final \SPARQL{} query output. The Slot Filling method decides which 
 placeholder to replace with which entity, and is based on a novel filling algorithm divided 
 into two filling stages. The first stage is a \textbf{Standard Filling} process that may not 
 fill all the placeholders in the query, and the second stage is a \textbf{Force Filling} 
-process that tries to complete the spots that the previous stage wasn’t able to fill.
+process that tries to complete the spots that the previous stage was not able to fill.
 
 The first stage, the Standard Filling process, follows a straightforward process of comparing 
 labels from the outputs of the Entity Linking system and the Sequence Tagger to identify 
-entity-slot matches which are then inserted into the query template to form the SPARQL query. 
+entity-slot matches which are then inserted into the query template to form the \SPARQL{} query. 
 Then, the algorithm that describes the standard filling process is shown in 
 Listing~\ref{lst:standardFillingAlgorithm}. As an example from the input shown in 
 Figure~\ref{fig:slotFillingPipeline}, the algorithm would first compare the label 
-\textit{“Gabriela Mistral”} with all the labels from the entity annotations. Then, it would 
-be found that the placeholder \textit{“sbj\_1”} should correspond to the entity 
-\textit{wd:Q80871} given that both labels are equal. Based on this match, the entity 
-\textit{wd:Q80871} should replace all the appearances of the placeholder \textit{“sbj\_1”} in 
-the current SPARQL query that is being constructed.
+\dquotesit{Gabriela Mistral} with all the labels from the entity annotations. Then, it would 
+be found that the placeholder \texttt{sbj\_1} should correspond to the entity 
+\texttt{wd:Q80871} given that both labels are equal. Based on this match, the entity 
+\texttt{wd:Q80871} should replace all the appearances of the placeholder \texttt{sbj\_1} in 
+the current \SPARQL{} query that is being constructed.
 
-\begin{lstlisting}[captionpos=b, 
-    caption=Standard Filling algorithm., 
-    label=lst:standardFillingAlgorithm,
-    basicstyle=\ttfamily,frame=single]
+\begin{sparqlcode}[%
+    caption={Standard Filling algorithm.}, 
+    label={lst:standardFillingAlgorithm}]
 standard_filling(annotations, slots, query_template)
-sparql_query = query_template
-for s_label, placeholder in slots
-    if placeholder has been used or placeholder not in sparql_query
-        skip
-    if placeholder is a <num> or <str_value>
-        replace placeholder in sparql_query for the s_label value
-    if placeholder is an <entity_type> (e.g. <sbj_1>)
-        for e_label, entity in annotations
-            if s_label equal to e_label
-                replace placeholder in sparql_query for the entity value
-                break
-    mark placeholder and/or entity as used, if applies
-return sparql_query
-\end{lstlisting}
+    sparql_query = query_template
+    for s_label, placeholder in slots
+        if placeholder has been used or placeholder not in sparql_query
+            skip
+        if placeholder is a <num> or <str_value>
+            replace placeholder in sparql_query for the s_label value
+        if placeholder is an <entity_type> (e.g. <sbj_1>)
+            for e_label, entity in annotations
+                if s_label equal to e_label
+                    replace placeholder in sparql_query for the entity value
+                    break
+        mark placeholder and/or entity as used, if applies
+    return sparql_query
+\end{sparqlcode}
 
 Some problems can arise from this algorithm, which are mainly due to previous systems passing 
 incorrect or incomplete information (e.g. not all the entity annotations are identified, or 
@@ -666,7 +651,7 @@ is executed, but adding the following rules:
     match.
     \item When comparing entity type placeholders, if the slot placeholder is the same entity 
     type (subject or object) or is assigned to the same query triple (e.g. the first query 
-    triple pattern on the SPARQL query) as some of the remaining query template placeholders, 
+    triple pattern on the \SPARQL{} query) as some of the remaining query template placeholders, 
     it counts as a match.
     \item Finally, if there is any remaining entity that was not identified by the Sequence 
     Tagger, and there are still placeholders to fill in the query template, the entities will 
@@ -674,23 +659,23 @@ is executed, but adding the following rules:
     entity identifier number).
 \end{itemize}
 
-As an example, let’s assume we have the outputs illustrated in Figure~\ref{fig:forceFillingExample} 
-for the question \textit{“How many Nobel Prizes has Gabriela Mistral won?”}, which requires a 
+As an example, let us assume we have the outputs illustrated in Figure~\ref{fig:forceFillingExample} 
+for the question \dquotesit{How many Nobel Prizes has Gabriela Mistral won?}, which requires a 
 count operation. The expected slots state that the subject of the first query triple should 
-be filled with the entity of the label \textit{“Gabriela Mistral”}, while the object of the 
-second query triple should be filled with the entity of the label \textit{“Nobel Prizes”}. 
+be filled with the entity of the label \dquotesit{Gabriela Mistral}, while the object of the 
+second query triple should be filled with the entity of the label \dquotesit{Nobel Prizes}. 
 However, it may happen that a label is incorrectly associated with the wrong query triple 
-(Case 1), or the wrong entity type (Case 2). In the first case, the \textit{“Nobel Prizes”} 
-entity would not be filled in the Standard Slot Filling stage due to the \textit{<obj\_2>} 
+(case 1), or the wrong entity type (case 2). In the first case, the \dquotesit{Nobel Prizes} 
+entity would not be filled in the Standard Slot Filling stage due to the \texttt{<obj\_2>} 
 not existing in the query template, but it would be recognized in the Force Slot Filling 
-stage because it will identify that the remaining slot in the query template (\textit{<obj\_1>}) 
-is the same entity type as the slot incorrectly labeled (\textit{<obj\_2>}). The same happens 
-in the second case, where the incorrect label (\textit{<obj\_1>}) is associated with the same 
-query triple (the first triple) as the remaining slot in the query template (\textit{<sbj\_1>}).
+stage because it will identify that the remaining slot in the query template (\texttt{<obj\_1>}) 
+is the same entity type as the slot incorrectly labeled (\texttt{<obj\_2>}). The same happens 
+in the second case, where the incorrect label (\texttt{<obj\_1>}) is associated with the same 
+query triple (the first triple) as the remaining slot in the query template (\texttt{<sbj\_1>}).
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=.55]{imagenes/3_system_overview/slotFillingExample.png}
+    \includegraphics[scale=.5]{imagenes/3_system_overview/SlotFillingSpecialCases.png}
     \caption{Force Filling case examples.}
     \label{fig:forceFillingExample}
 \end{figure}
