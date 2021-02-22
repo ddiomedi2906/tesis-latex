@@ -1,19 +1,19 @@
 \chapter{Conclusions}
 \label{cap6:conclusions}
 In this work, we address the Question Answering over Knowledge Graphs task, which, given a natural 
-language question, consists of generating a SPARQL query that should retrieve the expected answer 
+language question, consists of generating a \SPARQL{} query that should retrieve the expected answer 
 when evaluated on the KG’s endpoint. In particular, we proposed a Question Answering system that 
 combines Entity Linking systems with a Neural Machine Translation model to address the dependency on 
-the vocabulary used for training the NMT model when generating SPARQL queries.
+the vocabulary used for training the NMT model when generating \SPARQL{} queries.
 
 The SPARQL query generation process was divided into several sub-tasks. First, we trained a 
 Convolutional Sequence to Sequence model and we used it to generate a Query Template, which is a 
-SPARQL query with its entities replaced by placeholders. Secondly, relevant entities were extracted 
+\SPARQL{} query with its entities replaced by placeholders. Secondly, relevant entities were extracted 
 using an Ensemble Entity Linking system, which combines many Individual Entity Linking systems to 
 increase the amount of entities identified. Two variants of Ensemble Entity Linking system were 
 proposed: a Precision Priority system and a Voting system. Finally, we proposed a Slot Filling system 
 to fill entities into the query template, which relies on a Sequence Tagger (based on the 
-state-of-art in Named Entity Recognition) and a proposed filling algorithm, giving the final SPARQL 
+state-of-art in Named Entity Recognition) and a proposed filling algorithm, giving the final \SPARQL{} 
 query as a result.
 
 We conducted various experiments to compare the performance of our system with a proposed baseline, 
@@ -24,10 +24,10 @@ Generation, Entity Linking, and Slot Filling).
 According to the \textbf{hypothesis} proposed in this work, we showed that by combining Entity 
 Linking and Neural Semantic Parsing through a Slot Filling system, it is possible to obtain better 
 performance in the Question Answering over Knowledge Graph task. This is according to the proposed 
-metrics used to compare the system: BLEU score and accuracy for SPARQL query generation, and Precision, 
+metrics used to compare the system: BLEU score and accuracy for \SPARQL{} query generation, and Precision, 
 Recall and F1 score for Question Answering. We found that this increase in performance comes mainly 
 from the reduction of errors in the system due to not identifying the correct entities required to 
-build the SPARQL query.
+build the \SPARQL{} query.
 
 It is important to remember that our hypothesis was explored in the context of Wikidata for questions 
 in the English language. Nevertheless, the approach we follow should be generalizable to other 
@@ -39,21 +39,21 @@ At the time that this work was developed, and to the best of our knowledge, the 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19} were the state-of-the-art for QAKG systems based on Neural 
 Machine Translation models. They validate each model over DBpedia datasets. In our case, we took the 
 model they stated has better performance to compare with our system. Moreover, we validate our 
-results using LC-QuaD 2 (a more complex dataset in terms of questions variations and SPARQL query 
-complexity); QALD-7 (which is also used to evaluate Information Retrieval-based QA systems), and 
-WikiSPARQL (a new dataset with cases that require new types of operations). That being said, we 
+results using \LCQuADtwo{} (a more complex dataset in terms of questions variations and \SPARQL{} query 
+complexity); \QALDseven{} (which is also used to evaluate Information Retrieval-based QA systems), and 
+\WikiSPARQL{} (a new dataset with cases that require new types of operations). That being said, we 
 think our \textbf{general objective} of improving the state-of-the-art was accomplished.
 
 The last thing to mention are the \textbf{limitations} we identified in our work. The first issue is 
 related with the performance shown in the Query Template generation task. According to our results, 
-most of the cases where the SPARQL query was built incorrectly were due to the Query Template being 
+most of the cases where the \SPARQL{} query was built incorrectly were due to the Query Template being 
 incorrect. Even though in this work we could not identify the main cause of the poor performance for 
-this task, we think it might be caused by different reasons: either the LC-QuAD 2 dataset contained 
-cases that are inherently difficult to respond even for an SPARQL expert, or it does not contain 
-enough cases to allow the NMT model to generalize across templates. As a consequence, the SPARQL 
+this task, we think it might be caused by different reasons: either the \LCQuADtwo{} dataset contained 
+cases that are inherently difficult to respond even for an \SPARQL{} expert, or it does not contain 
+enough cases to allow the NMT model to generalize across templates. As a consequence, the \SPARQL{} 
 queries our proposed QAKG system can generate are strongly limited by the type of question found in 
 the LC-QuAD training set. For example, our system may be able to generate questions that require 
-counting, but given that the only COUNT type query included in the LC-QuAD 2 dataset uses only one 
+counting, but given that the only COUNT type query included in the \LCQuADtwo{} dataset uses only one 
 fact, questions that require counting and use more than one fact will not be correctly interpreted.
 
 The second limitation involves our proposed Slot Filling system using a Sequence Tagger to label the 
@@ -64,12 +64,10 @@ so the Sequence Tagger dataset construction could be simplified.
 
 \section{Relevance and Contributions}
 \label{cap6:conclusions/relevanceContributions}
-We present a summary of the contributions and relevance of this work.
-
 First, we propose a benchmark for comparing Question Answering systems that work over Wikidata. By 
-cleaning the LC-QuAD 2 to have less noisy cases and a normalized format, we reduce the amount of 
+cleaning the \LCQuADtwo{} to have less noisy cases and a normalized format, we reduce the amount of 
 work others will have to spend in having a ready to use dataset to either train Neural-based models 
-or evaluating their QAKG systems. Moreover, we deliver a new dataset that includes new SPARQL 
+or evaluating their QAKG systems. Moreover, we deliver a new dataset that includes new \SPARQL{} 
 operations and patterns. These datasets can not only be used to evaluate QAKG systems, but also to 
 compare Entity Linking systems and Slot Filling systems.
 
@@ -85,11 +83,11 @@ complete response. The Precision priority system shows how to improve performanc
 results from more precise systems. 
 
 The type of questions our system can address are directly tied to the types of questions contained in 
-the LC-QuAD 2 dataset. Some examples are boolean questions (including cases that use literal numeric 
+the \LCQuADtwo{} dataset. Some examples are boolean questions (including cases that use literal numeric 
 values), and questions that require use of string operations, counting, property statements, or 
 ranking. Even though not all query variants are considered, this is a big step forward in terms of 
 the type of queries that are supported, since none of the previous Neural-based models support cases 
-we did consider by using the LC-QuAD 2 dataset (e.g. use of numeric values or literal strings). 
+we did consider by using the \LCQuADtwo{} dataset (e.g. use of numeric values or literal strings). 
 
 In terms of overall relevance, we deliver new insights on how to address the Question Answering over 
 Knowledge Graphs task. In particular, we proposed an approach that aims to address the vocabulary 
@@ -102,8 +100,8 @@ The Question Answering over Knowledge Graphs task is still a challenging problem
 plenty of work in this field. There are individual components of our system that can be improved but 
 also new things to try or add to our system.
 
-One thing is to work on improving the training dataset by increasing its size and adding the SPARQL 
-query variants the LC-QuAD 2 dataset lacks. We think a bigger dataset would help the Query Template 
+One thing is to work on improving the training dataset by increasing its size and adding the \SPARQL{} 
+query variants the \LCQuADtwo{} dataset lacks. We think a bigger dataset would help the Query Template 
 generator model have a better learning process, and the addition of new variants would let the model 
 address a wider range of questions. Furthermore, we should focus on questions that are asked more 
 frequently by the users of Wikidata. Then, a possible next step would be to implement an crowdsourced 
@@ -134,6 +132,6 @@ music, etc), so more rare entities can be identified more easily.
 
 As we mentioned before, our approach should be generalizable to other languages or Knowledge Graph 
 domains. Another possible step is to evaluate our system over other languages such as Spanish, 
-French, or German, or try to generate SPARQL queries for Knowledge Graphs such as DBpedia. To give 
+French, or German, or try to generate \SPARQL{} queries for Knowledge Graphs such as DBpedia. To give 
 an idea, the main changes that would be required are essentially to provide a dataset that either 
-changes the input language or the output Knowledge Graph of the SPARQL queries. 
+changes the input language or the output Knowledge Graph of the \SPARQL{} queries. 
