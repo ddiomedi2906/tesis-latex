@@ -267,7 +267,7 @@ proximity. Following this approach, a phrase's cover is computed for each keyphr
 consists of the shortest window of words that maximize the number of words of the keyphrase. 
 For example, the text \dquotesit{winner of many prizes including a Nobel} the cover length of the 
 keyphrase \dquotesit{Nobel award winner} is 7. Then, the partial-match score of a phrase in a text 
-is calculated using the MI weights of the keyphrase words contained in the phrase and the ones
+is calculated using the MI weights of the keyphrase words in the phrase and the ones
 included on the phrase's cover.
 
 Lastly, the similarity score between a mention and a candidate entity is computed by summing all 
@@ -286,8 +286,7 @@ two main steps in each iteration: (1) identify the entity node with the lowest w
 and (2) remove this node and its incident edges only if it is not the last remaining candidate 
 entity for one of the mentions. 
 
-AIDA provides a HTTP JSON web service\footnote{\url{https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/ambiverse-nlu/aida}} 
-for annotating texts. It can be accessed via CURL requests and only needs to be provided by the 
+AIDA provides a HTTP JSON web service\footnote{\url{https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/ambiverse-nlu/aida}} for annotating texts. It can be accessed via CURL requests and only needs to be provided by the 
 text that needs to be annotated.
 
 \subsubsection{TAGME}

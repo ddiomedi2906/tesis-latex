@@ -157,7 +157,7 @@ from Pedro Pascal was replaced for the \texttt{sbj\_1} placeholder. All queries 
 were able to be transformed into their query template version.
 
 \subsection{Sequence Labeling Dataset}
-\label{cap4:experimentalDesign/QaDataset/queryTemplate}
+\label{cap4:experimentalDesign/QaDataset/seqLabeling}
 In order to train the Sequence Labeling model from the Slot Filling module, a dataset was 
 needed. As per the Query Template dataset, the Slot Labeling dataset is based on the cleaned 
 \LCQuADtwo{} dataset. The creation of this dataset is divided into two stages. 
@@ -298,12 +298,20 @@ An overview of the each datasets used in this work can be see in Table 1.
     \label{table:datasetsOverview}
 \end{table}
 
+At the beginning of this work, we planned to include a mapped version of the 
+\DBNQA{}~\cite{dataset:dbnqa-hartmann-marx-soru-2018} dataset,
+with the DBpedia queries being mapped to Wikidata queries. However, we were unable 
+to map more than 12\% of the dataset, losing the variety in query types this dataset 
+provides. Besides, most of the mapped queries did not even return an answer when 
+being executed over the Wikidata endpoint. For these reasons, we decided to exclude 
+that dataset from the experiments in this work.
+
 \subsection{Query Template Generation}
 \label{cap4:experimentalDesign/queryTemplateGeneration}
-The Query Template Generator is trained using the \LCQuADtwo{} training set, and is evaluated over 
-the training and validation datasets using Perplexity, and BLEU score. Then, the model is 
-evaluated over the \LCQuADtwo{} validation, \QALDseven{} and \WikiSPARQL{} datasets using BLEU score and 
-string-match accuracy.
+The Query Template Generator is trained using the \LCQuADtwo{} training set, and is 
+evaluated over the training and validation datasets using Perplexity, and BLEU score. 
+Then, the model is evaluated over the \LCQuADtwo{} validation, \QALDseven{} and 
+\WikiSPARQL{} datasets using BLEU score and string-match accuracy.
 
 The only point of reference for this model is to use the Baseline Query Generator model, and 
 evaluate which one of the two better predicts which Query Template corresponds for each case. 
