@@ -258,8 +258,8 @@ based on the standard backpropagation process but adapted to RNNs. The BPTT algo
 consists of a repeated application of the chain rule, with the difference that, aside from 
 the output layer, the loss function also depends on the activation of the hidden layer 
 through its influence on the hidden layer at the next timestep. The derivatives can be 
-calculated using the same procedure described in the Learning process subsection, but taking 
-into consideration that the same weights are being reused at every timestep.
+calculated using the same procedure described in the \textit{Network Training} subsection\ref{appendix:neuralNetworks/fundamentals/training}, 
+but taking into consideration that the same weights are being reused at every timestep.
 
 Since the classical RNN architecture only looks to past information, the \textbf{Bidirectional 
 Recurrent Neural Network} (BRNN) was proposed to also include future 

@@ -209,7 +209,7 @@ found in Appendix B.
 \section{System Implementation}
 \label{cap4:experimentalDesign/systemImplementation}
 The system implementation was divided into three main modules which represent each stage 
-described in the \textit{System Overview} chapter: Query Generation, Entity Linking, and Slot 
+described in the \textit{System Overview} chapter~\ref{cap3:system}: Query Generation, Entity Linking, and Slot 
 Filling. These modules were assembled in our proposed Question Answering system, which receives 
 a Natural Language question as an input, and returns a Wikidata \SPARQL{} query that can be executed 
 on the Wikidata service endpoint as an output. The Question Answering system only returns a valid 
@@ -220,7 +220,8 @@ and Query Template Generator) was divided into two stages. First the models were
 Google Colaboratory\footnote{\url{https://colab.research.google.com/}} using the 
 ConvS2s~\cite{nmt:convS2S-GehringAGYD17} model implementation included in the Fairseq 
 framework\footnote{\url{https://fairseq.readthedocs.io/en/latest/}} and the settings described in the 
-Fairseq Model subsection in the \textit{System Overview} chapter (we recall that this model had 
+Fairseq Model subsection in the \textit{System Overview} chapter~\ref{cap3:system/queryGenModule/fairseqModel} 
+(we recall that this model had 
 the best performance in the comparison of Yin et al.~\cite{nmt:nl-to-sparql-Yin19}). After the 
 training phase, a Fairseq Wrapper was implemented in order to import the models and perform the 
 prediction over new data. These wrappers receive the NL question as the input and can return 
@@ -240,7 +241,8 @@ the same input–-output frame.
 Finally, the Slot Filling module implementation followed similar stages to those for the Query 
 Generation module. A Sequence Labeling model is trained using Google Colaboratory and the Flair 
 Sequence Tagger from the Flair framework\footnote{\url{https://github.com/flairNLP/flair/}} and 
-the setting described in the \textit{System Overview} chapter. Then, a Flair wrapper was 
+the setting described in the \textit{System Overview} chapter~\ref{cap3:system/slotFillModule/seqTagger}. 
+Then, a Flair wrapper was 
 implemented to import the Sequence Labeling model and perform the tagging over new data. This 
 wrapper was used to implement the Slot Filling system, where the input consists of an NL question, 
 a Query Template, and the Entity Linking annotations. Then, the output is a \SPARQL{} query built 
@@ -324,9 +326,10 @@ In order to determine which Entity Linking system performs the best, each Indivi
 Linking (IEL) system, along with the Ensemble Entity Linking (EEL) systems proposed in this work, 
 are evaluated over a set of datasets and their results are compared. Note that the results over 
 the IEL systems are also used to determine the priorities that are used in the EEL systems, as 
-explained in the \textit{Theoretical Framework} chapter. Aside from that, in the evaluation of 
+explained in the \textit{System Overview} chapter~\ref{cap3:system/entLinModule/ensembleSystems}. 
+Aside from that, in the evaluation of 
 the EEL systems proposed (Precision Priority and Voting system), we test the different 
-configurations described in the \textit{System Overview} chapter. 
+configurations described in the \textit{System Overview} chapter~\ref{cap3:system/entLinModule/ensembleSystems}. 
 
 The performance of each Entity Linking system is measured using Precision, Recall and F1-score 
 over their output annotations. Both macro and micro measures are used. First, IEL systems are 

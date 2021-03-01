@@ -1,5 +1,5 @@
 \section{Semantic Parsing}
-\label{cap2:semPar}
+\label{cap2:theoFrame/semPar}
 As mentioned by Kamath and Das~\cite{semPar:KamathD19}, Semantic Parsing is defined as the 
 mapping from a natural language utterance into a semantic representation. These 
 representations usually refer to logical forms, meaning representations or programs, which 
@@ -48,7 +48,7 @@ Then, we will introduce Neural Machine Translation systems and how these models 
 for the task of translating natural language questions to \SPARQL{} queries.
 
 \subsection{Sequence to Sequence models}
-\label{cap2:semPar/seq2seq}
+\label{cap2:theoFrame/semPar/seq2seq}
 The Sequence-to-Sequence (Seq2seq) model was first introduced by 
 Cho et al.~\cite{seqlab:ChoMBB14} for statistical Machine Translation. 
 They proposed a neural network work model based on an encoder-decoder framework 
@@ -113,7 +113,7 @@ introduces a sequence learning approach based on convolutional neural networks, 
 shown to outperform many RNN-based models in the task of \NLtoSPARQL~\cite{nmt:nl-to-sparql-Yin19}.
 
 \subsubsection{Convolutional Sequence to Sequence Model}
-\label{cap2:semPar/seq2seq/convS2S}
+\label{cap2:theoFrame/semPar/seq2seq/convS2S}
 A Seq2seq model based completely on convolutional neural networks (CNNs) is 
 proposed by Gehring et al.~\cite{nmt:convS2S-GehringAGYD17}, called the Convolutional 
 Sequence-to-Sequence model (ConvS2S). For this subsection we will assume a basic 
@@ -224,7 +224,7 @@ probability of p of being retained and so scaled by $1/p$, or setting them to ze
 otherwise~\cite{semPar:SutskeverVL14}.
 
 \subsection{Natural Language to SPARQL}
-\label{cap2:semPar/nlToSparql}
+\label{cap2:theoFrame/semPar/nlToSparql}
 Though most works have focused on translating text to \SQL{} queries~\cite{nmt:CaiXZYLL18,nmt:ZhongCoRR17}, 
 recent work has also addressed the translation of natural language to \SPARQL{}. In particular, 
 Neural Machine Translation (NMT), which involves Machine Translation systems based on Neural 
@@ -252,7 +252,7 @@ includes residual connections from the third layer and uses a bidirectional LSTM
 layer of the encoder.
 
 \subsubsection{Neural Machine Translation}
-\label{cap2:semPar/nlToSparql/nmt}
+\label{cap2:theoFrame/semPar/nlToSparql/nmt}
 Though the architecture of each model varies, the encoding of \SPARQL{} queries used in all 
 approaches is the same as that proposed by Soru et al.~\cite{nmt:nspm-SoruMMPVEN17}. Their 
 encoding suggests that URIs are abbreviated using their prefixes  followed by an underscore; 
@@ -331,9 +331,9 @@ we are only interested in \LCQuADone~\cite{dataset:lcquad2-DubeyBA019} and
 of a Question Answering Dataset: the LC-QuAD dataset contains few questions (5000) but with high 
 complexity and high variance of its questions while the \DBNQA{} dataset contains a huge volume of 
 questions (nearly 900,000) but it lacks variety in its questions. We explain with more details 
-what we understand by a \dquotes{good dataset} in the \textit{Question Answering} section. The results 
-of the three best models among the eight selected over the mentioned datasets are shown in 
-Table~\ref{table:nmtYinResults}.
+what we understand by a \dquotes{good dataset} in the \textit{Question Answering} section~\ref{cap2:theoFrame/qakg}. 
+The results of the three best models among the eight selected over the mentioned datasets are 
+shown in Table~\ref{table:nmtYinResults}.
 
 \begin{table}[h!]
     \centering

@@ -95,7 +95,7 @@ The only difference is that the output data used for the Query Template model is
 fit the Query Template generation task, where entities and plain values (e.g. numbers or 
 strings values) are replaced by a placeholder that keeps a certain degree of information for 
 the replaced value (e.g. placeholder type, query triple position, etc). This dataset 
-adaptation process is explained in more detail in the \textit{Experimental Design} chapter.
+adaptation process is explained in more detail in the \textit{Experimental Design} chapter~\ref{cap4:experimentalDesign}.
 
 Aside from the input and output process, there are some intermediate steps performed over the 
 input and output data. In the case of the input NL questions, a normalization process is 
@@ -191,7 +191,7 @@ hyperparameters are the followings:
 
 Besides those parameters, the Multi-step Attention mechanism is applied to some layers. The 
 loss function used is the cross-entropy function mentioned in the \textit{Theoretical 
-Framework} chapter.
+Framework} chapter~\ref{cap2:theoFrame/semPar/seq2seq}.
 
 The training process is performed using Google Colaboratory, an online research tool that 
 allows for writing and executing Python code and provides free computational resources, such 
@@ -281,7 +281,8 @@ values are returned in a JSON format.
 \subsection{Individual Entity Linking systems}
 \label{cap3:system/entLinModule/individualSystems}
 We consider an Individual Entity Linking system as one of the Entity Linking systems mentioned 
-in the Information Extraction chapter: DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, 
+in the Information Extraction chapter~\ref{cap2:theoFrame/infExtr/entityLinking}: 
+DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, 
 AIDA~\cite{EL:aida-tool-YosefHBSW11, EL:aida-HoffartYBFPSTTW11}, TAGME~\cite{EL:tagme-FerraginaS10}, 
 and OpenTapioca~\cite{EL:opentapioca-Delpeuch19}. These systems were selected because they 
 provide public APIs that can be invoked over the Web. The annotation process is reduced to 
@@ -388,10 +389,11 @@ not expected to be identified. Though this ambiguity issue (whether something is
 an entity) can complicate building the \SPARQL{} query, it is not something that we address in 
 the Entity Linking stage. Returning more entities than the number expected is still acceptable 
 as long as the correct entities are included among the output annotations. However, we will 
-see in the \textit{Slot Filling module} section that the more entities are passed from the 
-Entity Linking stage, the more difficult it can be to find the correct entity-placeholder 
-mapping. Thus, a threshold can be set to define the number of expected entities, which is 
-commonly the number of slots contained in the predicted Query Template.
+see in the \textit{Slot Filling module} section~\ref{cap3:system/slotFillModule} that the more 
+entities are passed from the Entity Linking stage, the more difficult it can be to find the 
+correct entity-placeholder mapping. Thus, a threshold can be set to define the number of 
+expected entities, which is commonly the number of slots contained in the predicted Query 
+Template.
 
 \subsubsection{Precision Priority system}
 \label{cap3:system/entLinModule/ensembleSystems/pprior}
@@ -403,7 +405,7 @@ i.e. systems that prioritize Precision over Recall.
 Then, the PPrior system assigns a priority to each individual system according to their 
 performance on the datasets we are interested in (\LCQuADtwo, \DBNQA, and \QALDseven). In 
 particular, systems with better precision have higher priority. These results can be found in 
-the \textit{Experimental Design} chapter (see~\ref{cap4:experimentalDesign/entityLinking}), 
+the \textit{Results} chapter~\ref{cap5:results/entityLinking}, 
 which establishes the following priority: AIDA, OpenTapioca, TAGME, and DBpedia Spotlight. Next, 
 the PPrior system retrieves the annotations of each individual system following the established 
 priorities until the number of unique expected entities is reached. 
@@ -545,7 +547,8 @@ using Pytorch. It also supports  training a custom Sequence Labelling model if t
 is provided.
 
 We then adapt the same dataset used for Query Generation to describe the expected output (more 
-details in the \textit{Experimental design} chapter). A Sequence Tagger model receives an NL 
+details in the \textit{Experimental design} chapter~\ref{cap4:experimentalDesign/datasets}). 
+A Sequence Tagger model receives an NL 
 question, and returns a sequence of tags where each tag is related to one word (or token) in 
 the input question. These tags follow the BIO format, where each word is classified as the 
 beginning of a tag, as the intermediate part of it, or as a non-tag token. For example, if 

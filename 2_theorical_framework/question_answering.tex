@@ -1,5 +1,5 @@
 \section{Question Answering over Knowledge Graphs}
-\label{cap2:qakg}
+\label{cap2:theoFrame/qakg}
 Question Answering systems respond to the need to access information on the Web without 
 detailed knowledge of Semantic Web technologies such as how data is structured (\RDF{}) or how to 
 access data (\SPARQL{}). In particular, Question Answering systems (QASs) provide end-users with an 
@@ -61,7 +61,7 @@ scored}), and questions requiring constraint inference (e.g. \dquotesit{What is 
 expensive movie starring Pedro Pascal?}).
 
 \subsection{QAKG approaches}
-\label{cap2:qakg/approaches}
+\label{cap2:theoFrame/qakg/approaches}
 Though there is no standard approach for QAKG, most techniques or methods proposed follow a 
 similar four-stage pipeline~\cite{qa:core-techniques-DiefenbachLSM18}. First, a question 
 analysis stage includes techniques that extract information from the current question using 
@@ -81,7 +81,7 @@ work has focused more on two kinds of approaches: methods based on Information R
 and other ones based on Neural Semantic Parsing.
 
 \subsubsection{Information Retrieval-based methods}
-\label{cap2:qakg/approaches/infRetrieval}
+\label{cap2:theoFrame/qakg/approaches/infRetrieval}
 Information Retrieval (IR) based models reduce the QA task to binary classification or sorting 
 over candidate answers. An IR-based method usually begins by identifying relevant entities 
 mentioned in the question. Then, it extracts topic-entity-centric subgraphs where all nodes are 
@@ -109,7 +109,7 @@ end-to-end training. However, these methods lack model interpretability and are 
 handle complex questions that require constraint inference.
 
 \subsubsection{Neural Semantic Parsing-based methods}
-\label{cap2:qakg/approaches/neuSemParsing}
+\label{cap2:theoFrame/qakg/approaches/neuSemParsing}
 In this context, methods based on Semantic Parsing aims to convert natural languages into 
 executable query languages. Methods based on Neural Semantic Parsing (NSP) rely on Neural 
 Networks to enhance the parsing capacity and scalability, instead of relying on predefined 
@@ -143,7 +143,7 @@ IR-based models. Nevertheless, it is still challenging to train a Neural Semanti
 the lack of training data.
 
 \subsection{Main Challenges}
-\label{cap2:qakg/challenges}
+\label{cap2:theoFrame/qakg/challenges}
 The QAKG task is still an open problem, where many challenges have partially been addressed. 
 Some of these challenges are related to the question being asked and others to the answers that 
 can be returned. 
@@ -211,7 +211,7 @@ pattern templates from which a \SPARQL{} query is built. Other approaches use ma
 templates combined with machine learning methods~\cite{qa:AbachaZ12}. 
 
 \subsection{Benchmark \& Datasets}
-\label{cap2:qakg/benchmarkDatasets}
+\label{cap2:theoFrame/qakg/benchmarkDatasets}
 In order to measure a Question Answering system performance, the most common parameters used 
 across all benchmarks are \textbf{Precision}, \textbf{Recall} and \textbf{F1-score}. These 
 three metrics usually are based on a gold standard set per question, which are the entities or 
@@ -241,7 +241,7 @@ we will briefly describe the datasets used in this work whose questions often re
 query construction and provide the expected query and result.
 
 \subsubsection{QALD}
-\label{cap2:qakg/benchmarkDatasets/qald}
+\label{cap2:theoFrame/qakg/benchmarkDatasets/qald}
 The series of QALD datasets are part of the Question Answering over Linked Data (QALD) challenges, 
 which aim to provide an up-to-date benchmark for measuring performance and comparing Question 
 Answering systems~\cite{qa:qald-Lopezetal2013}. The QALD challenge is divided into multiple 
@@ -263,7 +263,7 @@ its limited size means that it is insufficient for training NSP-based models, wh
 considerable amount of annotations to undergo a successful learning process
 
 \subsubsection{LC-QuAD 1}
-\label{cap2:qakg/benchmarkDatasets/lcquad}
+\label{cap2:theoFrame/qakg/benchmarkDatasets/lcquad}
 The Large-Scale Complex Question Answering Dataset (\LCQuADone{}) is a dataset based on 
 DBpedia~\cite{dataset:lcquad-TrivediMDL17}, where 82\% of its questions are considered complex. 
 Differently from QALD, the \SPARQL{} queries are built using a relatively small number of 
@@ -286,7 +286,7 @@ of Question Answering in the \RDF{}/\SPARQL{} setting, though most works~\cite{q
 show that a larger amount of examples are still required to train models properly.
 
 \subsubsection{DBNQA}
-\label{cap2:qakg/benchmarkDatasets/dbnqa}
+\label{cap2:theoFrame/qakg/benchmarkDatasets/dbnqa}
 The DBpedia Neural Question Answering (DBNQA)~\cite{dataset:dbnqa-hartmann-marx-soru-2018} dataset 
 is thus far the largest dataset for Neural Question Answering over DBpedia, with 894,499 annotated 
 pairs. The process to construct this dataset is similar to the one proposed for \LCQuADone{}, though its 
@@ -294,7 +294,7 @@ templates are extracted from the multilingual \QALDseven{} train dataset that in
 (not the same dataset as the Wikidata \QALDseven{} dataset mentioned before) and the same \LCQuADone 
 dataset. This extraction process provides 5217 \SPARQL{} templates. Another difference is the 
 approach to generate natural language questions. This dataset originated from the purposes of 
-training Neural SPARQL Machines, mentioned in the \textit{Semantic Parsing} section.
+training Neural SPARQL Machines, mentioned in the \textit{Semantic Parsing} section~\ref{cap2:theoFrame/semPar}.
 
 The template extraction process for each case consisted of replacing the concrete entities 
 with placeholders. This is the case for the original question, where resource labels are 
@@ -337,7 +337,7 @@ difference for questions with the same purpose. This lack of variation negativel
 generalisation capabilities of NSP-based models trained on this dataset~\cite{qa:BerantL14}.
 
 \subsubsection{LC-QuAD 2}
-\label{cap2:qakg/benchmarkDatasets/lcquad2}
+\label{cap2:theoFrame/qakg/benchmarkDatasets/lcquad2}
 Taking into account all the advantages and disadvantages of the aforementioned datasets, a 
 second version of the Large-Scale Complex Question Answering Dataset (\LCQuADtwo{}) was 
 proposed~\cite{dataset:lcquad2-DubeyBA019}. In particular, this dataset provides around 30,000 
