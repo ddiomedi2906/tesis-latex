@@ -9,8 +9,8 @@
 \depto{Departamento de Ciencias de la Computación}
 \author{Daniel Alejandro Diomedi Pinto}
 \title{Question Answering over Wikidata using Entity Linking and Neural Semantic Parsing}
-\auspicio{}
-\date{Octubre 2020}
+\auspicio{el Instituto Milenio Fundamento de los Datos.}
+\date{2021}
 \guia{Aidan Hogan}
 \carrera{Ingeniero Civil en Computación y grado de Magíster en Ciencias, Mención Computación}
 \memoria{Tesis para optar al Grado de \break Magíster en Ciencias, Mención Computación \break\break Memoria para optar al titulo de Ingeniero Civil en Computación}
@@ -54,19 +54,112 @@
 \maketitle
 
 \begin{resumen}
-    {\lipsum[1-4]}
+    {
+    El objetivo de \textit{Question Answering} sobre \textit{Knowledge Graphs} (QAKG) es encontrar
+    respuestas para preguntas en lenguaje natural sobre un \textit{Knowledge Graph}. Recientes enfoques 
+    de QAKG basados en \textit{Neural Semantic Parsing} adoptan un enfoque de \textit{Neural 
+    Machine Translation} (NMT), en el que la pregunta en lenguaje natural se traducea un lenguaje de 
+    consulta estructurado. En este contexto, queremos generar una consulta SPARQL que obtenga las 
+    respuestas esperadas al ejecutarse en el \textit{endpoint} del respectivo \textit{Knowledge Graph}.
+
+    Sin embargo, el enfoque basado en NMT adolece del problema de falta de vocabulario, en el que los 
+    términos de una pregunta pueden no haberse visto durante el entrenamiento, lo que dificulta su 
+    traducción. Este problema es particularmente problemático para las millones de entidades que 
+    describen los grandes \textit{Knowledge Graphs}. En este trabajo proponemos en cambio un enfoque 
+    para QAKG que delega el procesamiento de entidades a sistemas de \textit{Entity Linking} (EL). Por 
+    lo tanto, en lugar de generar la consulta SPARQL completa, el modelo de NMT se utiliza para crear 
+    un \textit{query template} con \textit{placeholders} que se llenan con entidades identificadas en 
+    la etapa de EL. Se proponen sistemas EL tipo \textit{ensemble} que combinan resultados de varios 
+    sistemas EL individuales del estado del arte. Se propone un enfoque de \textit{Slot Filling} para 
+    decidir qué entidad ocupa qué \textit{placeholder}, el cual combina el uso de un modelo de 
+    \textit{Sequence Labeling} con un algoritmo de llenado propuesto.
+
+    Evaluamos nuestro enfoque propuesto en el contexto de Wikidata para preguntas en inglés. Los 
+    experimentos evalúan el rendimiento del sistema de control de calidad de un extremo a otro, así 
+    como cada etapa de la generación de consultas SPARQL. Los resultados muestran que nuestro enfoque 
+    supera al enfoque de NMT puro: aunque sigue existiendo una fuerte dependencia de haber visto 
+    \textit{query templates} similares durante el entrenamiento, los errores relacionados con las 
+    entidades se reducen en gran medida.
+
+    La principal conclusión es que la combinación de \textit{Entity Linking} y \textit{Neural Semantic 
+    Parsing} muestra una mejora prometedora en el rendimiento de la tarea QAKG en el contexto de Wikidata. 
+    El trabajo futuro incluye experimentar con otros modelos de NMT como también trabajar en la 
+    construcción de conjuntos de datos de entrenamiento de mejor calidad, agregar nuevos sistemas EL para 
+    impulsar los sistemas tipo \textit{ensemble} y probar nuevas heurísticas para el proceso de 
+    \textit{Slot Filling}.
+    }
 \end{resumen}
 
 \begin{abstract}
-    {\lipsum[1-4]}
+    {
+        The goal of \textit{Question Answering over Knowledge Graphs} (QAKG) is to find answers for 
+    natural language questions over a \textit{Knowledge Graph}. Recent Neural Semantic Parsing-based QAKG 
+    approaches adopt a \textit{Neural Machine Translation} (NMT) approach, where the natural language 
+    question is translated into a structured query language. In this context, we want to generate a 
+    SPARQL query that should retrieve the expected answers by being executed over any Knowledge Graph’s 
+    endpoint service.
+
+    However, the approach based on NMT suffers from the out-of-vocabulary problem, where terms in a 
+    question may not have been seen during training, impeding their translation. This issue is 
+    particularly problematic for the millions of entities that large Knowledge Graphs describe. We 
+    rather propose a QAKG approach that delegates the processing of entities to \textit{Entity Linking} 
+    (EL) systems. Thereby, instead of generating the entire SPARQL query, the NMT is used to create a 
+    query template with placeholders that are filled by entities identified in an EL phase. We proposed 
+    ensemble EL systems that combine output from several individual EL systems from the state of arts. 
+    A \textit{Slot filling} approach is proposed to decide which entity fills which placeholder, which 
+    combines the use of a \textit{Sequence Labeling} model with a proposed filling algorithm. 
+    
+    We evaluate our proposed approach in the context of Wikidata for English questions. Experiments 
+    evaluate the performance of the end-to-end QA system as well as each stage of the SPARQL query 
+    generation. The results show that our approach outperforms the pure NMT approach: while there 
+    remains a strong dependence on having seen similar query templates during training, errors relating 
+    to entities are greatly reduced.
+    
+    The main conclusion is that the combination of Entity Linking and Neural Semantic Parsing shows a 
+    promising improvement in the performance of the QAKG task in the context of Wikidata. The future work 
+    includes experimenting with other NMT models while also working on building better quality training 
+    datasets, adding new EL systems for boosting ensemble systems, and trying new heuristics for the Slot 
+    Filling process.
+    }
 \end{abstract}
 
 \begin{dedicatoria} % opcional
-Una dedicatoria corta. Por ejemplo, al \emph{Centro Tecnológico Ucampus}
+Para \emph{Delia Pinto}, una madre increíble.
 \end{dedicatoria}
 
 \begin{thanks} % opcional
-\lipsum[1-2]
+Con este trabajo culmina una etapa que duró casi 7 años de mi vida, y por supuesto hubo harta gente 
+que me brindó su apoyo que fue indispensable y muy valioso. Esta página es para todos y todas ustedes 
+que estuvieron ahí. 
+
+Partir con agradecer a mi familia, que siempre me brindó todo lo necesario para que pudiese poner lo 
+mejor de mí durante mis estudios. Agradezco su comprensión en el momento en que la universidad no 
+dejaba otra cosa que ser la prioridad. Fueron, han sido, y serán la base de todo lo que he logrado 
+durante mi estancia en la universidad.
+
+No todo fue seriedad y estudio por supuesto. Los momentos de distensión también fueron muy valiosos y 
+donde guardo los mejores recuerdos es con la gente del Pasillo. Muchas gracias a todos y todas les 
+que se pasaron aunque sea una vez por el pasillo por cada almuerzo compartido y por cada conversación 
+llena de risas e irreverencia.
+
+También mencionar a toda la gente maravillosa con la que pude compartir en la universidad, en especial 
+la gente del departamento de Computación. Aunque en general era un nómada que variaba entre Toqui y 
+Eniac, siempre fue un gusto conversar con cualquiera persona que me cruzase en el departamento. 
+Mención especial a los manDCCos por todas esas noches de juegos hasta la madrugada, ojala vengan 
+varias más.
+
+Un tremendo agradecimiento a Sandra y Angélica por aguantar tantos semestres de mi haciendo preguntas 
+y buscando consejo. Siempre tuvieron la mejor de las disposiciones y no se imaginan lo valioso que 
+fue para mi su apoyo.
+
+Para finalizar, esta Tesis no hubiera salido sin la indispensable ayuda de mi profesor guía Aidan. 
+Aunque habían semanas en las que sentía que no había avance, siempre su guía y consejo siempre me 
+entregaba una perspectiva diferente a los problemas y desafíos que iban saliendo. También agradecer a 
+Henry Rosales por su asesoría en sistemas de Entity Linking, a Alberto Moya por su ayuda en montar 
+Wikidata en Virtuoso, y a Felipe Bravo junto con el grupo ReLeLa por el espacio para compartir mi 
+trabajo y por el valioso feedback entregado. Gracias al IMFD por financiar mi investigación y generar 
+instancias para conocer el trabajo de otros colegas.
+    
 \end{thanks}
 \cleardoublepage
 
