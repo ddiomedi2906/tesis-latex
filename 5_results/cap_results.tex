@@ -498,7 +498,7 @@ vocabulary dependence of the Baseline plays a major role in the worse performanc
 \end{table}
 
 The proposed system manages to achieve better Accuracy in most cases. The cases that present the best 
-results are the ASK queries with one query triple (\texttt{ask\_one\_fact}) and the SELECT queries 
+results are the \texttt{ASK} type queries with one query triple (\texttt{ask\_one\_fact}) and the SELECT queries 
 that utilize one property statement and one qualifier property (\texttt{select\_one\_
 qualifier\_value\_and\_object\_using\_one\_statement\_property}), which both require only one entity. One 
 noticeable case where our system does not present a good performance is the rank type query that 
@@ -567,7 +567,7 @@ expected results.
 We also evaluate the performance if we look over the best 5 predictions per 
 case, where a general improvement is noticed along all datasets. In this case, the best prediction 
 is the first query that returns a non-empty answer when being executed in the Wikidata endpoint. 
-Note that this approach is not effective with ASK type questions, since there is always a 
+Note that this approach is not effective with \texttt{ASK} type questions, since there is always a 
 non-empty answer (True or False).
 
 % Please add the following required packages to your document preamble:
