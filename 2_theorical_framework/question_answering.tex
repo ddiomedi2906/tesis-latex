@@ -8,7 +8,7 @@ standards~\cite{qa:intro-UngerFC14}. These systems differ from traditional searc
 as Google in the final objective: search engines only return documents in which the answer can be 
 potentially found, whereas a Question Answering system aims to return precise answers~\cite{qa:LopezUSM11}.
 
-When we mention the task of Question Answering over Knowledge Graphs (QAKG), we refer to 
+When we mention the task of Question Answering over Knowledge Graphs (KGQA), we refer to 
 receiving a natural language question and returning an answer retrieved from one or more 
 Knowledge Graphs (e.g. the first man to walk on the moon is Neil 
 Amstrong\footnote{\url{https://www.wikidata.org/wiki/Q1615} in Wikidata.}). Though there is work 
@@ -53,16 +53,16 @@ height-increasing drug?} focuses on the same property, but a different topic, wh
 
 According to Fu et al.~\cite{qa:FuQTLYS20abs-2007-13069}, current systems do not struggle with 
 answering simple questions, i.e. questions that only require one subject-predicate-object 
-triple fact, but complex questions are still a challenge for QAKG. A complex question usually 
+triple fact, but complex questions are still a challenge for KGQA. A complex question usually 
 is referred to as three types: questions under specific conditions (e.g. \dquotesit{Who was the 
 president of Chile during the Great Recession of 2008?}), questions with more intentions (e.g. 
 \dquotesit{Give the names of the Chilean national football team and the number of goals they have 
 scored}), and questions requiring constraint inference (e.g. \dquotesit{What is the most 
 expensive movie starring Pedro Pascal?}).
 
-\subsection{QAKG approaches}
+\subsection{KGQA approaches}
 \label{cap2:theoFrame/qakg/approaches}
-Though there is no standard approach for QAKG, most techniques or methods proposed follow a 
+Though there is no standard approach for KGQA, most techniques or methods proposed follow a 
 similar four-stage pipeline~\cite{qa:core-techniques-DiefenbachLSM18}. First, a question 
 analysis stage includes techniques that extract information from the current question using 
 purely syntactic features. Then, the phrase mapping stage defines techniques that identify KG 
@@ -73,8 +73,8 @@ considers techniques used to construct the \SPARQL{} query that should retrieve 
 In summary, most Question Answering systems are a combination of these four steps and vary with 
 respect to which techniques are used to address each phase of the Question Answering process.
 
-On the other hand, QAKG approaches can be classified according to which techniques their models 
-are based on. The traditional QAKG models rely on predefined templates and manuals to parse 
+On the other hand, KGQA approaches can be classified according to which techniques their models 
+are based on. The traditional KGQA models rely on predefined templates and manuals to parse 
 questions~\cite{qa:core-techniques-DiefenbachLSM18}. However, these traditional approaches require 
 a certain level of knowledge of linguistics, and tend to be difficult to scale. Therefore, recent 
 work has focused more on two kinds of approaches: methods based on Information Retrieval methods 
@@ -98,7 +98,7 @@ However, building these features is time-consuming and is not able to capture th
 semantic information of questions.
 
 Methods based on representation learning convert questions and candidate answers into vector 
-representations and reduce QAKG to a semantic matching computation between representations of 
+representations and reduce KGQA to a semantic matching computation between representations of 
 questions and their candidate answers. Some methods incorporate external knowledge to complement 
 the representation information and address the incompleteness that the KG might 
 have~\cite{qa:XuRFHZ16,qa:SunDZMSC18,qa:TrouillonWRGB16}. Some other methods incorporate a 
@@ -126,7 +126,7 @@ on a restricted subset of lambda-calculus in the graph representation, MultiCG e
 include more constraint types and operators in order to cover more complex questions. Since all 
 these proposals rely on Entity Linking tools to initialize the query graph construction, 
 Yu et al.~\cite{qa:YuYHSXZ17} assumes a poor performance of such tools and proposes a 
-Hierarchical Residual BiLSTM with the goal of improving entity recognition accuracy.
+Hierarchical Residual BiLSTM with the goal of improving entity recognition Accuracy.
 
 On the other hand, other work proposes to use encoder-decoder models to reduce the Semantic 
 Parsing task into a Sequence-to-Sequence problem. One example is the Seq-to-Tree model proposed 
@@ -136,7 +136,7 @@ information of the input question, the Graph-to-Seq model was proposed by Xu et 
 to encode the question as a syntactic graph. A last example is the Neural Symbolic Machine 
 proposed by Liang et al.~\cite{qa:LiangBLFL17}, which proposed a lighter supervision approach 
 by training a Seq2seq model with reinforcement learning. Nevertheless, none of the examples 
-mentioned above have been evaluated in the context of QAKG.
+mentioned above have been evaluated in the context of KGQA.
 
 In general, the results of NSP-based models tend to be slightly better than the results from 
 IR-based models. Nevertheless, it is still challenging to train a Neural Semantic Parser due to 
@@ -144,7 +144,7 @@ the lack of training data.
 
 \subsection{Main Challenges}
 \label{cap2:theoFrame/qakg/challenges}
-The QAKG task is still an open problem, where many challenges have partially been addressed. 
+The KGQA task is still an open problem, where many challenges have partially been addressed. 
 Some of these challenges are related to the question being asked and others to the answers that 
 can be returned. 
 
@@ -180,8 +180,8 @@ chosen. Some examples are RVT, which uses Hidden Markov Models~\cite{qa:Giannone
 which relies on Markov Logic Networks~\cite{qa:shizhu2014casia}; or Treo~\cite{qa:freitas2011treo,
 qa:FreitasOOSC13}, which uses Wikipedia-based semantic relatedness.
 
-Unlike the lexical gap, which affects the recall of a QA system, ambiguity negatively affects 
-its precision. While some methods aim to reduce the lexical gap, these same methods can make it 
+Unlike the lexical gap, which affects the Recall of a QA system, ambiguity negatively affects 
+its Precision. While some methods aim to reduce the lexical gap, these same methods can make it 
 difficult to address ambiguity. It is customary that in the disambiguation stage the systems 
 try to balance the effects of both issues.
 
@@ -232,7 +232,7 @@ answer would be \{\texttt{red}, \texttt{green}, \texttt{blue}\}. If a system ans
 only color part of the correct answers among the two colors returned, while the Recall would be 
 0.33 because the only color correctly returned among the golden standard set is \texttt{green}.
 
-Similar to Entity Linking system evaluations, the global precision or global recall can be 
+Similar to Entity Linking system evaluations, the global Precision or global Recall can be 
 reported in two ways: as a micro average or a macro average. The F1-score is also used to 
 combine Precision and Recall into one measure.
 

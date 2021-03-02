@@ -283,9 +283,9 @@ original \SPARQL{} representation.
 select var_sbj where brack_open var_sbj wdt_p19 wd_q201007 sep_dot var_sbj wdt_p166 wd_q37922 sep_dot brack_close
 \end{sparqlcode}
 
-The evaluation metrics typically used to compare these systems are string-matching accuracy, 
-BLEU score and perplexity. The string-matching accuracy is used to measure the amount of exact 
-matches delivered by each system. The global accuracy is then the percentage of cases that are 
+The evaluation metrics typically used to compare these systems are string-matching Accuracy, 
+BLEU score and Perplexity. The string-matching Accuracy is used to measure the amount of exact 
+matches delivered by each system. The global Accuracy is then the percentage of cases that are 
 syntactically equal to the expected answer. This metric is particularly useful when measured 
 over a dataset based on \SPARQL{} templates, giving insights into whether or not the expected 
 \SPARQL{} form is being correctly generated.
@@ -318,7 +318,7 @@ entropy H(p,q) which is defined as follows:
 \noindent where $p$ represents the target probability distribution and q is the estimated probability 
 distribution. Their similarity is defined by all possible values $x$ in the distribution. In 
 this case, $p$ is the one-hot encoding vector of the target vocabulary and q is deduced from 
-the result of the output softmax layer. Then the perplexity is defined as the exponentiation 
+the result of the output softmax layer. Then the Perplexity is defined as the exponentiation 
 of the cross entropy:
 \[
     perplexity(p,q)=2^{H(p,q)}
@@ -328,9 +328,9 @@ According to the experiments conducted by Ying et al.~\cite{nmt:nl-to-sparql-Yin
 that performs best was the ConvS2S model. Although many datasets were used in their experiments, 
 we are only interested in \LCQuADone~\cite{dataset:lcquad2-DubeyBA019} and 
 \DBNQA~\cite{dataset:dbnqa-hartmann-marx-soru-2018}, two datasets that represent opposite traits 
-of a Question Answering Dataset: the LC-QuAD dataset contains few questions (5000) but with high 
+of a Question Answering Dataset: the \LCQuADone{} dataset contains few questions (5000) but with high 
 complexity and high variance of its questions while the \DBNQA{} dataset contains a huge volume of 
-questions (nearly 900,000) but it lacks variety in its questions. We explain with more details 
+questions (nearly $900,000$) but it lacks variety in its questions. We explain with more details 
 what we understand by a \dquotes{good dataset} in the \textit{Question Answering} section~\ref{cap2:theoFrame/qakg}. 
 The results of the three best models among the eight selected over the mentioned datasets are 
 shown in Table~\ref{table:nmtYinResults}.
@@ -352,12 +352,12 @@ shown in Table~\ref{table:nmtYinResults}.
     \label{table:nmtYinResults}
     \end{table}
 
-Based on the perplexity results, there is a serious overfit for all models over the \LCQuADone{} 
+Based on the Perplexity results, there is a serious overfit for all models over the \LCQuADone{} 
 dataset which Yin et al. attributes to the small size of the dataset and its complex questions. 
 No evident overfit is spotted over \DBNQA, and the ConvS2S shows better results which is 
 reflected in the other results as well. The BLEU score results reflect that ConS2S again 
-outperformed all other models and shows a correlation between perplexity and BLEU, especially 
-when looking at \DBNQA{} results. Finally, accuracy results clearly show that RNN based models and 
+outperformed all other models and shows a correlation between Perplexity and BLEU, especially 
+when looking at \DBNQA{} results. Finally, Accuracy results clearly show that RNN based models and 
 the Transformer do not perform positively in any case when compared to the ConvS2S model. 
 However, the results over the \LCQuADone{} dataset shows there is still a challenge on handling more 
 complex questions among all NMT models.

@@ -39,20 +39,20 @@ Listing~\ref{lst:normalizedDatasetExample} we can see an example of what informa
     Verbalized cases are then numbered from $0$ to $30,225$, and paraphrased cases from $30,226$ to 
     $60,451$.
     \item \textbf{Natural Language Question}: the question text (verbalized or paraphrased version).
-    \item \textbf{Query Answer}: a list of possible SPARQL query valid responses. We allow more than 
+    \item \textbf{Query Answer}: a list of possible \SPARQL{} query valid responses. We allow more than 
     one possible query since for each question there are many ways to reach the expected answer (for 
     example, \dquotesit{What is the biggest country?} may refer to population, area, etc.; however in 
-    this work we only have one SPARQL query per case). Each query answer case has the following fields:
+    this work we only have one \SPARQL{} query per case). Each query answer case has the following fields:
     \begin{itemize}
         \item \textbf{Query ID}: unique identifier to identify query answers for the same question.
-        \item \textbf{SPARQL query}: the SPARQL query string.
+        \item \textbf{SPARQL query}: the \SPARQL{} query string.
         \item \textbf{Entities}: list of expected annotations of the entities being used in the 
-        SPARQL query answer. Each annotation contains the entity URL and the label of the question 
+        \SPARQL{} query answer. Each annotation contains the entity URL and the label of the question 
         associated with that entity.
         \item \textbf{Slots}: list of expected slots to use for the Slot Filling system. Each slot 
         contains the associated label in the question and its corresponding placeholder in the Query 
         Template.
-        \item \textbf{SPARQL Template}: the Query Template derived from the SPARQL query.
+        \item \textbf{SPARQL Template}: the Query Template derived from the \SPARQL{} query.
     \end{itemize}
 \end{itemize}
 

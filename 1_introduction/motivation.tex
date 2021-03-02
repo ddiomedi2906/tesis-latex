@@ -26,8 +26,8 @@ Description Framework (\RDF)~\cite{key:rdfprimer11}. This data model describes r
 statements of the form subject-predicate-object, also called triples, and can be represented as a 
 directed edge-labelled graph. A collection of \RDF{} statements is known as a Knowledge Graph 
 (KG)~\cite{key:ldbook}. Altogether, these KGs when linked together on the Web give shape to what is 
-called the Linked Data Cloud~\cite{key:ldprinciples}: a large amount of interlinked RDF datasets that 
-comprise more than 30 billion RDF triples. Among the most popular KGs, Wikidata~\cite{KG:wikidata} and 
+called the Linked Data Cloud~\cite{key:ldprinciples}: a large amount of interlinked \RDF{} datasets that 
+comprise more than 30 billion \RDF{} triples. Among the most popular KGs, Wikidata~\cite{KG:wikidata} and 
 DBpedia~\cite{KG:dbpedia} are huge and become more useful and accessible each day for research fields 
 and applications~\cite{wikidata:usage-MalyshevKGGB18, EL:dbpedia-spotlight-MendesJGB11}. 
 
@@ -62,7 +62,7 @@ However, we are interested in systems able to construct their responses by query
 like relational databases or knowledge graphs from the Linked Data Cloud.
 
 More specifically, the task of answering natural language questions using Knowledge Graphs 
-is known as Question Answering over Knowledge Graphs (QAKG)~\cite{qa:nn-qakg-Chakraborty19} or Question 
+is known as Question Answering over Knowledge Graphs (KGQA)~\cite{qa:nn-qakg-Chakraborty19} or Question 
 Answering over Linked Data (QALD)~\cite{qa:intro-UngerFC14, qa:qald-Lopezetal2013}. Unger et 
 al.~\cite{qa:intro-UngerFC14} define the QALD task as follows: \dquotesit{translate the users’ 
 information need into a form such that they can be evaluated using standard Semantic Web query 
@@ -127,7 +127,7 @@ dataset:lcquad-TrivediMDL17}. Furthermore, the queries required to answer a ques
 dataset to dataset, where the \SPARQL{} queries needed for DBpedia are not the same as those for Wikidata.
 
 One of the most recent works in regards to using NMT for \SPARQL{} is that 
-the Neural SPARQL Machine (NSpM)~\cite{nmt:nspm-SoruMMPVEN17}, which considers \SPARQL{} as a foreign 
+the \textit{Neural SPARQL Machine} (NSpM)~\cite{nmt:nspm-SoruMMPVEN17}, which considers \SPARQL{} as a foreign 
 language. The main idea is to train an end-to-end learning model to translate any NL expression 
 into a sequence of tokens in the \SPARQL{} grammar that expresses a query equivalent to the 
 question over a given dataset. Question Answering systems based on neural networks usually 

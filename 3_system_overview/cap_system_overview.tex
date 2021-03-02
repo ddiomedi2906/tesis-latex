@@ -163,8 +163,8 @@ In particular, we use the Convolutional Sequence to Sequence model (ConvS2S)~\ci
 implementation to build the Query Generator model. The decision to use the ConvS2S is based 
 on the work done by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where eight Sequence-to-Sequence 
 models were implemented and compared regarding the NL-to-SQL task. From this comparison, 
-the ConvS2S model ended up having the best performance in terms of perplexity, BLEU score, 
-and string-match accuracy. This model has to be trained and can be used later to generate an 
+the ConvS2S model ended up having the best performance in terms of Perplexity, BLEU score, 
+and string-match Accuracy. This model has to be trained and can be used later to generate an 
 output depending on the given data. If we need to build a \SPARQL{} Query generator, we have to 
 feed the system with pairs of NL questions and \SPARQL{} queries. In the same way, for a Query 
 Template generator we instead use query templates as our output examples for training.
@@ -220,14 +220,14 @@ follow.
 
 \subsection{Entity Linking pipeline}
 \label{cap3:system/entLinModule/pipeline}
-An example for the Entity Linking pipeline is shown in Figure 2, for the question \dquotesit{Was 
-Gabriela Mistral a poet?}. We assume that the Entity Linking module is available through an 
-API; the Entity Linking system first retrieves the annotations by querying the API service, 
-which returns annotations along with extra information (e.g. scores, second ranking entities, 
-etc). In the case that the Entity Linking system targets a different Knowledge Graph to the one 
-over which questions are answered, in a second (optional) phase the entities are mapped from 
-the former to the latter (we do not compute the mapping in this work but rather assume that a 
-mapping is made available).
+An example for the Entity Linking pipeline is shown in Figure~\ref{fig:entityLinkingPipeline}, 
+for the question \dquotesit{Was Gabriela Mistral a poet?}. We assume that the Entity Linking 
+module is available through an API; the Entity Linking system first retrieves the annotations 
+by querying the API service, which returns annotations along with extra information (e.g. scores, 
+second ranking entities, etc). In the case that the Entity Linking system targets a different 
+Knowledge Graph to the one over which questions are answered, in a second (optional) phase the 
+entities are mapped from the former to the latter (we do not compute the mapping in this work 
+but rather assume that a mapping is made available).
 
 \begin{figure}[!h]
     \centering
@@ -404,7 +404,7 @@ i.e. systems that prioritize Precision over Recall.
 
 Then, the PPrior system assigns a priority to each individual system according to their 
 performance on the datasets we are interested in (\LCQuADtwo, \DBNQA, and \QALDseven). In 
-particular, systems with better precision have higher priority. These results can be found in 
+particular, systems with better Precision have higher priority. These results can be found in 
 the \textit{Results} chapter~\ref{cap5:results/entityLinking}, 
 which establishes the following priority: AIDA, OpenTapioca, TAGME, and DBpedia Spotlight. Next, 
 the PPrior system retrieves the annotations of each individual system following the established 
@@ -463,7 +463,7 @@ entities of the mentions \dquotesit{Juan Jose Ibarretxe} and \dquotesit{FC Barce
 output as final annotations.
 
 The main advantage of the Voting system is that it can benefit from every system equally (all 
-votes weigh the same regardless of their system’s precision). Thus, it seems reasonable to 
+votes weigh the same regardless of their system’s Precision). Thus, it seems reasonable to 
 assume that the more systems are included in the voting process, the greater the chances are 
 that the correct entities will be among the top voted ones. Some disadvantages are that with 
 few systems the voting system does not differ much from the PPrior system, and its process is 
@@ -480,7 +480,7 @@ significant improvement is perceived.
 First, some entities linked to stopwords (e.g. \dquotesit{Does} linked to \texttt{Q302057}) are 
 filtered using an English stopwords list provided by the Natural Language Toolkit\footnote{\url{https://www.nltk.org/}}. 
 Before performing any join annotation process, the annotations that contain stop words are 
-discarded. The idea behind this filter is to avoid entities from systems with low precision 
+discarded. The idea behind this filter is to avoid entities from systems with low Precision 
 negatively affecting the identification of correct entities. However, some entities may 
 include stopwords in their names (e.g. the rock band \dquotesit{The Who}), where this approach 
 may negatively affect the results for such entities.

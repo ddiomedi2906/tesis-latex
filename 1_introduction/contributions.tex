@@ -31,8 +31,8 @@ with the main task (Question Answering over Knowledge Graphs).
 
 The metrics used for comparing systems are based on the ones used for comparing Neural 
 Machine Translation systems and the ones found on the QALD benchmark. The first set of 
-metrics includes the BLEU score, perplexity, and accuracy by comparing an exact match on 
-the \SPARQL{} query. On the other hand, the QALD benchmark uses precision, recall, and F1-score 
+metrics includes the BLEU score, Perplexity, and Accuracy by comparing an exact match on 
+the \SPARQL{} query. On the other hand, the QALD benchmark uses Precision, Recall, and F1-score 
 over the answers obtained when executing the output \SPARQL{} query. Additionally, 
 we propose a fine-grained analysis over each case where predicted queries are evaluated with 
 respect to the following components: correct entities, correct slots, and correct query 
@@ -50,7 +50,7 @@ which includes DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, AIDA~\
 TAGME~\cite{EL:tagme-FerraginaS10}, and Open Tapioca~\cite{EL:opentapioca-Delpeuch19}. 
 All of these systems, except for Open Tapioca, only work for DBpedia; therefore an 
 extra mapping layer is implemented to map DBpedia entities to Wikidata entities. Two ensemble 
-EL approaches are then proposed: one that prioritizes systems with higher precision 
+EL approaches are then proposed: one that prioritizes systems with higher Precision 
 and the other that implements a voting mechanism. We keep the variant that performs best 
 according to the experiments that are explained in the \textit{Experimental results} subsection.
 
@@ -72,12 +72,12 @@ We conduct several experiments for validating each implemented module (Entity Li
 Slot Filling, and Query Template Generation) along with experiments over the defined 
 benchmark for the end-to-end Question Answering process.
 
-The Entity Linking systems are compared using precision, recall, and F1-score on the 
+The Entity Linking systems are compared using Precision, Recall, and F1-score on the 
 entities for each case on the dataset used for training. Testing is conducted over \QALDseven{} and 
-our proposed dataset. The slot filling system is validated using precision, recall, and F1-score 
+our proposed dataset. The slot filling system is validated using Precision, Recall, and F1-score 
 over the identified BIO labels (a common tagging format for sequence labeling tasks) over 
 \LCQuADtwo{} and the mapped DBQNA dataset. The query generator system is validated 
-using BLEU score, perplexity, and accuracy over \LCQuADtwo{} and the mapped DBQNA 
+using BLEU score, Perplexity, and Accuracy over \LCQuADtwo{} and the mapped DBQNA 
 dataset. When training the query generator system, many split methods are tested according 
 to the methodology proposed by Finegan-Dollak et al.~\cite{semPar:txt-to-sql-RadevKZZFRS18} used for Text-to-SQL systems. 
 The end-to-end Question Answering system is tested over all the datasets using the metrics 

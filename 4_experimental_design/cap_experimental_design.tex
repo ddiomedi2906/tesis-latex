@@ -76,7 +76,7 @@ paraphrased question -> Did Alexander Hamilton practice law?
 Since some cases may have issues on either the verbalized or the paraphrased question, we 
 decided to maintain a one-to-one correspondence between question and query. Although it would 
 be interesting to test whether having many variations of the same question might affect the 
-system performance, we think that experiment has to be done with a dataset where each case has 
+system performance, we think such an experiment has to be done with a dataset where each case has 
 the same amount of variations (which cannot be guaranteed with this dataset without having to 
 discard an uncertain amount of valid cases). Then, in each case we first use the paraphrased 
 question as the case’s question. However, if the paraphrased question is not valid, we use the 
@@ -87,8 +87,8 @@ To define if a question is an invalid verbalization/paraphrase, the following is
 into account:
 
 \begin{enumerate}
-    \item Question is null, empty or not applicable (marked as \dquotestt{NA}). 
-    \item Question has not been corrected, e.g., it still contains brackets from the normalized 
+    \item The question is null, empty or not applicable (marked as \dquotestt{NA}). 
+    \item The question has not been corrected, e.g., it still contains brackets from the normalized 
     question, or it is the same question as the normalized version without brackets.
     \item The question contains the answer to the previous normalized or verbalised question 
     instead of the verbalization or paraphrasing, respectively. 
@@ -100,9 +100,9 @@ into account:
 \end{enumerate}
 
 Note that given the large number of questions in the dataset, this validation was not performed 
-manually but rather using a script to identify these issues as best as possible. Thus some cases 
-may slip into the final preprocessed dataset, though we consider that as an acceptable amount of 
-noise.
+manually but rather using a script to identify these issues as best as possible. Thus some 
+undesirable cases may slip into the final preprocessed dataset, though we consider that as an 
+acceptable amount of noise.
 
 Other cases presented issues with their Wikidata \SPARQL{} query, where either the query was 
 empty/null, or contained invalid entities or tokens. An entity is considered invalid if it does 
@@ -125,8 +125,8 @@ In summary, from the 30,226 cases contained in the \LCQuADtwo{} dataset, 2,520 c
 discarded: of these, 2,478 cases were discarded for having an invalid question or query, and 42 
 cases were duplicate cases. Note that 52\% of this final preprocessed dataset is composed of 
 complex questions (a deeper explanation of which cases are considered complex can be found in 
-Annex B). After preprocessing, this dataset is used to train the Neural-based models used in 
-this work.
+Appendix~\ref{appendix:qaDataset}). After preprocessing, this dataset is used to train the 
+Neural-based models used in this work.
 
 \subsection{Query Template Dataset}
 \label{cap4:experimentalDesign/QaDataset/queryTemplate}
@@ -202,9 +202,9 @@ corresponding label, a query template deduced from the \SPARQL{} query, and a ma
 entity labels and the query template placeholders. 
 
 We proposed a normalized format and delivered a dataset that not only can be used to evaluate 
-systems on the QAKG task, but also over the tasks of Entity Linking, Name Entity Recognition, 
+systems on the KGQA task, but also over the tasks of Entity Linking, Name Entity Recognition, 
 Slot Filling, Intent Classification, or Semantic Parsing. A sample of the entire dataset can be 
-found in Appendix B.
+found in Appendix~\ref{appendix:qaDataset}.
 
 \section{System Implementation}
 \label{cap4:experimentalDesign/systemImplementation}
@@ -221,7 +221,7 @@ Google Colaboratory\footnote{\url{https://colab.research.google.com/}} using the
 ConvS2s~\cite{nmt:convS2S-GehringAGYD17} model implementation included in the Fairseq 
 framework\footnote{\url{https://fairseq.readthedocs.io/en/latest/}} and the settings described in the 
 Fairseq Model subsection in the \textit{System Overview} chapter~\ref{cap3:system/queryGenModule/fairseqModel} 
-(we recall that this model had 
+(we Recall that this model had 
 the best performance in the comparison of Yin et al.~\cite{nmt:nl-to-sparql-Yin19}). After the 
 training phase, a Fairseq Wrapper was implemented in order to import the models and perform the 
 prediction over new data. These wrappers receive the NL question as the input and can return 
@@ -231,8 +231,8 @@ number defined by the user).
 The various individual Entity Linking systems (DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, 
 AIDA~\cite{EL:aida-tool-YosefHBSW11, EL:aida-HoffartYBFPSTTW11}, TAGME~\cite{EL:tagme-FerraginaS10}, 
 OpenTapioca~\cite{EL:opentapioca-Delpeuch19}) were implemented using the web services each system 
-has available. Then, a Entity Linking wrapper was created for each system, were they received the 
-NL question as the input and return a set of annotations which contain a Wikidata entity, the 
+has available. Then, an Entity Linking wrapper was created for each system, were they received the 
+NL question as the input returning a set of annotations which contain a Wikidata entity, the 
 label in the question that entity was associated with, and the score the system gives to the 
 respective annotations (which varies across systems). Then, the Precision Priority system and 
 Voting systems were implemented combining the individual Entity Linking wrappers, maintaining 
@@ -242,11 +242,11 @@ Finally, the Slot Filling module implementation followed similar stages to those
 Generation module. A Sequence Labeling model is trained using Google Colaboratory and the Flair 
 Sequence Tagger from the Flair framework\footnote{\url{https://github.com/flairNLP/flair/}} and 
 the setting described in the \textit{System Overview} chapter~\ref{cap3:system/slotFillModule/seqTagger}. 
-Then, a Flair wrapper was 
-implemented to import the Sequence Labeling model and perform the tagging over new data. This 
-wrapper was used to implement the Slot Filling system, where the input consists of an NL question, 
-a Query Template, and the Entity Linking annotations. Then, the output is a \SPARQL{} query built 
-from the given set of values, only if the Slot Filling is successful.
+Then, a Flair wrapper was implemented to import the Sequence Labeling model and perform the 
+tagging over new data. This wrapper was used to implement the Slot Filling system, where the 
+input consists of an NL question, a Query Template, and the Entity Linking annotations. Then, 
+the output is a \SPARQL{} query built from the given set of values, only if the Slot Filling is 
+successful.
 
 The entire system was implemented using Python 3.6. The implementation and the datasets used can 
 be found in the following Github repository: \url{https://github.com/ddiomedi2906/Wikidata_QA_Benchmark/}.
@@ -279,13 +279,13 @@ As a summary, the datasets that are used to perform the experiments are the foll
     the performance of the end-to-end QA system and some of its modules. Note that some \LCQuADtwo{} 
     templates are based on \QALDseven{} cases.
     \item \WikiSPARQL{}, which is a novel dataset generated in this work with the objective of 
-    measuring how capable our system is to generalize to cases that are not necessarily based on 
+    measuring how capable our system is of generalizing to cases that are not necessarily based on 
     the templates used in the \LCQuADtwo{} dataset. This dataset consists of 100 cases of manually 
     created questions over Wikidata, and is used to evaluate the performance of the end-to-end 
     QA system and its modules.
 \end{itemize}
 
-An overview of the each datasets used in this work can be see in Table 1.
+An overview of the each datasets used in this work can be see in Table~\ref{table:datasetsOverview}.
 
 \begin{table}[h!]
     \centering
@@ -303,8 +303,8 @@ An overview of the each datasets used in this work can be see in Table 1.
 At the beginning of this work, we planned to include a mapped version of the 
 \DBNQA{}~\cite{dataset:dbnqa-hartmann-marx-soru-2018} dataset,
 with the DBpedia queries being mapped to Wikidata queries. However, we were unable 
-to map more than 12\% of the dataset, losing the variety in query types this dataset 
-provides. Besides, most of the mapped queries did not even return an answer when 
+to automatically map more than 12\% of the dataset, losing the variety in query types this 
+dataset provides. Besides, most of the mapped queries did not even return an answer when 
 being executed over the Wikidata endpoint. For these reasons, we decided to exclude 
 that dataset from the experiments in this work.
 
@@ -313,7 +313,7 @@ that dataset from the experiments in this work.
 The Query Template Generator is trained using the \LCQuADtwo{} training set, and is 
 evaluated over the training and validation datasets using Perplexity, and BLEU score. 
 Then, the model is evaluated over the \LCQuADtwo{} validation, \QALDseven{} and 
-\WikiSPARQL{} datasets using BLEU score and string-match accuracy.
+\WikiSPARQL{} datasets using BLEU score and string-match Accuracy.
 
 The only point of reference for this model is to use the Baseline Query Generator model, and 
 evaluate which one of the two better predicts which Query Template corresponds for each case. 
@@ -334,7 +334,7 @@ configurations described in the \textit{System Overview} chapter~\ref{cap3:syste
 The performance of each Entity Linking system is measured using Precision, Recall and F1-score 
 over their output annotations. Both macro and micro measures are used. First, IEL systems are 
 evaluated over the \LCQuADtwo{} validation set in order to select the priority that each IEL system 
-will have for the EEL systems. The priority is determined by comparing the IEL systems’ precision, 
+will have for the EEL systems. The priority is determined by comparing the IEL systems’ Precision, 
 so an IEL system with higher Precision will have higher priority. Then, EEL systems are also 
 evaluated over the \LCQuADtwo{} validation set. After that, both EEL and IEL are evaluated over 
 \QALDseven{} and our \WikiSPARQL{} datasets.
@@ -364,18 +364,18 @@ different input cases (e.g. all the incoming input is correct, some of the syste
 incorrect output, and so on).
 
 \subsection{Question Answering over Knowledge Graphs}
-\label{cap4:experimentalDesign/QAKG}
+\label{cap4:experimentalDesign/KGQA}
 The evaluation of the overall QA system is performed using two approaches: the traditional 
 approach of evaluating answers given by the system~\cite{qa:qald-Lopezetal2013}, and (as used by 
 many Neural-based systems) the approach of evaluating the \SPARQL{} query 
-returned~\cite{nmt:nl-to-sparql-Yin19}. The baseline for both approaches is the SPARQL Query 
+returned~\cite{nmt:nl-to-sparql-Yin19}. The baseline for both approaches is the \SPARQL{} Query 
 generator based on the ConvS2S model that performs the best among the Neural-based models 
 according to the Ying et al.’s work~\cite{nmt:nl-to-sparql-Yin19}.
 
 The first approach consists of evaluating the performance of the QA system using Precision, 
 Recall and F1-score over the system’s answers. This approach values more the final output of the 
 system, regardless of how it was retrieved. The second approach consists of evaluating the 
-performance of the QA system using BLEU score and string-match accuracy. This last approach 
+performance of the QA system using BLEU score and string-match Accuracy. This last approach 
 values more the query string used to generate the answer, and how close it is for the expected 
 query. Both approaches are evaluated over the \LCQuADtwo{} validation set, \QALDseven{}, and \WikiSPARQL{}.
 

@@ -55,10 +55,10 @@
 
 \begin{resumen}
     {
-    El objetivo de \textit{Question Answering} sobre \textit{Knowledge Graphs} (QAKG) es encontrar
+    El objetivo de \textit{Question Answering} sobre \textit{Knowledge Graphs} (KGQA) es encontrar
     respuestas para preguntas en lenguaje natural sobre un \textit{Knowledge Graph}. Recientes enfoques 
-    de QAKG basados en \textit{Neural Semantic Parsing} adoptan un enfoque de \textit{Neural 
-    Machine Translation} (NMT), en el que la pregunta en lenguaje natural se traducea un lenguaje de 
+    de KGQA basados en \textit{Neural Semantic Parsing} adoptan un enfoque de \textit{Neural 
+    Machine Translation} (NMT), en el que la pregunta en lenguaje natural se traduce a un lenguaje de 
     consulta estructurado. En este contexto, queremos generar una consulta SPARQL que obtenga las 
     respuestas esperadas al ejecutarse en el \textit{endpoint} del respectivo \textit{Knowledge Graph}.
 
@@ -66,7 +66,7 @@
     términos de una pregunta pueden no haberse visto durante el entrenamiento, lo que dificulta su 
     traducción. Este problema es particularmente problemático para las millones de entidades que 
     describen los grandes \textit{Knowledge Graphs}. En este trabajo proponemos en cambio un enfoque 
-    para QAKG que delega el procesamiento de entidades a sistemas de \textit{Entity Linking} (EL). Por 
+    para KGQA que delega el procesamiento de entidades a sistemas de \textit{Entity Linking} (EL). Por 
     lo tanto, en lugar de generar la consulta SPARQL completa, el modelo de NMT se utiliza para crear 
     un \textit{query template} con \textit{placeholders} que se llenan con entidades identificadas en 
     la etapa de EL. Se proponen sistemas EL tipo \textit{ensemble} que combinan resultados de varios 
@@ -82,7 +82,7 @@
     entidades se reducen en gran medida.
 
     La principal conclusión es que la combinación de \textit{Entity Linking} y \textit{Neural Semantic 
-    Parsing} muestra una mejora prometedora en el rendimiento de la tarea QAKG en el contexto de Wikidata. 
+    Parsing} muestra una mejora prometedora en el rendimiento de la tarea KGQA en el contexto de Wikidata. 
     El trabajo futuro incluye experimentar con otros modelos de NMT como también trabajar en la 
     construcción de conjuntos de datos de entrenamiento de mejor calidad, agregar nuevos sistemas EL para 
     impulsar los sistemas tipo \textit{ensemble} y probar nuevas heurísticas para el proceso de 
@@ -92,8 +92,8 @@
 
 \begin{abstract}
     {
-        The goal of \textit{Question Answering over Knowledge Graphs} (QAKG) is to find answers for 
-    natural language questions over a \textit{Knowledge Graph}. Recent Neural Semantic Parsing-based QAKG 
+        The goal of \textit{Question Answering over Knowledge Graphs} (KGQA) is to find answers for 
+    natural language questions over a \textit{Knowledge Graph}. Recent Neural Semantic Parsing-based KGQA 
     approaches adopt a \textit{Neural Machine Translation} (NMT) approach, where the natural language 
     question is translated into a structured query language. In this context, we want to generate a 
     SPARQL query that should retrieve the expected answers by being executed over any Knowledge Graph’s 
@@ -102,7 +102,7 @@
     However, the approach based on NMT suffers from the out-of-vocabulary problem, where terms in a 
     question may not have been seen during training, impeding their translation. This issue is 
     particularly problematic for the millions of entities that large Knowledge Graphs describe. We 
-    rather propose a QAKG approach that delegates the processing of entities to \textit{Entity Linking} 
+    rather propose a KGQA approach that delegates the processing of entities to \textit{Entity Linking} 
     (EL) systems. Thereby, instead of generating the entire SPARQL query, the NMT is used to create a 
     query template with placeholders that are filled by entities identified in an EL phase. We proposed 
     ensemble EL systems that combine output from several individual EL systems from the state of arts. 
@@ -116,7 +116,7 @@
     to entities are greatly reduced.
     
     The main conclusion is that the combination of Entity Linking and Neural Semantic Parsing shows a 
-    promising improvement in the performance of the QAKG task in the context of Wikidata. The future work 
+    promising improvement in the performance of the KGQA task in the context of Wikidata. Future work 
     includes experimenting with other NMT models while also working on building better quality training 
     datasets, adding new EL systems for boosting ensemble systems, and trying new heuristics for the Slot 
     Filling process.
@@ -143,9 +143,9 @@ que se pasaron aunque sea una vez por el pasillo por cada almuerzo compartido y 
 llena de risas e irreverencia.
 
 También mencionar a toda la gente maravillosa con la que pude compartir en la universidad, en especial 
-la gente del departamento de Computación. Aunque en general era un nómada que variaba entre Toqui y 
+la gente del Departamento de Computación. Aunque en general era un nómada que variaba entre Toqui y 
 Eniac, siempre fue un gusto conversar con cualquiera persona que me cruzase en el departamento. 
-Mención especial a los manDCCos por todas esas noches de juegos hasta la madrugada, ojala vengan 
+Mención especial a los manDCCos por todas esas noches de juegos hasta la madrugada, ojalá vengan 
 varias más.
 
 Un tremendo agradecimiento a Sandra y Angélica por aguantar tantos semestres de mi haciendo preguntas 
@@ -191,6 +191,6 @@ instancias para conocer el trabajo de otros colegas.
 \bibliographystyle{plain}
 \bibliography{bibliografia}
 
-\input{appendices.tex} % opcionales
+\input{appendices/appendices.tex} % opcionales
 
 \end{document}

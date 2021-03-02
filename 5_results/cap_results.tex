@@ -8,7 +8,7 @@ training set of LC QuAD 2.
 
 \section{Query Template generation}
 \label{cap5:results/queryTemplate}
-In Table~\ref{table:queryTemplateTraining} we can see the perplexity and BLEU score values after 
+In Table~\ref{table:queryTemplateTraining} we can see the Perplexity and BLEU score values after 
 training the Convolutional Sequence to Sequence model (ConvS2S) for 40 epochs. Note that each 
 epoch outputs a model checkpoint, and these results correspond to the best checkpoint in terms 
 of the model with the lowest loss value over the validation set.
@@ -32,8 +32,8 @@ the Query Template generator which uses the trained ConvS2S model over \LCQuADtw
 from the evaluation over the best predicted query template, we also include an evaluation over 
 the best prediction among the top 5 predictions. We consider the best prediction as the one with 
 the highest BLEU score if compared with the expected answer. The baseline is the ConvS2S model 
-trained over complete SPARQL queries (as done by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}), but 
-adding an extra layer that removes the entities from the output SPARQL queries, in a similar way 
+trained over complete \SPARQL{} queries (as done by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}), but 
+adding an extra layer that removes the entities from the output \SPARQL{} queries, in a similar way 
 as was done for generating the actual \LCQuADtwo{} Query Template dataset. The training results of 
 the baseline are shown later in this chapter.
 
@@ -50,13 +50,13 @@ the baseline are shown later in this chapter.
     Baseline                & 63.06                           & 29.82         & 19.72                           & 0.67          & 20.31                           & 0             \\ \hline
     \end{tabular}%
     }
-    \caption{BLEU score and accuracy for the Query Template generation task.}
+    \caption{BLEU score and Accuracy for the Query Template generation task.}
     \label{table:queryTemplateResults}
 \end{table}
 
 According to the results of Tables \ref{table:queryTemplateTraining} and \ref{table:queryTemplateResults}, 
 we see that the Query Template generation has a better performance than the Baseline in both 
-BLEU score and accuracy. If we look at the best 5 for the \LCQuADtwo{} validation dataset, we find 
+BLEU score and Accuracy. If we look at the best 5 for the \LCQuADtwo{} validation dataset, we find 
 there are better results. On the other hand, we see that the models trained on the \LCQuADtwo{} 
 training set do not generalize well to other datasets.
 
@@ -100,25 +100,26 @@ training set do not generalize well to other datasets.
     \label{table:queryTemplatePerTemplate}
 \end{table}
 
-Finally, we present in Table 3 a more granular comparison between our proposed Query Template 
-generator and the baseline by dividing the results into the 22 base templates used for generating 
+We present in Table~\ref{table:queryTemplatePerTemplate} a more granular comparison between our 
+proposed Query Template generator and the baseline by dividing the results into the 22 base 
+templates used for generating 
 the \LCQuADtwo{} dataset (more details on each base template can be found in 
 Appendix~\ref{appendix:qaDataset}). We note that, even though our Query Template generator 
 performs better in many cases, there are some others where the Baseline performs better. A 
 possible explanation for this difference is that the Baseline still maintains an advantage in 
 terms of the amount of information it keeps in the entities used in training versus the 
 placeholders used to replace those entities for generating the training data for our Query 
-Template generator. Then, while the Baseline can identify more effective entity categories (e.g. 
+Template generator. While the Baseline can identify more effective entity categories (e.g. 
 people, locations, organizations), the placeholder only can maintain information about entity 
 location in the query (to which query pattern it belongs) or entity type (subject or object). 
 
 In summary, we see that the same ConvS2S model can perform as well or better for the task of 
-generating Query Templates as it does for SPARQL query generation, obtaining scores of BLEU and 
-accuracy equal or greater than the ones obtained from the baseline. On the other side, we still 
+generating Query Templates as it does for \SPARQL{} query generation, obtaining scores of BLEU and 
+Accuracy equal or greater than the ones obtained from the baseline. On the other side, we still 
 identified a certain degree of overfitting in the model (similar to the results obtained by 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19}), thus not being able to perform well on the proposed 
 test datasets (\QALDseven{} and \WikiSPARQL{}). However, we think the metric used for measuring 
-performance here (BLEU score and accuracy) do not quantify the equivalences between query 
+performance here (BLEU score and Accuracy) do not quantify the equivalences between query 
 templates properly. For example, queries in the test data could have a different ordering in 
 their query triples than the generator uses to build query templates.
 
@@ -127,7 +128,7 @@ their query triples than the generator uses to build query templates.
 First, we calculate the performance of each Individual Entity Linking (IEL) system over the 
 validation \LCQuADtwo{} dataset. These results were used to determine the priority each IEL system 
 will have when being used by the Ensemble Entity Linking (EEL) systems. As mentioned before, the 
-priority of each IEL system is determined by their precision results where more precise systems 
+priority of each IEL system is determined by their Precision results where more precise systems 
 have higher priority. Therefore, according to the results in Table~\ref{table:ielResultsLcquad2}, 
 the priority used is the following: AIDA, OpenTapioca, TAGME, and DBpedia Spotlight.
 
@@ -156,12 +157,12 @@ Next, we tested the two EEL systems proposed in this work: the Precision Priorit
 and the Voting system. For each EEL system we tried different heuristics proposed to improve 
 performance: vary the number of entities in the output, filter stopwords, or apply tiebreak using 
 IEL system scores. In the case of varying the number of entities, we tried including all entities, 
-reducing output size to either a fixed value\footnote{Since most SPARQL queries included in our 
+reducing output size to either a fixed value\footnote{Since most \SPARQL{} queries included in our 
 datasets have at most three entities, we set that value as the fixed size. } or a variable amount 
 defined by the number of placeholders contained in the query template for each case. 
 
 The baseline (Oracle system) combines all the results of the IEL systems and evaluates what is 
-the best performance an EEL system could achieve if it could “guess” the correct entities among 
+the best performance an EEL system could achieve if it could \dquotes{guess} the correct entities among 
 the IEL system answers in each case; in other words, the baseline indicates the best possible 
 result given the results of the IEL systems. 
 
@@ -200,17 +201,17 @@ for most variations.
 
 Note that when including all entities the results of the PPrior system and Voting system are 
 identical, though the ranking scores assigned to each entity might differ. Furthermore, the 
-variants that include all entities in the output results reach a better recall, which is 
+variants that include all entities in the output results reach a better Recall, which is 
 consistent with these variants including more entities that are potentially part of the expected 
 answers.
 
 The effect of decreasing the amount of entities returned for each case is a trade-off between 
-recall and precision: while the recall tends to decrease, we note a major increase in precision. 
+Recall and Precision: while the Recall tends to decrease, we note a major increase in Precision. 
 While the case with a fixed number of three maintains most of the correct answers without 
-degrading precision much, the case where the number varies (denoted as “+” in Table~\ref{table:eelResultsLcquad2}) 
-presents the worst performance but the best precision. The filter of stopwords helped a small 
-amount in both recall and precision, whereas the use of tiebreak greatly benefits precision 
-while slightly degrading recall.
+degrading Precision much, the case where the number varies (denoted as \dquotestt{+} in Table~\ref{table:eelResultsLcquad2}) 
+presents the worst performance but the best Precision. The filter of stopwords helped a small 
+amount in both Recall and Precision, whereas the use of tiebreak greatly benefits Precision 
+while slightly degrading Recall.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -273,10 +274,10 @@ proposed \WikiSPARQL{} dataset. For each EEL system we include the three variant
 used for Table~\ref{table:eelResultsLcquad2}. Tables~\ref{table:elResultsQald7} and \ref{table:elResultsWikiSparql} 
 display the result for the \QALDseven{}, and \WikiSPARQL{}, respectively.
 
-From the results of Tables ~\ref{table:elResultsQald7} and \ref{table:elResultsWikiSparql} we can 
+From the results of Tables \ref{table:elResultsQald7} and \ref{table:elResultsWikiSparql} we can 
 see that overall the Voting system is the system with the best F1 score. The EEL system variants 
-with the highest recall and precision maintain that tendency over all datasets. In this case, it 
-seems that the systems with variable outpur size fall behind compared to the oracle, where the 
+with the highest Recall andoi Precision maintain that tendency over all datasets. In this case, it 
+seems that the systems with variable output size fall behind compared to the oracle, where the 
 best performing system is around 0.15 to 0.2 points behind the oracle results in terms of F1-score. 
 
 \section{Sequence Labeling and Slot Filling}
@@ -306,14 +307,14 @@ language question.
     \label{table:seqLabFlairResults}
 \end{table}
 
-Next, we measure how the proposed filling method performs. In this case, the precision and recall 
+Next, we measure how the proposed filling method performs. In this case, the Precision and Recall 
 are measured with respect to the pairs \texttt{<slot, entity>}, where the slot remains the same 
-and the entity corresponds to the ones contained in a SPARQL query. We test the standard filling 
+and the entity corresponds to the ones contained in a \SPARQL{} query. We test the standard filling 
 method, and the force filling method we proposed to address the Sequence Tagger errors. These 
 results are shown in Table~\ref{table:standardSlotFillingResults} and \ref{table:forceSlotFillingResults}, 
-respectively. Note that we are using the entity linking results corresponding to the Voting system 
+respectively. Note that we are using the Entity Linking results corresponding to the Voting system 
 returning all entities in the output. We chose to return all entities to see how each filling
-method performs when there are incorrect entitites. Also, we use the Voting system given that
+method performs when there are incorrect entities. Also, we use the Voting system given that
 presents better performance than the PPrior system according to the results shown in the 
 \textit{Entity Linking} section~\ref{cap5:results/entityLinking}, as well as for the results shown 
 below in the \textit{SPARQL Query generation} section~\ref{cap5:results/sparqlQuery}.
@@ -359,15 +360,15 @@ below in the \textit{SPARQL Query generation} section~\ref{cap5:results/sparqlQu
 The number of correct cases for both slot filling methods is lower than the correct labeled cases 
 of the Sequence Tagger. This is expected since many incorrect cases might occur due to the errors 
 given by the Entity Linking system. On the other hand, the standard filling method shows more 
-precision while the force filling method brings more recall. This is also expected since the force 
+Precision while the force filling method brings more Recall. This is also expected since the force 
 filling method adds more labels that might bring more correct answers, along with more incorrect 
 ones. As opposed to the case for Entity Linking systems, we prefer a filling method with higher 
-recall in order to generate more valid SPARQL queries.
+Recall in order to generate more valid \SPARQL{} queries.
 
 \section{SPARQL Query Generation}
 \label{cap5:results/sparqlQuery}
 
-The training results for the Baseline of the SPARQL Query generation task are shown in 
+The training results for the Baseline of the \SPARQL{} Query generation task are shown in 
 Table~\ref{table:queryGenerationTraining}. We note similar results as the ones obtained in 
 Yin et al~\cite{nmt:nl-to-sparql-Yin19}, where there is notable overfitting for the training data.
 
@@ -383,7 +384,7 @@ Yin et al~\cite{nmt:nl-to-sparql-Yin19}, where there is notable overfitting for 
                                      & \multicolumn{1}{c|}{\textbf{Perplexity}} & \textbf{BLEU score} & \multicolumn{1}{c|}{\textbf{Perplexity}} & \textbf{BLEU score} \\ \hline
     Baseline                         & 1.19                                     & 98.35               & 3.2                                      & 60.39               \\ \hline
     \end{tabular}%
-    \caption{Perplexity and BLEU score after training the SPARQL Query Generator baseline.}
+    \caption{Perplexity and BLEU score after training the \SPARQL{} Query Generator baseline.}
     \label{table:queryGenerationTraining}
 \end{table}
 
@@ -417,16 +418,16 @@ the answer with the highest BLEU score when comparing to the expected answer.
     ElNeuQA - Top 5                  & Voting (All)                                                                                                    & Force                                                                               & 68.43                                    & 20.7                   \\ \hline
     \multicolumn{3}{|c|}{Baseline}                                                                                                                                                                                                           & 51.5                                     & 3.27                   \\ \hline
     \end{tabular}%
-    \caption{Comparison of performance for the SPARQL query generator when varying the EEL system and filling method.}
+    \caption{Comparison of performance for the \SPARQL{} Query generator when varying the EEL system and filling method.}
     \label{table:queryGenerationResults}
 \end{table}
 
 The results obtained for \LCQuADtwo{} do not transfer to the other test datasets. As seen in 
 Table~\ref{table:queryGenerationTestResults}, our system is not capable of generalizing the results 
-obtained from training over other types of datasets given that the type of queries contained in 
+obtained from training over other types of datasets given that the types of queries contained in 
 test datasets are not based on template generation, thus making it difficult to generate an exact 
-match. We may also be generating equivalent SPARQL queries (i.e. that return the same answers if 
-executed), and the way we are evaluating these results does not consider SPARQL query equivalences.
+match. We may also be generating equivalent \SPARQL{} queries (i.e. that return the same answers if 
+executed), and the way we are evaluating these results does not consider \SPARQL{} query equivalences.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -442,16 +443,16 @@ executed), and the way we are evaluating these results does not consider SPARQL 
     ElNeuQA - Top 5                  & 68.43                                                                               & 20.7                                                              & 21.99                                                                               & 0                                                                 & 22.15                                                                               & 0                                                                 \\ \hline
     Baseline                         & 51.5                                                                                & 3.27                                                              & 19.09                                                                               & 0                                                                 & 18.8                                                                                & 0                                                                 \\ \hline
     \end{tabular}%
-    \caption{BLEU score and accuracy for the SPARQL Query generation task.}
+    \caption{BLEU score and Accuracy for the \SPARQL{} Query generation task.}
     \label{table:queryGenerationTestResults}
 \end{table}
 
 The same analysis per template performed over the Query Template generation task are done for the 
 SPARQL query generation task. In Table~\ref{table:queryGenerationComparison} the results in terms 
-of accuracy are displayed for each \LCQuADtwo{} base template. We see that there are more cases than 
+of Accuracy are displayed for each \LCQuADtwo{} base template. We see that there are more cases than 
 before where our proposed system performed better than the Baseline, especially due to the 
 inability of the latter system to generate a single valid query for some templates. Among those 
-cases, the ask one fact template is the most noticeable case since it should be the simplest one. 
+cases, the \texttt{ask\_one\_fact} template is the most noticeable case since it should be the simplest one. 
 The main reason for these cases to occur is that the Baseline system fails to identify the 
 relevant entities due to not having seen them during training time. As we will discuss later, the 
 vocabulary dependence of the Baseline plays a major role in the worse performance of this system. 
@@ -492,11 +493,11 @@ vocabulary dependence of the Baseline plays a major role in the worse performanc
     \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                  & 5772                                                & 100\%                                                                           & 13.96\%                                                                                                    & 3.27\%                                                                                 & 10.69\%                                 \\ \hline
     \end{tabular}%
     }
-    \caption{Performance comparison per template for the SPARQL Query generation task.}
+    \caption{Performance comparison per template for the \SPARQL{} Query generation task.}
     \label{table:queryGenerationComparison}
 \end{table}
 
-The proposed system manages to achieve better accuracy in most cases. The cases that present the best 
+The proposed system manages to achieve better Accuracy in most cases. The cases that present the best 
 results are the ASK queries with one query triple (\texttt{ask\_one\_fact}) and the SELECT queries 
 that utilize one property statement and one qualifier property (\texttt{select\_one\_
 qualifier\_value\_and\_object\_using\_one\_statement\_property}), which both require only one entity. One 
@@ -511,11 +512,11 @@ on the correct/incorrect answers expected for each module (Query Template genera
 Slot Filling). A comparison between our proposal (using the best performing settings) and the 
 baseline is presented in Table~\ref{table:queryGenerationErrorRatio}. For each case, a circle 
 means the system performed correctly and a cross is the opposite. For the Query Template 
-generation task, a correct case is measured using the string-match accuracy. For Entity Linking 
-we use recall, meaning that we count a case as correct if it identifies at least all expected 
-entities, regardless of its precision (understanding that this is the minimum requirement to 
-build a valid SPARQL query). For Slot Filling we consider it correct if all slot--entity pairs 
-are correctly identified. Note that a correct SPARQL can only be generated if these three items 
+generation task, a correct case is measured using the string-match Accuracy. For Entity Linking 
+we use Recall, meaning that we count a case as correct if it identifies at least all expected 
+entities, regardless of its Precision (understanding that this is the minimum requirement to 
+build a valid \SPARQL{} query). For Slot Filling we consider it correct if all slot--entity pairs 
+are correctly identified. Note that a correct \SPARQL{} can only be generated if these three items 
 deliver a correct answer.
 
 % Please add the following required packages to your document preamble:
@@ -536,7 +537,7 @@ deliver a correct answer.
     X                                                        & X                                                       & X                               & 1642                                                                                     & 28.45\%                                                        & 3744                                                                                     & 64.86\%                                                        \\ \hline
     \multicolumn{3}{|c|}{\textbf{Total}}                                                                                                                 & 5772                                                                                     & 100.00\%                                                       & 5772                                                                                     & 100.00\%                                                       \\ \hline
     \end{tabular}
-    \caption{SPARQL query generation comparison results with baseline divided by error cases.}
+    \caption{\SPARQL{} query generation comparison results with baseline divided by error cases.}
     \label{table:queryGenerationErrorRatio}
 \end{table}
 
@@ -544,23 +545,23 @@ The first thing to note is that the performance of the Slot Filling system is st
 by the results delivered by the Entity Linking system. This is because there is no case where the 
 slots were correctly identified while the entities were not. Next, we notice that if both 
 template and entities are correctly identified, the Slot Filling system has an overall positive 
-performance with a roughly 83\% accuracy. The error delivered for the Query Template generation 
+performance with a roughly 83\% Accuracy. The error delivered for the Query Template generation 
 was similar for both our system and the baseline, with 68.6\% and 70.2\% respectively.
 
-Finally, the most noticeable comparison between both systems comes from a major difference in 
-terms of vocabulary dependency. While only 47.6\% of the incorrect cases were caused by entity 
+The most noticeable comparison between both systems comes from a major difference in 
+terms of vocabulary dependency for entities. While only 47.6\% of the incorrect cases were caused by entity 
 recognition error for our system, in the Baseline almost 94\% of the incorrect cases were caused 
 due to not identifying all relevant entities.
 
 \section{Question Answering over Knowledge Graphs}
 \label{cap5:results/questionAnsweringKG}
-We evaluate the results of the SPARQL queries output by our QA system proposal (using the best 
-settings in terms of SPARQL Query generation performance) over Wikidata, and compare those results 
+We evaluate the results of the \SPARQL{} queries output by our QA system proposal (using the best 
+settings in terms of \SPARQL{} Query generation performance) over Wikidata, and compare those results 
 with the proposed Baseline. We show in Table~\ref{table:qakgMacroResults} the results for both 
-systems on  the QAKG task. We chose to display only the macro measures given the difference of answer 
+systems on  the KGQA task. We chose to display only the macro measures given the difference of answer 
 sizes for each case, where we wanted to weigh each case equally. Here we noticed that even though 
-neither our proposal nor the baseline were capable of generating the expected SPARQL queries for 
-the test datasets, some generated SPARQL queries were capable of obtaining answers among the 
+neither our proposal nor the baseline were capable of generating the expected \SPARQL{} queries for 
+the test datasets, some generated \SPARQL{} queries were capable of obtaining answers among the 
 expected results. 
 
 We also evaluate the performance if we look over the best 5 predictions per 
@@ -635,7 +636,7 @@ queries that include property statements and qualifiers.
     \label{table:qakgMacroF1Diff}
     \end{table}
 
-Another thing to notice is that there is no clear correlation between the performance and the amount 
+Another aspect to notice is that there is no clear correlation between the performance and the amount 
 of cases per template, meaning that a greater amount of cases for one template to use in the training 
 stage does not necessarily come with an increase in performance. A clear example are the \texttt{COUNT} 
 queries: while the \texttt{count\_one\_fact\_object} template has fewer examples than the 

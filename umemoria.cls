@@ -40,6 +40,7 @@
 \RequirePackage{pgffor} % foreach
 
 %% Lenguaje
+\addto\captionsspanish{\renewcommand{\chaptername}{Chapter}}
 \addto\captionsspanish{\renewcommand\tablename{Table}}
 \addto\captionsspanish{\renewcommand\contentsname{Tabla de Contenido}}
 \addto\captionsspanish{\renewcommand\listtablename{Índice de Tablas}}
