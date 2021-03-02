@@ -204,7 +204,7 @@ of the knowledge represents locations (e.g. latitude and longitude), and how QA 
 that information to enrich semantic data~\cite{qa:YounisJTA12,qa:graph-2-ZouHWYHZ14}.
 
 The use of \textbf{templates} is thus more common to construct \SPARQL{} queries that include 
-complex operators such as aggregation or filter functions. These \SPARQL{} query templates can be 
+complex operators such as aggregation or filter functions. These \SPARQL{} Query Templates can be 
 either manually or automatically created. One template-driven approach is Casia~\cite{qa:shizhu2014casia} 
 that uses the question type, named entities and POS tagging techniques to generate graph 
 pattern templates from which a \SPARQL{} query is built. Other approaches use manually created 
@@ -305,7 +305,7 @@ advantage of the fact that the resources were marked in the questions. As an exa
 question \dquotesit{What are the artists that are born in Stockholm?} which generates the query 
 in Listing~\ref{lst:dbnqaSparqlExample}, the template extraction process would return a 
 question template \dquotesit{What are the artists that were born in <A>?}, replacing the 
-resource Stockholm, and would generate the query template shown in Listing~\ref{lst:dbnqaTemplateExample}.
+resource Stockholm, and would generate the Query Template shown in Listing~\ref{lst:dbnqaTemplateExample}.
 
 \begin{sparqlcode}[%
     caption={\SPARQL{} query for the question: \dquotesit{What are the artists that are born in Stockholm?}.}, 
@@ -326,7 +326,7 @@ SELECT DISTINCT ?sbj WHERE {
 \end{sparqlcode}
 
 Then, the dataset is constructed following a similar approach to the one used for \LCQuADone{}. 
-First, a set of entities is chosen per query template, where the entities selected are the ones 
+First, a set of entities is chosen per Query Template, where the entities selected are the ones 
 that contain the relations contained in the query (e.g. if the property location is contained 
 in the query, places would be selected accordingly). Then the selected entities are used to 
 generate each \SPARQL{} query with its corresponding NLQ. 

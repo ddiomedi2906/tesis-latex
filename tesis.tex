@@ -68,7 +68,7 @@
     describen los grandes \textit{Knowledge Graphs}. En este trabajo proponemos en cambio un enfoque 
     para KGQA que delega el procesamiento de entidades a sistemas de \textit{Entity Linking} (EL). Por 
     lo tanto, en lugar de generar la consulta SPARQL completa, el modelo de NMT se utiliza para crear 
-    un \textit{query template} con \textit{placeholders} que se llenan con entidades identificadas en 
+    un \textit{Query Template} con \textit{placeholders} que se llenan con entidades identificadas en 
     la etapa de EL. Se proponen sistemas EL tipo \textit{ensemble} que combinan resultados de varios 
     sistemas EL individuales del estado del arte. Se propone un enfoque de \textit{Slot Filling} para 
     decidir qué entidad ocupa qué \textit{placeholder}, el cual combina el uso de un modelo de 
@@ -78,7 +78,7 @@
     experimentos evalúan el rendimiento del sistema de control de calidad de un extremo a otro, así 
     como cada etapa de la generación de consultas SPARQL. Los resultados muestran que nuestro enfoque 
     supera al enfoque de NMT puro: aunque sigue existiendo una fuerte dependencia de haber visto 
-    \textit{query templates} similares durante el entrenamiento, los errores relacionados con las 
+    \textit{Query Templates} similares durante el entrenamiento, los errores relacionados con las 
     entidades se reducen en gran medida.
 
     La principal conclusión es que la combinación de \textit{Entity Linking} y \textit{Neural Semantic 
@@ -104,7 +104,7 @@
     particularly problematic for the millions of entities that large Knowledge Graphs describe. We 
     rather propose a KGQA approach that delegates the processing of entities to \textit{Entity Linking} 
     (EL) systems. Thereby, instead of generating the entire SPARQL query, the NMT is used to create a 
-    query template with placeholders that are filled by entities identified in an EL phase. We proposed 
+    Query Template with placeholders that are filled by entities identified in an EL phase. We proposed 
     ensemble EL systems that combine output from several individual EL systems from the state of arts. 
     A \textit{Slot filling} approach is proposed to decide which entity fills which placeholder, which 
     combines the use of a \textit{Sequence Labeling} model with a proposed filling algorithm. 
@@ -112,7 +112,7 @@
     We evaluate our proposed approach in the context of Wikidata for English questions. Experiments 
     evaluate the performance of the end-to-end QA system as well as each stage of the SPARQL query 
     generation. The results show that our approach outperforms the pure NMT approach: while there 
-    remains a strong dependence on having seen similar query templates during training, errors relating 
+    remains a strong dependence on having seen similar Query Templates during training, errors relating 
     to entities are greatly reduced.
     
     The main conclusion is that the combination of Entity Linking and Neural Semantic Parsing shows a 

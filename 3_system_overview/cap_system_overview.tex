@@ -20,7 +20,7 @@ Linking stage where relevant entities are identified (e.g., \dquotesit{Gabriel M
 \dquotesit{poet}) and linked to the Knowledge Graph. Then, a Query Template Generation stage 
 is performed to generate \SPARQL{} Query Template candidates with placeholders to be filled 
 using the entities recognized in the previous stage. Next, a Slot Filling stage comes to 
-identify which entities should be used to fill which placeholders of the query template 
+identify which entities should be used to fill which placeholders of the Query Template 
 candidates. This pipeline describing the Question Answering system is implemented by building 
 three modules that perform each one of the described stages. 
 
@@ -52,7 +52,7 @@ Python.
 \subsection{Query Generation pipeline}
 \label{cap3:system/queryGenModule/pipeline}
 This module addresses two different tasks: translation from NL to \SPARQL{} queries, and 
-generation of query templates from NL. 
+generation of Query Templates from NL. 
 
 On one hand, when we refer to \SPARQL{} queries, we refer to complete queries with all the 
 entities, properties, \SPARQL{} keywords and operators necessary to be executable on any 
@@ -167,7 +167,7 @@ the ConvS2S model ended up having the best performance in terms of Perplexity, B
 and string-match Accuracy. This model has to be trained and can be used later to generate an 
 output depending on the given data. If we need to build a \SPARQL{} Query generator, we have to 
 feed the system with pairs of NL questions and \SPARQL{} queries. In the same way, for a Query 
-Template generator we instead use query templates as our output examples for training.
+Template generator we instead use Query Templates as our output examples for training.
 
 We now explain the main components of the ConvS2S architecture, the hyperparameters used with 
 their values, and other training settings relevant to comprehend the training process. Note 
@@ -454,7 +454,7 @@ would rank each entity in the following way:
 4. (1) Does - Q302057
 \end{sparqlcode}
 
-The most voted entity is \texttt{Q351738} with three votes, which comes from Open Tapioca, TAGME, 
+The most voted entity is \texttt{Q351738} with three votes, which comes from OpenTapioca, TAGME, 
 and DBpedia Spotlight. Next, the entities \texttt{Q7156} and \texttt{Q140686} get the same 
 amount of two votes. Since \texttt{Q7156} comes from a system with higher priority (AIDA), that 
 entity ranks higher. The last entity \texttt{Q302057} only has one vote from the system with 
@@ -498,7 +498,7 @@ has a higher score according to the individual Entity Linking system these annot
 \label{cap3:system/slotFillModule}
 In this section we describe the main components of the Slot Filling module, which is divided 
 into two stages: the sequence labelling stage done by a Sequence Tagger, and the Query 
-Filling stage where the spotted entities are filled into the given query template. We explain 
+Filling stage where the spotted entities are filled into the given Query Template. We explain 
 with details how the Slot Filling pipeline is structured, and then describe how the Sequence 
 Tagger and the Query Filling algorithm are implemented.
 
@@ -507,7 +507,7 @@ Tagger and the Query Filling algorithm are implemented.
 In Figure~\ref{fig:slotFillingPipeline}, we can see an overview of the Slot Filling process. 
 Differently from the other modules, the Slot Filling system not only receives the input NL 
 question, but also the outputs from the Entity Linking system and the Query Template generator. 
-The expected output is a \SPARQL{} query which is based on the query template output by the 
+The expected output is a \SPARQL{} query which is based on the Query Template output by the 
 Query Template generator, containing entities from the annotations returned by the Entity 
 Linking system.
 
@@ -521,12 +521,12 @@ Linking system.
 Before the actual Slot Filling process, the input NL question is passed to a Sequence Tagger 
 that performs Sequence Labelling in order to identify relevant named entities and their 
 corresponding placeholder tag. We understand a placeholder tag as a placeholder name in a 
-query template. As seen in Figure~\ref{fig:slotFillingPipeline}, given the question 
+Query Template. As seen in Figure~\ref{fig:slotFillingPipeline}, given the question 
 \dquotesit{Was Gabriela Mistral a poet?}, the expected output for the Sequence Tagger is to 
 identify \dquotesit{Gabriela Mistral} and \dquotesit{poet} as two relevant entities. Besides, 
 \dquotesit{Gabriela Mistral} is tagged as \dquotestt{sbj\_1}, meaning that the entity which 
 corresponds to the label \dquotesit{Gabriela Mistral} should be assigned to the placeholder 
-\texttt{<sbj\_1>} in the query template. The same happened with the label \dquotesit{poet}, 
+\texttt{<sbj\_1>} in the Query Template. The same happened with the label \dquotesit{poet}, 
 which should be assigned to the placeholder \texttt{<obj\_1>}.
 
 Then, the named entities tagged in the previous stage are passed to the Query Filling stage, 
@@ -535,12 +535,12 @@ algorithm is proposed to perform the Query Filling process. The algorithm will r
 \SPARQL{} query only if the filling process is successful. As we will explain later, this filling 
 process could fail due to the previous systems failing to recognize some entities, or due to 
 a mismatch between the placeholders recognized in the tagging stage and the placeholder 
-contained in the given query template.
+contained in the given Query Template.
 
 \subsection{Sequence Tagger model}
 \label{cap3:system/slotFillModule/seqTagger}
 The Sequence Tagger identifies which named entities are more likely to have an entity 
-assigned to a certain placeholder in the query template. To implement this model, we use the 
+assigned to a certain placeholder in the Query Template. To implement this model, we use the 
 Flair\footnote{\url{https://github.com/flairNLP}} framework for Natural Language Processing. Flair 
 contains many off-the-shelf Sequence Labelling and Name Entity Recognition models implemented 
 using Pytorch. It also supports  training a custom Sequence Labelling model if training data 
@@ -591,7 +591,7 @@ epochs without an improvement in terms of loss value.
 \subsection{Slot Filling method}
 \label{cap3:system/slotFillModule/fillingMethod}
 The placeholder tags for each named entity, along with the annotations from the Entity 
-Linking system and the query template from the Query Template generator, need to be combined 
+Linking system and the Query Template from the Query Template generator, need to be combined 
 together to build the final \SPARQL{} query output. The Slot Filling method decides which 
 placeholder to replace with which entity, and is based on a novel filling algorithm divided 
 into two filling stages. The first stage is a \textbf{Standard Filling} process that may not 
@@ -600,7 +600,7 @@ process that tries to complete the spots that the previous stage was not able to
 
 The first stage, the Standard Filling process, follows a straightforward process of comparing 
 labels from the outputs of the Entity Linking system and the Sequence Tagger to identify 
-entity-slot matches which are then inserted into the query template to form the \SPARQL{} query. 
+entity-slot matches which are then inserted into the Query Template to form the \SPARQL{} query. 
 Then, the algorithm that describes the standard filling process is shown in 
 Listing~\ref{lst:standardFillingAlgorithm}. As an example from the input shown in 
 Figure~\ref{fig:slotFillingPipeline}, the algorithm would first compare the label 
@@ -654,10 +654,10 @@ is executed, but adding the following rules:
     match.
     \item When comparing entity type placeholders, if the slot placeholder is the same entity 
     type (subject or object) or is assigned to the same query triple (e.g. the first query 
-    triple pattern on the \SPARQL{} query) as some of the remaining query template placeholders, 
+    triple pattern on the \SPARQL{} query) as some of the remaining Query Template placeholders, 
     it counts as a match.
     \item Finally, if there is any remaining entity that was not identified by the Sequence 
-    Tagger, and there are still placeholders to fill in the query template, the entities will 
+    Tagger, and there are still placeholders to fill in the Query Template, the entities will 
     be inserted in order until all spots have been filled (where the order is defined by the 
     entity identifier number).
 \end{itemize}
@@ -670,11 +670,11 @@ second query triple should be filled with the entity of the label \dquotesit{Nob
 However, it may happen that a label is incorrectly associated with the wrong query triple 
 (case 1), or the wrong entity type (case 2). In the first case, the \dquotesit{Nobel Prizes} 
 entity would not be filled in the Standard Slot Filling stage due to the \texttt{<obj\_2>} 
-not existing in the query template, but it would be recognized in the Force Slot Filling 
-stage because it will identify that the remaining slot in the query template (\texttt{<obj\_1>}) 
+not existing in the Query Template, but it would be recognized in the Force Slot Filling 
+stage because it will identify that the remaining slot in the Query Template (\texttt{<obj\_1>}) 
 is the same entity type as the slot incorrectly labeled (\texttt{<obj\_2>}). The same happens 
 in the second case, where the incorrect label (\texttt{<obj\_1>}) is associated with the same 
-query triple (the first triple) as the remaining slot in the query template (\texttt{<sbj\_1>}).
+query triple (the first triple) as the remaining slot in the Query Template (\texttt{<sbj\_1>}).
 
 \begin{figure}[!h]
     \centering
@@ -688,6 +688,6 @@ cases that are not possible to correctly fill. For example, the Sequence Tagger 
 the expected placeholder but it can wrongly associate each one to an incorrect mention (e.g. 
 wrongly associate the subject entity and object entity of one query triple). A more serious 
 case is when the Sequence tagger provides placeholders that have nothing to do with the ones 
-found in the query template, usually because both systems identified a different intention in 
+found in the Query Template, usually because both systems identified a different intention in 
 the given answer. In summary, the success rate of the filling process is strongly affected by 
 the performance of the previous systems that deliver the input for this Slot Filling system.

@@ -131,13 +131,13 @@ Neural-based models used in this work.
 \subsection{Query Template Dataset}
 \label{cap4:experimentalDesign/QaDataset/queryTemplate}
 From the cleaned \LCQuADtwo{} dataset, a Query Template dataset was created for training the 
-Query Template generator model. More specifically, a query template was inferred from each 
+Query Template generator model. More specifically, a Query Template was inferred from each 
 \SPARQL{} query by replacing every subject and object entity in the query with a placeholder. In 
 order to maintain some part of the semantic meaning of the entity that is being replaced, we 
 used different types of placeholder labels. For example, an entity that was the subject of the 
 first query triple will be replaced by a placeholder labeled as \dquotestt{sbj\_1}. For numerical 
 or string values, the placeholder would be \dquotestt{num} or \dquotestt{str\_value}, respectively. 
-This is a different approach to generate query templates than the one followed by 
+This is a different approach to generate Query Templates than the one followed by 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where instead they replaced entities by one-letter 
 names such as \texttt{A}, \texttt{B} or \texttt{C}. 
 
@@ -154,7 +154,7 @@ SELECT ?obj WHERE { <sbj_1> wdt:P19 ?obj }
 An example can be seen in Listing~\ref{lst:queryTemplateExampleLcquad2}, where in the \SPARQL{} 
 query for the question \dquotesit{Where was Pedro Pascal born?} the entity \texttt{Q14752155} 
 from Pedro Pascal was replaced for the \texttt{sbj\_1} placeholder. All queries from the cleaned dataset 
-were able to be transformed into their query template version.
+were able to be transformed into their Query Template version.
 
 \subsection{Sequence Labeling Dataset}
 \label{cap4:experimentalDesign/QaDataset/seqLabeling}
@@ -195,11 +195,11 @@ initial cases (counting for each case its verbalised and paraphrased version), w
 
 \subsection{Final Dataset Format}
 \label{cap4:experimentalDesign/QaDataset/finalFormat}
-After extracting the query templates, the entities, and their entity/placeholder slots, a final 
+After extracting the Query Templates, the entities, and their entity/placeholder slots, a final 
 \LCQuADtwo{} dataset was built containing all this information. In summary, each case possesses a 
 question identifier, the question string, a Wikidata \SPARQL{} query, their entities with the 
-corresponding label, a query template deduced from the \SPARQL{} query, and a mapping between the 
-entity labels and the query template placeholders. 
+corresponding label, a Query Template deduced from the \SPARQL{} query, and a mapping between the 
+entity labels and the Query Template placeholders. 
 
 We proposed a normalized format and delivered a dataset that not only can be used to evaluate 
 systems on the KGQA task, but also over the tasks of Entity Linking, Name Entity Recognition, 
