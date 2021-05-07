@@ -239,7 +239,7 @@
 \newcommand{\RDF}{\texttt{RDF}}
 \newcommand{\SPARQL}{\texttt{SPARQL}}
 \newcommand{\NLtoSPARQL}{\texttt{NL-to-SPARQL}}
-\newcommand{\SQL}{\texttt{SPARQL}}
+\newcommand{\SQL}{\texttt{SQL}}
 \newcommand{\DBNQA}{\texttt{DBNQA}}
 \newcommand{\QALDseven}{\texttt{QALD-7}}
 \newcommand{\LCQuADone}{\texttt{LC-QuAD 1}}
@@ -252,4 +252,3 @@
 \newcommand{\dquotes}[1]{{``#1''}}
 \newcommand{\dquotesit}[1]{\textit{``#1''}}
 \newcommand{\dquotestt}[1]{``\texttt{#1}''}
-

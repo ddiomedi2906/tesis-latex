@@ -15,7 +15,7 @@ formalisms~\cite{semPar:LiangBLFL16,semPar:ArtziFZ13}, graph based
 formalisms~\cite{semPar:BanarescuBCGGHK13,semPar:OepenKMZCFHU15} or programming 
 languages~\cite{semPar:FeurerKESBH15}. In particular, we focus on query languages such as \SQL{} 
 or \SPARQL{}. Another component is the \textbf{grammar}, which is a set of rules used to decide the 
-expressivity of a semantic parser. An examples is the Combinatory Categorial Grammar for complex 
+expressivity of a semantic parser. An example is the Combinatory Categorial Grammar for complex 
 structured queries~\cite{semPar:steedman1996}. A last component is the \textbf{underlying context}, 
 which is the environment over which the output mappings are interpreted or executed. Knowledge 
 Graphs such as Wikidata or DBpedia serve as examples of an underlying context.
@@ -51,7 +51,7 @@ for the task of translating natural language questions to \SPARQL{} queries.
 \label{cap2:theoFrame/semPar/seq2seq}
 The Sequence-to-Sequence (Seq2seq) model was first introduced by 
 Cho et al.~\cite{seqlab:ChoMBB14} for statistical Machine Translation. 
-They proposed a neural network work model based on an encoder-decoder framework 
+They proposed a neural network model based on an encoder-decoder framework 
 which is based on recurrent neural networks 
 (RNNs)~\cite{semPar:werbos1990, semPar:rumelhart1986,seqlab:HochreiterS97}. More details 
 about RNNs can be found in Appendix~\ref{appendix:neuralNetworks}.
@@ -74,29 +74,29 @@ sequence.
 Technically, the model is learning a conditional distribution over a variable-length sequence 
 conditioned on yet another variable-length sequence $p(y_1,\ldots,y_T'|x_1,\ldots,x_T)$. The 
 encoder is an RNN that reads each symbol of an input sequence $x$ sequentially. While it is 
-reading the current symbol on each step $t$, the hidden state $h_{<t>}^e$ of the RNN changes are
+reading the current symbol on each step $t$, the hidden state $h_{t}^e$ of the RNN changes are
 described as:
 
 \[
-    h_{<t>}^e= f(h_{<t-1>}^e,x_t)
+    h_{t}^e= f(h_{t-1}^e,x_t)
 \]
 
 After reading the end of the sequence, the hidden state of the RNN is the summary $c$ of the 
 whole input sequence, also known as its context vector. Then, the decoder is another RNN 
 trained to generate the output sequence by predicting the next symbol $y_t$ given the hidden 
-state $h_{<t>}^d$. This prediction is also conditioned on the previous predicted symbol 
+state $h_{t}^d$. This prediction is also conditioned on the previous predicted symbol 
 $y_{t-1}$ and on the context vector $c$. Then, the hidden state of the decoder is defined 
 for the step $t$, where $f$ is usually the \textit{sigmoid} function:
 
 \[
-    h_{<t>}^d= f(h_{<t-1>}^d,y_{t-1},c)
+    h_{t}^d= f(h_{t-1}^d,y_{t-1},c)
 \]
 
 Similarly, the conditional distribution of the next symbol, where $g$ is commonly a 
 \textit{softmax} function since a valid probability must be produced, is defined as follows:
 
 \[
-    P(y_t|y_{t-1},y_{t-2},\ldots,y_1,c) = g(h_{<t-1>}^d,y_{t-1},c)
+    P(y_t|y_{t-1},y_{t-2},\ldots,y_1,c) = g(h_{t-1}^d,y_{t-1},c)
 \]
 
 Both components of the sequence model are jointly trained to maximize the following 
@@ -229,7 +229,7 @@ Though most works have focused on translating text to \SQL{} queries~\cite{nmt:C
 recent work has also addressed the translation of natural language to \SPARQL{}. In particular, 
 Neural Machine Translation (NMT), which involves Machine Translation systems based on Neural 
 Networks, has been used to develop systems that translate questions to \SPARQL{} queries. An 
-evaluation of eight different NMT models was performed by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}]. 
+evaluation of eight different NMT models was performed by Yin et al.~\cite{nmt:nl-to-sparql-Yin19}. 
 The NMT models included in this work were based on the aforementioned encoder-decoder Seq2seq 
 architecture. Among these models, six of them are based on recurrent neural networks (RNN), 
 while the remaining two are based on the ConvS2S model~\cite{nmt:convS2S-GehringAGYD17} and 

@@ -16,7 +16,7 @@ complex questions. These Neural-based approaches usually aim to build the entire
 given a natural question, reducing the problem of Question Answering to Semantic Parsing. The 
 main weakness of these systems is that they are dependent on the vocabulary of the data used 
 for training such models, so even though these systems can generalize to different question 
-forms, they are not able to identify unknown entities that were included in the training set.
+forms, they are not able to identify unknown entities that were not included in the training set.
 
 In order to address this problem, we study the effectiveness of an approach that combines Neural 
 Semantic Parsing with Entity Linking through a Slot Filling method proposed in this work. The 
@@ -221,7 +221,7 @@ Google Colaboratory\footnote{\url{https://colab.research.google.com/}} using the
 ConvS2s~\cite{nmt:convS2S-GehringAGYD17} model implementation included in the Fairseq 
 framework\footnote{\url{https://fairseq.readthedocs.io/en/latest/}} and the settings described in the 
 Fairseq Model subsection in the \textit{System Overview} chapter~\ref{cap3:system/queryGenModule/fairseqModel} 
-(we Recall that this model had 
+(we recall that this model had 
 the best performance in the comparison of Yin et al.~\cite{nmt:nl-to-sparql-Yin19}). After the 
 training phase, a Fairseq Wrapper was implemented in order to import the models and perform the 
 prediction over new data. These wrappers receive the NL question as the input and can return 
@@ -231,7 +231,7 @@ number defined by the user).
 The various individual Entity Linking systems (DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, 
 AIDA~\cite{EL:aida-tool-YosefHBSW11, EL:aida-HoffartYBFPSTTW11}, TAGME~\cite{EL:tagme-FerraginaS10}, 
 OpenTapioca~\cite{EL:opentapioca-Delpeuch19}) were implemented using the web services each system 
-has available. Then, an Entity Linking wrapper was created for each system, were they received the 
+has available. Then, an Entity Linking wrapper was created for each system, where they received the 
 NL question as the input returning a set of annotations which contain a Wikidata entity, the 
 label in the question that entity was associated with, and the score the system gives to the 
 respective annotations (which varies across systems). Then, the Precision Priority system and 
@@ -399,5 +399,5 @@ Finally, a more granular analysis is conducted in order to understand how much e
 influences the overall results. We compare the correct and incorrect cases of each module (Query 
 Template generation, Entity Linking, and Slot Filling) with the correct/incorrect cases of the 
 QA system, and calculate the ratio of error of each module and how much each one of them 
-contributes to the overall error the QA system has. This analysis is evaluated over the \LCQuADtwo{} 
+contributes to the overall error of the QA system. This analysis is evaluated over the \LCQuADtwo{} 
 validation set, \QALDseven{}, and \WikiSPARQL{}.

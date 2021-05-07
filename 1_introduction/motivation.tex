@@ -79,7 +79,7 @@ qa:grammar-2-Marginean17}, or graph exploration~\cite{qa:graph-XuFZ14, qa:graph-
 approaches. Although these systems have shown good results when dealing with a considerable amount of 
 questions, their performance decreases~\cite{qa:challenges-semweb-HoffnerWMULN17} with questions 
 involving more complex graph patterns or with vocabulary mismatches caused by the user typing 
-different terms to the ones contained in the knowledge graph from which the information is being 
+different terms to the ones contained in the Knowledge Graph from which the information is being 
 retrieved (this issue is also known as the lexical gap~\cite{semPar:lexical-gap-HakimovUWC15}). One 
 example is the question \dquotesit{Which US player is the highest scorer in World Cups?} which could 
 require complex operations like aggregation and sorting (count goals, sort and retrieve the maximum 
@@ -132,7 +132,7 @@ language. The main idea is to train an end-to-end learning model to translate an
 into a sequence of tokens in the \SPARQL{} grammar that expresses a query equivalent to the 
 question over a given dataset. Question Answering systems based on neural networks usually 
 aim to generate the whole \SPARQL{} query in an attempt to perform the entire process of 
-identifying the relevant entities along with deducing the KB properties, triples, and operators 
+identifying the relevant entities along with deducing the KG properties, triples, and operators 
 that would retrieve the expected answer. 
 
 An analysis of the performance of many NMT models on translating NL to \SPARQL{} 
@@ -163,7 +163,7 @@ cases for an NMT to learn properly while maintaining an abstraction level that a
 respond accurately to complex and diverse questions. Regardless, creating new datasets does 
 not necessarily help with the vocabulary dependency issue, unless we have examples using 
 every entity and property in the Knowledge Graph, which seems infeasible to generate in the 
-short-to-medium term. Therefore, an important the goal is to maximize the available training examples, 
+short-to-medium term. Therefore, an important goal is to maximize the available training examples, 
 where there is a need to find an alternative approach to complement the parsing power 
 of NMTs with a system that helps to address vocabulary dependency by extracting the 
 information NMTs cannot generalize.
@@ -178,12 +178,12 @@ Recognition~\cite{ner:LampleBSKD16}, Sequence Labeling~\cite{seqlab:MaH16,
 seqlab:contextual-emb-AkbikBV18}, or Entity Linking~\cite{EL:dbpedia-spotlight-MendesJGB11, 
 EL:aida-tool-YosefHBSW11, EL:tagme-FerraginaS10, EL:opentapioca-Delpeuch19} while leveraging Semantic 
 Web resources and/or techniques. In particular, Entity Linking (EL) systems aim to perform the entire 
-process of identifying entity names in a text, mapping names to KB resources, and disambiguating them 
+process of identifying entity names in a text, mapping names to KG resources, and disambiguating them 
 depending on the context of a given corpus~\cite{EL:survey-WuHH18}. Considering again the question 
 \dquotesit{Which US player is the highest scorer in World Cups?}, an EL system could effectively 
 identify the resources associated with the country US or the FIFA World Cup. Many EL 
 systems~\cite{EL:dbpedia-spotlight-MendesJGB11, EL:aida-tool-YosefHBSW11, EL:tagme-FerraginaS10, 
-EL:opentapioca-Delpeuch19} have achieved positive results when linking KB entities over text and 
+EL:opentapioca-Delpeuch19} have achieved positive results when linking entities over text and 
 these systems tend to generalize well over any new corpus. 
 
 Furthermore, these Information Extraction tools can be complemented along with intermediate 

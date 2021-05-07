@@ -168,7 +168,7 @@ dbr:Vicuña,_Chile rdfs:label "Vicuña, Chile"@en ;
 \end{sparqlcode}
 
 Given the triple-based structure of \RDF{} triples, it is possible to represent entire 
-datasets as an \RDF{} graph, also known as a \textbf{Knowledge Graph}: a directed labeled 
+datasets as an \RDF{} graph, also known as a \textbf{Knowledge Graph} (KG): a directed labeled 
 graph where subjects and objects are represented by nodes, and predicates are represented 
 by the directed edges that bond two nodes. The \RDF{} graph of the example shown above can be 
 drawn as in the diagram of Figure~\ref{fig:dbpediaGraphExample}, where by convention 
@@ -187,7 +187,7 @@ vocabulary terms under a core \RDF{} namespace, which helps to standardize frequ
 sharing certain commonalities into \textbf{classes}. For example, we can denote 
 \texttt{dbr:Vicuna\_Chile} as a city by combining it with the predicate \texttt{rdf:type} 
 and the object \texttt{dbr:City}. Another example is the term \texttt{rdfs:label} that 
-comes from RDF Schema~\cite{key:rdfsold}. which provides other resources for describing 
+comes from RDF Schema~\cite{key:rdfsold}, which provides other resources for describing 
 relations such as \textbf{subproperties} or \textbf{subclasses}. Though our work is not 
 focused on the use of the Web Ontology Language (OWL)~\cite{key:owl2rationale, key:owloverview}, 
 it is worth mentioning that it also adds a wealth of new vocabulary to describe new 
@@ -220,7 +220,7 @@ FROM <http://dbepdia.org/data/Gabriela_Mistral.ttl>
 SELECT ?people ?award
 # QUERY CLAUSE
 WHERE {
-    ?people dbo:birthPlace dbr:Vicuña,_Chile,
+    ?people dbo:birthPlace dbr:Vicuña,_Chile ;
         dbo:award ?award .
 }
 # SOLUTION MODIFIERS
@@ -313,14 +313,14 @@ a set of principles and best practices~\cite{key:ldprinciples} to provide an env
 Semantic Web standards can be effectively deployed on the Web.
 
 The four Linked Data principles arise from the Web Design Issues document published by 
-Berners-Lee\cite{key:ldprinciples}. According to this document, these principles are: (1) use URIs 
+Berners-Lee~\cite{key:ldprinciples}. According to this document, these principles are: (1) use URIs 
 as names for things, (2) use HTTP URIs so those names can be looked up, (3) return useful 
 information upon lookup of those names, and last (4) include links by using URIs that dereference 
 to remote documents. 
 
 Besides these principles, there is an emphasis on publishing data that can be easily processed, 
 reused and exchanged between machines. As an approach to bootstrap Semantic Web publishing, 
-a 5-star system\cite{key:ldprinciples} was promoted to describe the quality of published \RDF{} data. 
+a 5-star system~\cite{key:ldprinciples} was promoted to describe the quality of published \RDF{} data. 
 Each star corresponds to one of the following considerations: (1) publish data under an open license, 
 (2) publish structured data, (3) use non-proprietary formats, (4) use URIs to identify things, and 
 (5) link the published data to other data.
@@ -338,7 +338,7 @@ ones are:
     distinctions on a HTTP level or providing as detailed an \RDF{} description as possible when 
     dereferencing resources. 
     \item \textbf{Linking Aliases}: allow the use of multiple URI aliases that refer to the same 
-    thing. For example, \textit{owl:sameAs} links can be used to specify equivalence between 
+    thing. For example, \texttt{owl:sameAs} links can be used to specify equivalence between 
     resources in different datasets.
     \item \textbf{Describing Vocabularies Terms}: promotes the shared use of common vocabularies 
     of class and property terms. A common example is to use FOAF to describe people [ref].
@@ -357,7 +357,7 @@ focused on the latter knowledge graph, which we will introduce in the next secti
 \subsection{Wikidata}
 \label{cap2:semWeb/wikidata}
 As described by Vrandečić and Krötzsch~\cite{KG:wikidata}, \textbf{Wikidata} is a free 
-collaborative knowledge graph founded by the Wikimedia Foundation\footnote{\url{https://wikimediafoundation.org/our-work/wikimedia-projects/}} 
+collaborative Knowledge Graph founded by the Wikimedia Foundation\footnote{\url{https://wikimediafoundation.org/our-work/wikimedia-projects/}} 
 in October 2012. Given the constant growth of its sister project Wikipedia, one of the most 
 popular online encyclopedias, Wikidata is introduced as a new multilingual 
 \dquotesit{Wikipedia for data}. 
