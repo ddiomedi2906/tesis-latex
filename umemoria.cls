@@ -42,6 +42,7 @@
 %% Lenguaje
 \addto\captionsspanish{\renewcommand{\chaptername}{Chapter}}
 \addto\captionsspanish{\renewcommand\tablename{Table}}
+\addto\captionsspanish{\renewcommand\figurename{Figure}}
 \addto\captionsspanish{\renewcommand\contentsname{Tabla de Contenido}}
 \addto\captionsspanish{\renewcommand\listtablename{Índice de Tablas}}
 \addto\captionsspanish{\renewcommand\listfigurename{Índice de Ilustraciones}}

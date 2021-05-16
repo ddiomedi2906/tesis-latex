@@ -276,7 +276,7 @@ display the result for the \QALDseven{}, and \WikiSPARQL{}, respectively.
 
 From the results of Tables \ref{table:elResultsQald7} and \ref{table:elResultsWikiSparql} we can 
 see that overall the Voting system is the system with the best F1 score. The EEL system variants 
-with the highest Recall andoi Precision maintain that tendency over all datasets. In this case, it 
+with the highest Recall and Precision maintain that tendency over all datasets. In this case, it 
 seems that the systems with variable output size fall behind compared to the oracle, where the 
 best performing system is around 0.15 to 0.2 points behind the oracle results in terms of F1-score. 
 
@@ -544,9 +544,11 @@ deliver a correct answer.
 The first thing to note is that the performance of the Slot Filling system is strongly impacted 
 by the results delivered by the Entity Linking system. This is because there is no case where the 
 slots were correctly identified while the entities were not. Next, we notice that if both 
-template and entities are correctly identified, the Slot Filling system has an overall positive 
+template and entities are correctly identified (i.e. counting number of cases from the first and second
+row of Table~\ref{table:queryGenerationErrorRatio}), the Slot Filling system has an overall positive 
 performance with a roughly 83\% Accuracy. The error delivered for the Query Template generation 
-was similar for both our system and the baseline, with 68.6\% and 70.2\% respectively.
+was similar for both our system and the baseline, with 68.6\% and 70.2\% respectively (i.e. last 
+four rows of Table~\ref{table:queryGenerationErrorRatio}).
 
 The most noticeable comparison between both systems comes from a major difference in 
 terms of vocabulary dependency for entities. While only 47.6\% of the incorrect cases were caused by entity 

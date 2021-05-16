@@ -1,5 +1,8 @@
 \chapter{Experimental Design}
 \label{cap4:experimentalDesign}
+We present an overview of the research questions we are addressing on this work along with 
+the details of the experimental design. All the implementation of the system, experiments, and 
+datasets used can be found in the following Github repository: \url{https://github.com/ddiomedi2906/Wikidata_QA_Benchmark/}.
 
 \section{Question Answering general overview}
 \label{cap4:experimentalDesign/QaOverview}
@@ -73,17 +76,8 @@ verbalized question  -> Is Alexander Hamilton a lawyer?
 paraphrased question -> Did Alexander Hamilton practice law?
 \end{sparqlcode}
 
-Since some cases may have issues on either the verbalized or the paraphrased question, we 
-decided to maintain a one-to-one correspondence between question and query. Although it would 
-be interesting to test whether having many variations of the same question might affect the 
-system performance, we think such an experiment has to be done with a dataset where each case has 
-the same amount of variations (which cannot be guaranteed with this dataset without having to 
-discard an uncertain amount of valid cases). Then, in each case we first use the paraphrased 
-question as the case’s question. However, if the paraphrased question is not valid, we use the 
-verbalised question instead (if it is valid). A case is discarded if both the verbalised and 
-the paraphrased questions present an issue.
-
-To define if a question is an invalid verbalization/paraphrase, the following issues are taken 
+A case is discarded if both the verbalised and the paraphrased questions present an issue. To 
+define if a question is an invalid verbalization/paraphrase, the following issues are taken 
 into account:
 
 \begin{enumerate}
@@ -132,14 +126,15 @@ Neural-based models used in this work.
 \label{cap4:experimentalDesign/QaDataset/queryTemplate}
 From the cleaned \LCQuADtwo{} dataset, a Query Template dataset was created for training the 
 Query Template generator model. More specifically, a Query Template was inferred from each 
-\SPARQL{} query by replacing every subject and object entity in the query with a placeholder. In 
-order to maintain some part of the semantic meaning of the entity that is being replaced, we 
-used different types of placeholder labels. For example, an entity that was the subject of the 
-first query triple will be replaced by a placeholder labeled as \dquotestt{sbj\_1}. For numerical 
-or string values, the placeholder would be \dquotestt{num} or \dquotestt{str\_value}, respectively. 
-This is a different approach to generate Query Templates than the one followed by 
+\SPARQL{} query by replacing every subject and object entity in the query with a placeholder. 
+As explained in the System Overview chapter~\ref{cap3:system/slotFillModule/seqTagger}, in order 
+to maintain some degree of the semantic meaning of the entity that is being replaced, we 
+propose using several types of placeholder labels. For example, an entity that was the subject 
+of the first query triple will be replaced by a placeholder labeled as \dquotestt{sbj\_1}. For 
+numerical or string values, the placeholder would be \dquotestt{num} or \dquotestt{str\_value}, 
+respectively. This is a different approach to generate Query Templates than the one followed by 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19}, where instead they replaced entities by one-letter 
-names such as \texttt{A}, \texttt{B} or \texttt{C}. 
+names such as \texttt{A}, \texttt{B} or \texttt{C}.
 
 \begin{sparqlcode}[%
     caption={\SPARQL{} query and its Query Template version.}, 
@@ -156,6 +151,15 @@ query for the question \dquotesit{Where was Pedro Pascal born?} the entity \text
 from Pedro Pascal was replaced for the \texttt{sbj\_1} placeholder. All queries from the cleaned dataset 
 were able to be transformed into their Query Template version.
 
+Since some cases may have issues on either the verbalized or the paraphrased question, we 
+decided to maintain a one-to-one correspondence between question and query. Although it would 
+be interesting to test whether having many variations of the same question might affect the 
+system performance, we think such an experiment has to be done with a dataset where each case has 
+the same amount of variations (which cannot be guaranteed with this dataset without having to 
+discard an uncertain amount of valid cases). Then, in each case we first use the paraphrased 
+question as the case’s question. However, if the paraphrased question is not valid, we use the 
+verbalised question instead (if it is valid).
+
 \subsection{Sequence Labeling Dataset}
 \label{cap4:experimentalDesign/QaDataset/seqLabeling}
 In order to train the Sequence Labeling model from the Slot Filling module, a dataset was 
@@ -166,7 +170,8 @@ The first stage consists of identifying the entity-label mapping in terms of whi
 question corresponds to each entity from the ones contained in the \SPARQL{} query. In the example 
 of \dquotesit{Where was Pedro Pascal born?}, the label \dquotesit{Pedro Pascal} contained in the 
 question should correspond to the entity \texttt{Q14752155} corresponding to the Chilean actor Pedro 
-Pascal. 
+Pascal. This mapping identification was performed using the Wikidata labels found in the normalized 
+question provided in the \LCQuADtwo dataset (see an example in Listing~\ref{lst:questionExampleLcquad2}).
 
 In the second stage, the labels identified previously are associated with the placeholders used 
 for the creation of the Query Template. In this case, the placeholder \texttt{sbj\_1} shown in 
@@ -186,12 +191,13 @@ O O B-sbj_1 B-sbj_1 O
 \end{sparqlcode}
 
 Some labels were not able to be associated with their corresponding placeholders due to the 
-question rephrasing performed over the \LCQuADtwo{} dataset. The main issue was the discrepancy between the 
-Wikidata label associated with an entity, and its current label in the question (which may be 
-modified due to the rephrasing). To compensate for the loss of information we decided to add 
-both verbalised and paraphrased valid cases. This gives us 36,854 valid cases from the 52,853 
-initial cases (counting for each case its verbalised and paraphrased version), which is almost 
-70\% of the dataset.
+question rephrasing performed over the \LCQuADtwo{} dataset. The main issue was the discrepancy 
+between the Wikidata label associated with an entity, and its current label in the question 
+(which may be modified due to the rephrasing). As opposite as we did for the Query Template 
+dataset, we decided to add both verbalised and paraphrased valid cases to compensate 
+for the loss of information. After processing the dataset, we ended up with 36,854 valid cases 
+from the 52,853 initial cases (counting for each case its verbalised and paraphrased version), 
+which is almost 70\% of the dataset.
 
 \subsection{Final Dataset Format}
 \label{cap4:experimentalDesign/QaDataset/finalFormat}
@@ -213,7 +219,8 @@ described in the \textit{System Overview} chapter~\ref{cap3:system}: Query Gener
 Filling. These modules were assembled in our proposed Question Answering system, which receives 
 a Natural Language question as an input, and returns a Wikidata \SPARQL{} query that can be executed 
 on the Wikidata service endpoint as an output. The Question Answering system only returns a valid 
-\SPARQL{} query; otherwise, if one cannot be computed, it will return nothing.
+\SPARQL{} query; otherwise, if one cannot be computed, it will return nothing. The entire system was implemented 
+using Python 3.6. 
 
 The implementation of the two variants on the Query Generation module (SPARQL Query Generator 
 and Query Template Generator) was divided into two stages. First the models were trained on 
@@ -247,9 +254,6 @@ tagging over new data. This wrapper was used to implement the Slot Filling syste
 input consists of an NL question, a Query Template, and the Entity Linking annotations. Then, 
 the output is a \SPARQL{} query built from the given set of values, only if the Slot Filling is 
 successful.
-
-The entire system was implemented using Python 3.6. The implementation and the datasets used can 
-be found in the following Github repository: \url{https://github.com/ddiomedi2906/Wikidata_QA_Benchmark/}.
 
 \section{Experiments}
 \label{cap4:experimentalDesign/experiments}

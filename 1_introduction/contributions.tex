@@ -40,11 +40,34 @@ templates.
 
 \subsection*{Question Answering system over Wikidata}
 \label{cap1:intro/contributions/qaWikidata}
-The implementation of the new QA system is divided into the construction of three modules: 
-an entity retrieval system, a Query Template generator, and a slot filling intermediate 
-system. All systems are developed using Python.
 
-We implement various entity retrieval systems using one or more of the existing Entity 
+The main contribution of this work is a Question Answering system that translates 
+natural language questions in English to SPARQL queries executable on Wikidata endpoints. See an
+example of an expected SPARQL query in Figure~\ref{fig:introQAexample}. The implemention of this 
+system is divided into the construction of three modules: a Query Template generator, 
+an Entity Linking system, and an intermediate Slot Filling system. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=.5]{imagenes/1_intro/introQuestionAnsweringExample.png}
+    \caption{Expected SPARQL query example from a KGQA system.}
+    \label{fig:introQAexample}
+\end{figure}
+
+The Query Template generator produces incomplete SPARQL queries (which we call 
+Query Templates) that contain \dquotesit{placeholders} in the position where entities are 
+supposed to be (e.g. placeholders \texttt{<sbj\_1>} and \texttt{<obj\_1>} instead of entities 
+\texttt{Q80871} and \texttt{Q49757} of the query shown in Figure~\ref{fig:introQAexample}). 
+This module is built using the same model used to implement the baseline QAS. 
+However, the training data is adapted to generate Query Templates instead of the complete 
+query. This is achieved by removing the entities from the output \SPARQL{} queries included 
+in the selected datasets such that the entities can rather be found by Entity Linking.
+
+The role of the Entity Linking module is to recognize the relevant entities contained
+on each question (e.g. identify that concepts \dquotesit{Gabriela Mistral} and \dquotesit{poet}
+corresponds to the entities \texttt{Q80871} and \texttt{Q49757} in Figure~\ref{fig:introQAexample}) 
+that are used to fill the Query Template. We implement various entity retrieval systems using 
+one or more of the existing Entity 
 Linking systems that have APIs available. The first variant is to use each EL system individually, 
 which includes DBpedia Spotlight~\cite{EL:dbpedia-spotlight-MendesJGB11}, AIDA~\cite{EL:aida-tool-YosefHBSW11}, 
 TAGME~\cite{EL:tagme-FerraginaS10}, and OpenTapioca~\cite{EL:opentapioca-Delpeuch19}. 
@@ -54,17 +77,13 @@ EL approaches are then proposed: one that prioritizes systems with higher Precis
 and the other that implements a voting mechanism. We keep the variant that performs best 
 according to the experiments that are explained in the \textit{Experimental results} subsection.
 
-The Query Template generator is built with using the same model used to implement the baseline QAS. 
-However, the training data is adapted to generate Query Templates instead of the complete 
-query. This is achieved by removing the entities from the output \SPARQL{} queries included 
-in the selected datasets such that the entities can rather be found by Entity Linking.
-
-Additionally, a Slot Filling model is trained using a Sequence Labeling model of the Flair 
-library~\cite{seqlab:flair-AkbikBBRSV19}. Intuitively speaking, a Query Template may have 
-multiple slots and multiple entities, where the Slot Filling model decides which entity should 
-fill which slot. This process also requires building training data based on the selected datasets. 
-Having finished the three modules, the Question Answering system is implemented by 
-connecting these modules.
+Additionally, a Slot Filling module is built by combining a Sequence Tagger model of the Flair 
+library~\cite{seqlab:flair-AkbikBBRSV19} and a filling algorithm proposed in this work. Training 
+the Sequence Tagger model requires building training data based on the selected datasets. 
+Intuitively speaking, a Query Template may have multiple slots and multiple entities, where the 
+Slot Filling module decides which entity should fill which slot (e.g. infer that the concept 
+\dquotesit{Gabriela Mistral} corresponds to the placeholder \texttt{<sbj\_1>}, therefore the 
+entity \texttt{Q80871} should replace the occurences of \texttt{<sbj\_1>} in the Query Template).
 
 \subsection*{Experimental results}
 \label{cap1:intro/contributions/expResults}

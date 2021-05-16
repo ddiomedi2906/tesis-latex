@@ -519,18 +519,21 @@ Linking system.
 \end{figure}
 
 Before the actual Slot Filling process, the input NL question is passed to a Sequence Tagger 
-that performs Sequence Labelling in order to identify relevant named entities and their 
+that identifies relevant named entities (or labels) and their 
 corresponding placeholder tag. We understand a placeholder tag as a placeholder name in a 
 Query Template. As seen in Figure~\ref{fig:slotFillingPipeline}, given the question 
 \dquotesit{Was Gabriela Mistral a poet?}, the expected output for the Sequence Tagger is to 
-identify \dquotesit{Gabriela Mistral} and \dquotesit{poet} as two relevant entities. Besides, 
+identify \dquotesit{Gabriela Mistral} and \dquotesit{poet} as two relevant labels which 
+are expected to have a Wikidata entity recognized by the Entity Linking system. For example, 
 \dquotesit{Gabriela Mistral} is tagged as \dquotestt{sbj\_1}, meaning that the entity which 
 corresponds to the label \dquotesit{Gabriela Mistral} should be assigned to the placeholder 
 \texttt{<sbj\_1>} in the Query Template. The same happened with the label \dquotesit{poet}, 
-which should be assigned to the placeholder \texttt{<obj\_1>}.
+which should be assigned to the placeholder \texttt{<obj\_1>}. Note here that the goal is to 
+infer label--placeholder annotations, whereas the Entity Linking system aims to produce 
+label--entity annotations. 
 
-Then, the named entities tagged in the previous stage are passed to the Query Filling stage, 
-along with the Entity Linking annotations and the generated Query Template. A filling 
+Next, the labels tagged with their corresponding placeholder are passed to the Query Filling 
+stage, along with the Entity Linking annotations and the generated Query Template. A filling 
 algorithm is proposed to perform the Query Filling process. The algorithm will return a 
 \SPARQL{} query only if the filling process is successful. As we will explain later, this filling 
 process could fail due to the previous systems failing to recognize some entities, or due to 
@@ -560,28 +563,29 @@ identified as a tag. On the other hand, the words \dquotesit{Was} and \dquotesit
 as non-tag tokens. Note that the length of the tagger output and the number of tokens in the 
 input question are always the same amount, so every token is assigned with a tag.
 
-In this work three types of tags were chosen for three types of values: entities, numbers, and 
-string values. The entity tag identifies entities from the Knowledge Graph resource (e.g. 
-\texttt{wd:Q80871}). Each entity tag identifies two aspects of the entity: 1) its role in the 
-query triple (subject or object), and its query triple position. For example, if an entity is 
-tagged as \dquotestt{sbj\_1}, it means it is the subject of the first query triple. As their 
-names may suggest, the number tag identifies numeric values, and the string value tag marks 
-text relevant to the query (e.g. for filtering entities that contain a certain string label).
+In this work three \textbf{types of placeholders} were chosen for three types of values: entities, 
+numbers, and string values. The entity placeholder identifies entities from the Knowledge Graph 
+resource (e.g. \texttt{wd:Q80871}). Each entity placeholder identifies two aspects of the entity: 
+1) its role in the query triple (subject or object), and its query triple position. For example, if 
+an entity is tagged as \dquotestt{sbj\_1}, it means it is the subject of the first query triple. As 
+their names may suggest, the number placeholder identifies numeric values, whereas the string value 
+placeholder marks text relevant to the query (e.g. for filtering entities that contain a certain 
+string label).
 
-There are two main steps before training the Sequence Labelling Model: preprocessing the 
+There are two main steps before training the Sequence Tagger model: preprocessing the 
 dataset, and configuring the model architecture. The Sequence Labelling dataset has to be 
 converted to a tag dictionary that fits the Flair model input. Each output value has to be 
 expressed as a sequence of BIO labels. Whatever BIO labels are chosen determines the labels 
 the Sequence Tagger will use. Next, the configuration of the model architecture is divided 
 into embeddings and model settings. First, the embedding layer is set, where one or more 
-types of embeddings can be joined into a stacked embedding. In this case, we use the GloVe 
-embeddings along with contextual embeddings known as Flair embeddings~\cite{seqlab:flair-AkbikBBRSV19}. 
+types of embeddings can be joined into stacked embeddings. In this case, we use the GloVe 
+embeddings along with contextual embeddings, also known as Flair embeddings~\cite{seqlab:flair-AkbikBBRSV19}. 
 Lastly, the model architecture used is the same standard architecture used by 
 Akbik et al.~\cite{seqlab:contextual-emb-AkbikBV18}, which is a BiLSTM~\cite{seqlab:HuangXY15} 
 with the number of hidden layers set to 256, along with a CRF layer put on top of the final 
 layer. 
 
-Finally, there are some training parameters or settings that are defined by default and 
+Finally, there are some training parameters and settings that are defined by default and 
 others that can be tuned for a particular task. Some default aspects include the learning 
 algorithm (mini-batch stochastic gradient descent) and the loss function (cross-entropy 
 function). Some relevant training parameters that can be tuned are the learning rate, the 
