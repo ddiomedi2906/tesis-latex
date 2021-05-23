@@ -2,7 +2,7 @@
 \label{cap4:experimentalDesign}
 We present an overview of the research questions we are addressing on this work along with 
 the details of the experimental design. All the implementation of the system, experiments, and 
-datasets used can be found in the following Github repository: \url{https://github.com/ddiomedi2906/Wikidata_QA_Benchmark/}.
+datasets used can be found in the following Github repository: \url{https://github.com/thesemanticwebhero/ElNeuKGQA/}.
 
 \section{Question Answering general overview}
 \label{cap4:experimentalDesign/QaOverview}
@@ -312,12 +312,15 @@ dataset provides. Besides, most of the mapped queries did not even return an ans
 being executed over the Wikidata endpoint. For these reasons, we decided to exclude 
 that dataset from the experiments in this work.
 
+
 \subsection{Query Template Generation}
 \label{cap4:experimentalDesign/queryTemplateGeneration}
 The Query Template Generator is trained using the \LCQuADtwo{} training set, and is 
 evaluated over the training and validation datasets using Perplexity, and BLEU score. 
 Then, the model is evaluated over the \LCQuADtwo{} validation, \QALDseven{} and 
-\WikiSPARQL{} datasets using BLEU score and string-match Accuracy.
+\WikiSPARQL{} datasets using BLEU score and string-match Accuracy. More details on the 
+hyperparameters and training dataset can be found here in the \textit{System Overview} 
+chapter~\ref{cap3:system/queryGenModule/fairseqModel}.
 
 The only point of reference for this model is to use the Baseline Query Generator model, and 
 evaluate which one of the two better predicts which Query Template corresponds for each case. 
@@ -359,7 +362,9 @@ performance, and evaluation over the Slot Filling algorithm.
 
 First, the Sequence Tagger model is trained using the \LCQuADtwo{} training set, and is evaluated 
 using Precision, Recall, and F1-score over the output labels. Then, the model is evaluated over 
-the \LCQuADtwo{} validation, \QALDseven{} and \WikiSPARQL{} datasets using the same metrics.
+the \LCQuADtwo{} validation, \QALDseven{} and \WikiSPARQL{} datasets using the same metrics. 
+Details on the implementation used can be found here in the \textit{System Overview} 
+chapter~\ref{cap3:system/slotFillModule/seqTagger}.
 
 After that, the Slot Filling system is evaluated in terms of how the filling process is performed. 
 Then, using the results obtained from the \textit{Query Template Generation} and the 

@@ -113,13 +113,17 @@ or unions of results).
 
 Another aspect that could be improved is the learning architecture we are using for the Query 
 Template generator, where we could also try either of the other models used in Yin et al.'s work, or 
-try new architectures from the state-of-the-art for Semantic Parsing or Machine Translation. Aside 
-from the architecture, we could also propose new logical forms for representing Query Templates. For 
-example, we can condense some common query patterns (e.g. the pattern to see if a string is contained 
+try new architectures from the state-of-the-art for Semantic Parsing or Machine Translation. One 
+other component which might help better estimate the model performance in practice, would be to 
+follow a k-fold cross-validation during the training phase~\cite{futureWork:anguita2012k}. Aside 
+from that, we could also propose new logical forms for representing Query Templates. For example, we 
+can condense some common query patterns (e.g. the syntax pattern to see whether a string is contained 
 in an entity label is always the same), or use program-based representations. 
 
 Even though our proposed Slot Filling system manages to perform well enough, we would like to have a 
-system that reduces the amount of incorrect slots as much as possible. One approach that we may 
+system that reduces the amount of incorrect slots as much as possible. One proposal would be to 
+test other placeholder classifications that capture different dimensions of entities, e.g. tag 
+entities as humans, organizations, places, etc. Another approach that we may 
 follow is to include the placeholder labeling during the Query Template generation stage, perhaps by 
 adapting the Pointer Network architecture~\cite{key:vinyals2015pointer}, which 
 aims to address the issue of vocabulary dependency by adding pointers in the output sequence that 

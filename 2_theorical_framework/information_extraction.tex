@@ -46,8 +46,8 @@ Knowledge Graph (e.g. Wikipedia, Wikidata, DBpedia)~\cite{EL:survey-WuHH18}. Asi
 extracting entities from a knowledge graph, a disambiguation step is also needed. For example, 
 for the question \dquotesit{Has Claudio Bravo played for Manchester City FC?}, Entity Linking 
 with respect to Wikidata should link the mention \dquotesit{Claudio Bravo} to the Chilean 
-football goalkeeper Claudio Bravo (\texttt{wd:Q313161}) instead of the Chilean painter Claudio Bravo 
-(\texttt{wd:Q491787}), given the context of the sentence (a person playing in a football club). 
+football goalkeeper Claudio Bravo (\texttt{Q313161}) instead of the Chilean painter Claudio Bravo 
+(\texttt{Q491787}), given the context of the sentence (a person playing in a football club). 
 Some applications of Entity Linking involve fields such as information 
 retrieval~\cite{infExtr:CornoltiFCRS16, infExtr:BlancoOM15, infExtr:BollegalaMI07} knowledge 
 fusion~\cite{infExtr:DongGHHMSZ15, infExtr:BohmFHLMNEHHS12}, or Knowledge Graph 
@@ -475,25 +475,41 @@ representations of words based on their surrounding context.
 \label{cap2:theoFrame/infExtr/sequenceLabeling/contextualEmbeddings/languageModel}
 \mbox{}\\
 \mbox{}\\
-A Language Model (LM) is a probability distribution over sequences of words~\cite{seqlab:PonteC98}. Language models can be character-level or word-level, where the difference lies in the atomic 
-unit selected for the language model~\cite{seqlab:PonteC98}. In this work we focus on character-level LMs.
+A Language Model (LM) is a probability distribution over sequences of 
+words~\cite{seqlab:PonteC98}. Language models can be character-level or word-level, where the 
+difference lies in the atomic unit selected for the language model~\cite{seqlab:PonteC98}. In 
+this work we focus on character-level LMs.
 
 For a character-level LM, 
 the goal is to predict the expected character given a set of characters as context, i.e., to 
 provide a good distribution $P(x_{0:T})$ over sequences of characters 
-$(x_0, x_1,\ldots,x_T)$~\cite{seqlab:Graves13}. Intuitively speaking, we aim to respond to the question: 
-\textit{given a certain sequence of characters, what is the most probable character that follows to that sequence?} (e.g. if we provide with the sequence \dquotes{goalkeepe}, it is very likely that the character \squotes{r} should come next). Then, if the objective is to predict the next character given the previous characters, we will train a language a model to learn $P(x_t|x_0,..., x_{t-1})$, for $0 < t <= T$, which gives an estimate of the predictive distribution over the next character given the previous characters. 
+$(x_0, x_1,\ldots,x_T)$~\cite{seqlab:Graves13}. Intuitively speaking, we aim to respond to the 
+question: \textit{given a certain sequence of characters, what is the most probable character 
+that follows to that sequence?} (e.g. if we provide with the sequence \dquotes{goalkeepe}, it is 
+very likely that the character \squotes{r} should come next). Then, if the objective is to 
+predict the next character given the previous characters, we will train a language a model to 
+learn $P(x_t|x_0,..., x_{t-1})$, for $0 < t <= T$, which gives an estimate of the predictive 
+distribution over the next character given the previous characters. 
 
-Recent work on language models prefers architectures based on Recurrent Neural Networks~\cite{seqlab:contextual-emb-AkbikBV18}. 
+Recent work on language models prefers architectures based on Recurrent Neural 
+Networks~\cite{seqlab:contextual-emb-AkbikBV18}. 
 Language models based on Neural Networks, also known as Neural Language Models, have shown 
 better results than statistical language models~\cite{seqlab:Graves13}, mainly because 
 statistical models decrease their performance when dealing with large vocabulary size, which 
 causes a data sparsity problem~\cite{seqlab:Egghe07a} (therefore their capacity to generalize 
 is limited). 
 
-Among many applications of neural language models, a key application is the creation of word embeddings, which are vector representations of words typically based on the trainable weights within the Neural Networks used in the language model. Word embeddings are 
-particularly useful to encapsulate the semantic attributes of abstract concepts (e.g. we can capture to certain extend that \squotes{red} is a color, thus providing a degree of semantic similarity with other colors' embeddings), and such knowledge can be transfer to other tasks in order to enhance other models' learning capabilities (as we will do here for the Sequence Labeling task). In this case, the architecture used to construct Flair embeddings is the LSTM variant~\cite{seqlab:HochreiterS97,seqlab:Graves13,seqlab:ZarembaSV14} which enhances the ability to encode long-term dependencies with its hidden states (weights in an LSTM 
-architecture).
+Among many applications of neural language models, a key application is the creation of word 
+embeddings, which are vector representations of words typically based on the trainable weights 
+within the Neural Networks used in the language model. Word embeddings have shown  
+a great capacity of encapsulating semantic attributes of abstract concepts (e.g. we can capture 
+to certain extend that \dquotes{red} is a color, because we identify a degree of semantic 
+similarity when comparing its numeric values to other colors' embeddings), and such knowledge 
+can be transfer to other tasks in order to enhance other models' learning capabilities (as we 
+will do here for the Sequence Labeling task). In this case, the architecture used to construct 
+Flair embeddings is the LSTM variant~\cite{seqlab:HochreiterS97,seqlab:Graves13,seqlab:ZarembaSV14} 
+which enhances the ability to encode long-term dependencies with its hidden states (weights in 
+an LSTM architecture).
 
 \paragraph{Extracting Flair Embeddings}
 \label{cap2:theoFrame/infExtr/sequenceLabeling/contextualEmbeddings/flairEmbeddings}

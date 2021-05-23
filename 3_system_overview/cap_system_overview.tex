@@ -15,17 +15,6 @@ the architecture can be applied more generally to any Knowledge Graph. For the q
 Wikidata query service by executing an ASK-type \SPARQL{} query. In other cases a SELECT query may be 
 required.
 
-In order to build this \SPARQL{} query, the Question Answering system starts with an Entity 
-Linking stage where relevant entities are identified (e.g., \dquotesit{Gabriel Mistral}, 
-\dquotesit{poet}) and linked to the Knowledge Graph. Then, a Query Template Generation stage 
-is performed to generate \SPARQL{} Query Template candidates with placeholders to be filled 
-using the entities recognized in the previous stage. Next, a Slot Filling stage comes to 
-identify which entities should be used to fill which placeholders of the Query Template 
-candidates. This pipeline describing the Question Answering system is implemented by building 
-three modules that perform each one of the described stages. 
-
-\newpage
-
 \begin{figure}[!h]
     \centering
     \includegraphics[scale=.5]{imagenes/3_system_overview/QuestionAnsweringPipeline.png}
@@ -33,13 +22,31 @@ three modules that perform each one of the described stages.
     \label{fig:questionAnsweringOverview}
 \end{figure}
 
+In order to build this \SPARQL{} query, the Question Answering system starts with 
+a Query Template Generation stage to generate \SPARQL{} Query Template candidates with 
+placeholders to be filled with entities in a later stage. These entities are first annotated 
+in the the Entity Linking stage, where relevant labels are identified (e.g., \dquotesit{Gabriel 
+Mistral} or \dquotesit{poet}) and linked to their corresponding entity Knowledge Graph. 
+
+The process of filling the annotated entities on the placeholders of a Query Template is not a 
+straightforward process. In the example provided in Figure~\ref{fig:questionAnsweringOverview},
+the entity of \dquotesit{Gabriel Mistral} (\texttt{Q80871}) should be the subject 
+of a triple in a SPARQL query, but in other context this entity could the object of a triple. 
+Besides, sometimes the Entity Linking may recognize more entities than placeholders to be filled, 
+thus adding another layer of complexity that an Entity Linking system can not exclusively address.
+Therefore, the Slot Filling stage comes to identify which entities should be used to 
+fill which placeholders of the Query Template candidates. 
+
+The Question Answering pipeline described in the Figure~\ref{fig:questionAnsweringOverview} 
+is implemented by building three modules that execute each one of the described stages. 
+
 \section{Query Generation Module}
 \label{cap3:system/queryGenModule}
 In this section we describe the Query Generation Module, which is used by the Baseline system 
 and adapted for the system proposed in this work. Given a Natural Language (NL) question, the 
 goal is to generate its logical form in terms of \SPARQL{} grammar, which can be either a 
 complete \SPARQL{} query representation (baseline) or an intermediate Query Template 
-representation (our system). 
+representation (our system).
 
 We now explain the main components that encapsulate the Query Generation module. First, we 
 describe the Query Generation pipeline, which does not differ much between the generation of 
@@ -239,7 +246,7 @@ but rather assume that a mapping is made available).
 In this example, we show for each spotted mention: the start and end position, the annotation 
 label and its associated resource. Then, an entity mapping process is performed to convert 
 the DBpedia resources (\texttt{dbr:Gabriela\_Mistral} and \texttt{dbo:Poet}) into Wikidata 
-resources (\texttt{wd:Q80871} and \texttt{wd:Q49757} respectively). As we mentioned, this 
+resources (\texttt{Q80871} and \texttt{Q49757} respectively). As we mentioned, this 
 mapping is optional and it depends on the target Knowledge Graph we are interested in, which 
 in this case is Wikidata, and whether the system returns entities on that target Knowledge 
 Graph.
@@ -412,10 +419,10 @@ priorities until the number of unique expected entities is reached.
 For example shown above, the PPrior system would rank each entity in the following way:
 
 \begin{sparqlcode}[]
-1. FC Barcelona - Q7156
-2. Juan Jose Ibarretxe - Q351738
-3. chairperson - Q140686
-4. Does - Q302057     
+1. FC Barcelona - wd:Q7156
+2. Juan Jose Ibarretxe - wd:Q351738
+3. chairperson - wd:Q140686
+4. Does - wd:Q302057     
 \end{sparqlcode}
 
 The first entity (\texttt{Q7156}) comes from the AIDA system, the second one (\texttt{Q351738}) 
@@ -448,10 +455,10 @@ Given that ties are possible, the entities that come from more precise systems w
 would rank each entity in the following way:
 
 \begin{sparqlcode}[]
-1. (3) Juan Jose Ibarretxe - Q351738
-2. (2) FC Barcelona - Q7156
-3. (2) chairperson - Q140686
-4. (1) Does - Q302057
+1. (3) Juan Jose Ibarretxe - wd:Q351738
+2. (2) FC Barcelona - wd:Q7156
+3. (2) chairperson - wd:Q140686
+4. (1) Does - wd:Q302057
 \end{sparqlcode}
 
 The most voted entity is \texttt{Q351738} with three votes, which comes from OpenTapioca, TAGME, 
@@ -526,7 +533,7 @@ Query Template. As seen in Figure~\ref{fig:slotFillingPipeline}, given the quest
 identify \dquotesit{Gabriela Mistral} and \dquotesit{poet} as two relevant labels which 
 are expected to have a Wikidata entity recognized by the Entity Linking system. For example, 
 \dquotesit{Gabriela Mistral} is tagged as \dquotestt{sbj\_1}, meaning that the entity which 
-corresponds to the label \dquotesit{Gabriela Mistral} should be assigned to the placeholder 
+corresponds to that label (\texttt{Q80871}) should be assigned to the placeholder 
 \texttt{<sbj\_1>} in the Query Template. The same happened with the label \dquotesit{poet}, 
 which should be assigned to the placeholder \texttt{<obj\_1>}. Note here that the goal is to 
 infer label--placeholder annotations, whereas the Entity Linking system aims to produce 
@@ -542,15 +549,15 @@ contained in the given Query Template.
 
 \subsection{Sequence Tagger model}
 \label{cap3:system/slotFillModule/seqTagger}
-The Sequence Tagger identifies which named entities are more likely to have an entity 
+The Sequence Tagger identifies which labels are more likely to have an entity 
 assigned to a certain placeholder in the Query Template. To implement this model, we use the 
 Flair\footnote{\url{https://github.com/flairNLP}} framework for Natural Language Processing. Flair 
 contains many off-the-shelf Sequence Labelling and Name Entity Recognition models implemented 
 using Pytorch. It also supports  training a custom Sequence Labelling model if training data 
 is provided.
 
-We then adapt the same dataset used for Query Generation to describe the expected output (more 
-details in the \textit{Experimental design} chapter~\ref{cap4:experimentalDesign/datasets}). 
+We then adapt the same dataset used for generating the Query Template dataset to describe the 
+expected output (more details in the \textit{Experimental design} chapter~\ref{cap4:experimentalDesign/datasets}). 
 A Sequence Tagger model receives an NL 
 question, and returns a sequence of tags where each tag is related to one word (or token) in 
 the input question. These tags follow the BIO format, where each word is classified as the 
@@ -558,14 +565,14 @@ beginning of a tag, as the intermediate part of it, or as a non-tag token. For e
 given the question \dquotesit{Was Gabriela Mistral a poet?}, the expected output would be 
 \texttt{(O, B-sbj\_1, I-sbj\_1, O, B-obj\_1)}. From this output we can infer that 
 \dquotesit{Gabriela Mistral} is identified as one tag (\dquotesit{Gabriela} is the beginning of 
-the tag and \dquotesit{Mistral} is an intermediate part of it), and \dquotesit{poet} is also 
-identified as a tag. On the other hand, the words \dquotesit{Was} and \dquotesit{a} are identified 
+the tag and \dquotesit{Mistral} is an intermediate part of it), and \dquotesit{poet} is 
+identified as another tag. On the other hand, the words \dquotesit{Was} and \dquotesit{a} are identified 
 as non-tag tokens. Note that the length of the tagger output and the number of tokens in the 
-input question are always the same amount, so every token is assigned with a tag.
+input question are always the same amount, so every token is assigned with a BIO tag.
 
-In this work three \textbf{types of placeholders} were chosen for three types of values: entities, 
+In this work three \textbf{types of placeholders} are chosen for three types of values: entities, 
 numbers, and string values. The entity placeholder identifies entities from the Knowledge Graph 
-resource (e.g. \texttt{wd:Q80871}). Each entity placeholder identifies two aspects of the entity: 
+resource (e.g. \texttt{Q80871}). Each entity placeholder identifies two aspects of the entity: 
 1) its role in the query triple (subject or object), and its query triple position. For example, if 
 an entity is tagged as \dquotestt{sbj\_1}, it means it is the subject of the first query triple. As 
 their names may suggest, the number placeholder identifies numeric values, whereas the string value 
@@ -575,7 +582,7 @@ string label).
 There are two main steps before training the Sequence Tagger model: preprocessing the 
 dataset, and configuring the model architecture. The Sequence Labelling dataset has to be 
 converted to a tag dictionary that fits the Flair model input. Each output value has to be 
-expressed as a sequence of BIO labels. Whatever BIO labels are chosen determines the labels 
+expressed as a sequence of BIO tags. Whatever BIO tags are chosen determines the tags 
 the Sequence Tagger will use. Next, the configuration of the model architecture is divided 
 into embeddings and model settings. First, the embedding layer is set, where one or more 
 types of embeddings can be joined into stacked embeddings. In this case, we use the GloVe 

@@ -66,7 +66,7 @@ training set do not generalize well to other datasets.
 \begin{table}[h!]
     \centering
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|c|c|cc|cc|c|}
+    \begin{tabular}{|l|c|cc|cc|c|}
     \hline
     \multicolumn{7}{|c|}{\textbf{Performance analysis per template (QT generator vs Baseline) - LC-QuAD 2 valid}}                                                                                                                                                                                                                                                                                                                                                                                                                             \\ \hline
     \multirow{2}{*}{\textbf{ID}} & \multirow{2}{*}{\textbf{Template type}}                                                                                & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Size}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}\% \\ Dataset\end{tabular}}} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}QTG \\ Accuracy\end{tabular}}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Baseline \\ Accuracy\end{tabular}}} & \multirow{2}{*}{\textbf{Diff Accuracy}} \\
@@ -447,16 +447,6 @@ executed), and the way we are evaluating these results does not consider \SPARQL
     \label{table:queryGenerationTestResults}
 \end{table}
 
-The same analysis per template performed over the Query Template generation task are done for the 
-SPARQL query generation task. In Table~\ref{table:queryGenerationComparison} the results in terms 
-of Accuracy are displayed for each \LCQuADtwo{} base template. We see that there are more cases than 
-before where our proposed system performed better than the Baseline, especially due to the 
-inability of the latter system to generate a single valid query for some templates. Among those 
-cases, the \texttt{ask\_one\_fact} template is the most noticeable case since it should be the simplest one. 
-The main reason for these cases to occur is that the Baseline system fails to identify the 
-relevant entities due to not having seen them during training time. As we will discuss later, the 
-vocabulary dependence of the Baseline plays a major role in the worse performance of this system. 
-
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 % \usepackage{graphicx}
@@ -497,6 +487,16 @@ vocabulary dependence of the Baseline plays a major role in the worse performanc
     \label{table:queryGenerationComparison}
 \end{table}
 
+The same analysis per template performed over the Query Template generation task are done for the 
+SPARQL query generation task. In Table~\ref{table:queryGenerationComparison} the results in terms 
+of Accuracy are displayed for each \LCQuADtwo{} base template. We can see that there are more cases than 
+before where our proposed system performed better than the Baseline, especially due to the 
+inability of the latter system to generate a single valid query for some templates. Among those 
+cases, the \texttt{ask\_one\_fact} template is the most noticeable case since it should be the simplest one. 
+The main reason for these cases to occur is that the Baseline system fails to identify the 
+relevant entities due to not having seen them during training time. As we will discuss later, the 
+vocabulary dependence of the Baseline plays a major role in the worse performance of this system. 
+
 The proposed system manages to achieve better Accuracy in most cases. The cases that present the best 
 results are the \texttt{ASK} type queries with one query triple (\texttt{ask\_one\_fact}) and the SELECT queries 
 that utilize one property statement and one qualifier property (\texttt{select\_one\_
@@ -506,18 +506,6 @@ requires two query triples, where no query was successfully generated. As oppose
 performing cases, these rank queries were among the most complex cases since they require 2 
 entities and 3 properties to be correctly predicted; thus a single error would make the entire 
 query incorrect.
-
-Finally, in order to identify the most common sources of errors, we divided the results depending 
-on the correct/incorrect answers expected for each module (Query Template generator, Entity Linking, 
-Slot Filling). A comparison between our proposal (using the best performing settings) and the 
-baseline is presented in Table~\ref{table:queryGenerationErrorRatio}. For each case, a circle 
-means the system performed correctly and a cross is the opposite. For the Query Template 
-generation task, a correct case is measured using the string-match Accuracy. For Entity Linking 
-we use Recall, meaning that we count a case as correct if it identifies at least all expected 
-entities, regardless of its Precision (understanding that this is the minimum requirement to 
-build a valid \SPARQL{} query). For Slot Filling we consider it correct if all slot--entity pairs 
-are correctly identified. Note that a correct \SPARQL{} can only be generated if these three items 
-deliver a correct answer.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -541,19 +529,106 @@ deliver a correct answer.
     \label{table:queryGenerationErrorRatio}
 \end{table}
 
-The first thing to note is that the performance of the Slot Filling system is strongly impacted 
-by the results delivered by the Entity Linking system. This is because there is no case where the 
-slots were correctly identified while the entities were not. Next, we notice that if both 
-template and entities are correctly identified (i.e. counting number of cases from the first and second
-row of Table~\ref{table:queryGenerationErrorRatio}), the Slot Filling system has an overall positive 
-performance with a roughly 83\% Accuracy. The error delivered for the Query Template generation 
-was similar for both our system and the baseline, with 68.6\% and 70.2\% respectively (i.e. last 
-four rows of Table~\ref{table:queryGenerationErrorRatio}).
+Finally, in order to identify the most common sources of errors, we divided the results depending 
+on the correct/incorrect answers expected for each module (Query Template generator, Entity Linking, 
+Slot Filling). A comparison between our proposal (using the best performing settings) and the 
+baseline is presented in Table~\ref{table:queryGenerationErrorRatio}. For each case, a circle 
+means the system performed correctly and a cross is the opposite. For the Query Template 
+generation task, a correct case is measured using the string-match Accuracy. For Entity Linking 
+we use Recall, meaning that we count a case as correct if it identifies at least all expected 
+entities, regardless of its Precision (understanding that this is the minimum requirement to 
+build a valid \SPARQL{} query). For Slot Filling we consider it correct if all slot--entity pairs 
+are correctly identified. Note that a correct \SPARQL{} can only be generated if these three items 
+deliver a correct answer.
 
-The most noticeable comparison between both systems comes from a major difference in 
+The most noticeable comparison between both systems comes from the major difference in 
 terms of vocabulary dependency for entities. While only 47.6\% of the incorrect cases were caused by entity 
 recognition error for our system, in the Baseline almost 94\% of the incorrect cases were caused 
-due to not identifying all relevant entities.
+due to not identifying all relevant entities. The error delivered from the Query Template 
+generation was similar for both our system and the baseline, with 68.6\% and 70.2\% incorrect 
+cases respectively.
+
+The performance of the Slot Filling system is strongly impacted by the results delivered by the 
+Entity Linking system. This can be inferred from the fact that there is no case where the slots 
+were correctly identified while the entities were not. Aside from that, we notice that the Slot 
+Filling system correctly filled 78\% of the 1035 cases where have both templates and entities 
+are correctly identified (i.e. cases from the first and second row of 
+Table~\ref{table:queryGenerationErrorRatio}). 
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[h!]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|c|c|c|ccc|}
+    \hline
+    \multicolumn{7}{|c|}{\textbf{Analysis per template for each module of the ElNeuQA system}}                                                                                                                                                                                                                    \\ \hline
+    \multicolumn{1}{|c|}{\textbf{ID}} & \textbf{Template}                                                                                                      & \textbf{\% Dataset} & \textbf{Accuracy} & \multicolumn{1}{c|}{\textbf{Template \%}} & \multicolumn{1}{c|}{\textbf{Entity \%}} & \textbf{Slot \%} \\ \hline
+    1                                 & ask\_one\_fact                                                                                                         & 1.90\%              & 36.61\%           & 51.79\%                                   & 84.48\%                                 & 83.67\%          \\ \hline
+    2                                 & ask\_one\_fact\_with\_filter                                                                                           & 6.30\%              & 20.44\%           & 44.20\%                                   & 59.38\%                                 & 77.89\%          \\ \hline
+    3                                 & ask\_two\_facts                                                                                                        & 2.00\%              & 15.93\%           & 30.97\%                                   & 62.86\%                                 & 81.82\%          \\ \hline
+    4                                 & count\_one\_fact\_object                                                                                               & 2.20\%              & 20.63\%           & 25.40\%                                   & 84.38\%                                 & 96.30\%          \\ \hline
+    5                                 & count\_one\_fact\_subject                                                                                              & 3.20\%              & 9.34\%            & 9.89\%                                    & 94.44\%                                 & 100.0\%         \\ \hline
+    6                                 & rank\_instance\_of\_type\_one\_fact                                                                                    & 1.40\%              & 11.54\%           & 32.05\%                                   & 40.0\%                                 & 90.0\%          \\ \hline
+    7                                 & rank\_max\_instance\_of\_type\_two\_facts                                                                              & 1.20\%              & 0.00\%            & 7.35\%                                    & 20.0\%                                 & 0.0\%           \\ \hline
+    8                                 & rank\_min\_instance\_of\_type\_two\_facts                                                                              & 1.20\%              & 8.57\%            & 14.29\%                                   & 80.0\%                                 & 75.0\%          \\ \hline
+    9                                 & select\_object\_instance\_of\_type                                                                                     & 6.80\%              & 4.34\%            & 23.72\%                                   & 22.58\%                                 & 80.95\%          \\ \hline
+    10                                & select\_object\_using\_one\_statement\_property                                                                        & 10.10\%             & 19.55\%           & 40.65\%                                   & 68.35\%                                 & 70.37\%          \\ \hline
+    11                                & select\_one\_fact\_object                                                                                              & 1.40\%              & 7.69\%            & 7.69\%                                    & 100.0\%                                 & 100.0\%         \\ \hline
+    12                                & select\_one\_fact\_subject                                                                                             & 5.00\%              & 3.82\%            & 5.90\%                                    & 76.47\%                                 & 84.62\%          \\ \hline
+    13                                & \begin{tabular}[c]{@{}c@{}}select\_one\_qualifier\_value\_and\_object\_using\_one\\ \_statement\_property\end{tabular} & 2.40\%              & 47.06\%           & 52.94\%                                   & 90.28\%                                 & 98.46\%          \\ \hline
+    14                                & \begin{tabular}[c]{@{}c@{}}select\_one\_qualifier\_value\_using\_one\\ \_statement\_property\end{tabular}              & 10.90\%             & 20.29\%           & 42.79\%                                   & 77.04\%                                 & 61.54\%          \\ \hline
+    15                                & select\_subject\_instance\_of\_type                                                                                    & 7.30\%              & 5.42\%            & 25.00\%                                   & 26.42\%                                 & 82.14\%          \\ \hline
+    16                                & select\_subject\_instance\_of\_type\_contains\_word                                                                    & 5.00\%              & 13.64\%           & 62.59\%                                   & 28.49\%                                 & 76.47\%          \\ \hline
+    17                                & select\_subject\_instance\_of\_type\_starts\_with                                                                      & 4.90\%              & 14.04\%           & 62.46\%                                   & 29.21\%                                 & 76.92\%          \\ \hline
+    18                                & select\_two\_answers                                                                                                   & 3.30\%              & 14.14\%           & 16.23\%                                   & 100.0\%                                 & 87.10\%          \\ \hline
+    19                                & select\_two\_facts\_left\_subject                                                                                      & 6.80\%              & 8.91\%            & 13.23\%                                   & 69.23\%                                 & 97.22\%          \\ \hline
+    20                                & select\_two\_facts\_right\_subject                                                                                     & 7.10\%              & 9.95\%            & 14.08\%                                   & 74.14\%                                 & 95.35\%          \\ \hline
+    21                                & select\_two\_facts\_subject\_object                                                                                    & 6.70\%              & 14.14\%           & 31.88\%                                   & 52.42\%                                 & 84.62\%          \\ \hline
+    22                                & \begin{tabular}[c]{@{}c@{}}select\_two\_qualifier\_values\_using\_one\\ \_statement\_property\end{tabular}             & 3.00\%              & 8.67\%            & 26.59\%                                   & 54.35\%                                 & 60.0\%          \\ \hline
+    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                       & 100\%               & 13.96\%           & 31.39\%                                   & 57.12\%                                 & 78\%             \\ \hline
+    \end{tabular}%
+    }
+    \caption{ElNeuQA modules correct cases per template.}
+    \label{table:queryGenerationCorrectCasesPerTemplate}
+\end{table}
+
+A more granular analysis per template is provided in Table~\ref{table:queryGenerationCorrectCasesPerTemplate}. 
+The purpose is to understand how the Entity Linking and Slot Filling perform per template 
+when the Query Template is correctly generated. We provide the \SPARQL{} Query accuracy 
+from Table~\ref{table:queryGenerationComparison} and the percentage of correct Query 
+Templates (Template \%), similar to what is shown in Table~\ref{table:queryTemplatePerTemplate}. 
+In the case of the entities (Entity \%), we only include the cases with a correct Query 
+Template (though the overall results per template do not vary much). For the slots (Slot \%), 
+we only count the cases where the Query Template and entities are correctly identified
+\footnote{We make this differentiation because we are only interested in illustrating the 
+correctness of the Slot Filling system when the input (i.e. Query Template and entities) 
+is well provided. We don't expect this module to perform correctly otherwise.}.
+
+When the template requires one entity (e.g. templates 4, 5, 10, 11, 12, 13, 18) the Entity 
+Linking system obtains the best results. There are some exceptions (e.g. templates 9, 15, 
+16, 17) that expect more generic entities like human (\texttt{Q5}), city (\texttt{Q515}), 
+writer (\texttt{Q36180}), etc; which are usually aligned with triples using the \texttt{wdt:P31} 
+property (instance of). The problem with those types of entities might be that they don’t 
+score high for Entity Linking systems in terms of relevance, given that some terms can be 
+perceived as more common, thus not being considered meaningful. The same happens with the 
+rank-type templates (i.e. templates 7 and 8) that require at least one \dquotes{instance of} 
+entity, which would further explain the poor performance for those cases.  Lastly, other 
+cases that require more than one entity (e.g. templates 1, 14), where the Entity Linking 
+gets to recognize all entities in a good amount of cases.
+
+In regards to the Slot Filling system performance, results from 
+Table~\ref{table:queryGenerationCorrectCasesPerTemplate} reassure that when the input is 
+properly provided, this module can deliver good results overall. When there is only one 
+entity to replace, the filling process is executed almost perfectly (e.g. templates 4, 5, 
+11, 19, 20). We believe the incorrect cases might come from choosing the wrong entity
+\footnote{Let us remember that even though the Entity Linking system might identify the 
+correct entity, it may also include some garbage entities that add noise to the filling 
+process}, which also applies for templates that require more than one entity. The filling 
+has lower success for templates with two to three triples (e.g. templates 7, 8, 22) that 
+contain placeholders such as \texttt{obj\_2} or \texttt{obj\_3}, which can be explained 
+by the low prevalence these placeholders had in the training dataset. An interesting case 
+are the templates that contain non-entity placeholders, i.e. numeric or string values, 
+where around 3 of 4 cases are filled correctly (see templates 2, 16, 17).
 
 \section{Question Answering over Knowledge Graphs}
 \label{cap5:results/questionAnsweringKG}
@@ -591,8 +666,6 @@ non-empty answer (True or False).
     \label{table:qakgMacroResults}
 \end{table}
 
-\newpage
-
 Finally, an analysis over the different \LCQuADtwo{} templates is presented in Table~\ref{table:qakgMacroF1Diff}. 
 We noticed that our proposal does better in almost every case compared with the baseline. The 
 cases with the best performance include templates like \texttt{ASK} queries, \texttt{SELECT} 
@@ -601,7 +674,7 @@ queries that include property statements and qualifiers.
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 % \usepackage{graphicx}
-\begin{table}[h!]
+\begin{table}[]
     \centering
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|c|cc|cc|c|}
