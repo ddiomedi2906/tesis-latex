@@ -177,7 +177,7 @@
 		\vspace{1cm}
 			\MakeUppercase\@author
 
-		\vspace{3cm}
+		\vspace{1cm}
 			\foreach \x [count=\xi] in \@guia {
 				PROFESOR GUÍA\ifnum\xi>1 \ \xi \fi:\\ \MakeUppercase\x\\
 			}
