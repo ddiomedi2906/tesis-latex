@@ -1,7 +1,7 @@
 \chapter{Experimental Design}
 \label{cap4:experimentalDesign}
-We present an overview of the research questions we are addressing on this work along with 
-the details of the experimental design. All the implementation of the system, experiments, and 
+We present an overview of the research questions we address in this work along with 
+the details of the experimental design. The implementation of the system, experiments, and 
 datasets used can be found in the following Github repository: \url{https://github.com/thesemanticwebhero/ElNeuKGQA/}.
 
 \section{Question Answering general overview}
@@ -76,7 +76,7 @@ verbalized question  -> Is Alexander Hamilton a lawyer?
 paraphrased question -> Did Alexander Hamilton practice law?
 \end{sparqlcode}
 
-A case is discarded if both the verbalised and the paraphrased questions present an issue. To 
+A case is discarded if both the verbalized and the paraphrased questions present an issue. To 
 define if a question is an invalid verbalization/paraphrase, the following issues are taken 
 into account:
 
@@ -84,7 +84,7 @@ into account:
     \item The question is null, empty or not applicable (marked as \dquotestt{NA}). 
     \item The question has not been corrected, e.g., it still contains brackets from the normalized 
     question, or it is the same question as the normalized version without brackets.
-    \item The question contains the answer to the previous normalized or verbalised question 
+    \item The question contains the answer to the previous normalized or verbalized question 
     instead of the verbalization or paraphrasing, respectively. 
     \item The length of the actual version compared with the previous version is too long or too 
     short, which for us is a way to identify the third issue or an indicator of a question that 
@@ -151,14 +151,14 @@ query for the question \dquotesit{Where was Pedro Pascal born?} the entity \text
 from Pedro Pascal was replaced for the \texttt{sbj\_1} placeholder. All queries from the cleaned dataset 
 were able to be transformed into their Query Template version.
 
-Since some cases may have issues on either the verbalized or the paraphrased question, we 
+Since some cases may have issues with either the verbalized or the paraphrased question, we 
 decided to maintain a one-to-one correspondence between question and query. Although it would 
 be interesting to test whether having many variations of the same question might affect the 
 system performance, we think such an experiment has to be done with a dataset where each case has 
 the same amount of variations (which cannot be guaranteed with this dataset without having to 
 discard an uncertain amount of valid cases). Then, in each case we first use the paraphrased 
 question as the case’s question. However, if the paraphrased question is not valid, we use the 
-verbalised question instead (if it is valid).
+verbalized question instead (if it is valid).
 
 \subsection{Sequence Labeling Dataset}
 \label{cap4:experimentalDesign/QaDataset/seqLabeling}
@@ -171,7 +171,7 @@ question corresponds to each entity from the ones contained in the \SPARQL{} que
 of \dquotesit{Where was Pedro Pascal born?}, the label \dquotesit{Pedro Pascal} contained in the 
 question should correspond to the entity \texttt{Q14752155} corresponding to the Chilean actor Pedro 
 Pascal. This mapping identification was performed using the Wikidata labels found in the normalized 
-question provided in the \LCQuADtwo dataset (see an example in Listing~\ref{lst:questionExampleLcquad2}).
+question provided in the \LCQuADtwo{} dataset (see an example in Listing~\ref{lst:questionExampleLcquad2}).
 
 In the second stage, the labels identified previously are associated with the placeholders used 
 for the creation of the Query Template. In this case, the placeholder \texttt{sbj\_1} shown in 
@@ -193,10 +193,10 @@ O O B-sbj_1 B-sbj_1 O
 Some labels were not able to be associated with their corresponding placeholders due to the 
 question rephrasing performed over the \LCQuADtwo{} dataset. The main issue was the discrepancy 
 between the Wikidata label associated with an entity, and its current label in the question 
-(which may be modified due to the rephrasing). As opposite as we did for the Query Template 
-dataset, we decided to add both verbalised and paraphrased valid cases to compensate 
+(which may be modified due to the rephrasing). As opposed to what we did for the Query Template 
+dataset, we decided to add both verbalized and paraphrased valid cases to compensate 
 for the loss of information. After processing the dataset, we ended up with 36,854 valid cases 
-from the 52,853 initial cases (counting for each case its verbalised and paraphrased version), 
+from the 52,853 initial cases (counting for each case its verbalized and paraphrased version), 
 which is almost 70\% of the dataset.
 
 \subsection{Final Dataset Format}
@@ -243,7 +243,7 @@ NL question as the input returning a set of annotations which contain a Wikidata
 label in the question that entity was associated with, and the score the system gives to the 
 respective annotations (which varies across systems). Then, the Precision Priority system and 
 Voting systems were implemented combining the individual Entity Linking wrappers, maintaining 
-the same input–-output frame.
+the same input--output frame.
 
 Finally, the Slot Filling module implementation followed similar stages to those for the Query 
 Generation module. A Sequence Labeling model is trained using Google Colaboratory and the Flair 
@@ -260,8 +260,8 @@ successful.
 Several experiments were conducted for the purpose of getting some insights to address the 
 proposed research questions. Some experiments were performed to determine the optimal setting of 
 the proposed Question Answering (QA) system, in terms of which components are the most 
-appropriate to use (e.g. which Entity Linking deliver the best results), while others are done 
-to validate the performance of each individual module (Query Generation, Entity Linking, Slot 
+appropriate to use (e.g. which Entity Linking configuration delivers the best results), while others 
+are done to validate the performance of each individual module (Query Generation, Entity Linking, Slot 
 Filling) and the end-to-end QA system overall.
 
 \subsection{Datasets}
@@ -305,12 +305,12 @@ An overview of the each datasets used in this work can be see in Table~\ref{tabl
 \end{table}
 
 At the beginning of this work, we planned to include a mapped version of the 
-\DBNQA{}~\cite{dataset:dbnqa-hartmann-marx-soru-2018} dataset,
+\DBNQA{}~\cite{dataset:dbnqa-hartmann-marx-soru-2018} dataset, 
 with the DBpedia queries being mapped to Wikidata queries. However, we were unable 
-to automatically map more than 12\% of the dataset, losing the variety in query types this 
-dataset provides. Besides, most of the mapped queries did not even return an answer when 
-being executed over the Wikidata endpoint. For these reasons, we decided to exclude 
-that dataset from the experiments in this work.
+to automatically map more than 12\% of the dataset to Wikidata, losing the variety in query 
+types this dataset provides. Besides, most of the mapped queries did not even return an 
+answer when executed over the Wikidata endpoint. For these reasons, we decided 
+to exclude that dataset from the experiments in this work.
 
 
 \subsection{Query Template Generation}
@@ -323,7 +323,7 @@ hyperparameters and training dataset can be found here in the \textit{System Ove
 chapter~\ref{cap3:system/queryGenModule/fairseqModel}.
 
 The only point of reference for this model is to use the Baseline Query Generator model, and 
-evaluate which one of the two better predicts which Query Template corresponds for each case. 
+evaluate which of the two better predicts which Query Template corresponds to each case. 
 The way this comparison can be done is to take the Baseline's \SPARQL{} query output, and convert it 
 into its Query Template version by removing the Wikidata entities that the query contains.
 
@@ -384,7 +384,7 @@ according to the Ying et al.’s work~\cite{nmt:nl-to-sparql-Yin19}.
 The first approach consists of evaluating the performance of the QA system using Precision, 
 Recall and F1-score over the system’s answers. This approach values more the final output of the 
 system, regardless of how it was retrieved. The second approach consists of evaluating the 
-performance of the QA system using BLEU score and string-match Accuracy. This last approach 
+performance of the QA system using BLEU score and exact string-match Accuracy. This last approach 
 values more the query string used to generate the answer, and how close it is for the expected 
 query. Both approaches are evaluated over the \LCQuADtwo{} validation set, \QALDseven{}, and \WikiSPARQL{}.
 
@@ -401,7 +401,7 @@ outputs will not generate answers. This analysis is evaluated over the \LCQuADtw
 Then, in order to understand which components of a question and its \SPARQL{} query influence the 
 QA system performance more, an evaluation per template is performed. The same evaluation over 
 the entire dataset is split into partitions corresponding to each \LCQuADtwo{} base template. Given 
-that only \LCQuADtwo{} is a template-based dataset, this analysis is only performed over that 
+that only \LCQuADtwo{} is a template-based dataset; this analysis is only performed over that 
 dataset.
 
 Finally, a more granular analysis is conducted in order to understand how much each stage 

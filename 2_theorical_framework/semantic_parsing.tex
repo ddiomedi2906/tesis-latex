@@ -117,7 +117,7 @@ shown to outperform many RNN-based models in the task of \NLtoSPARQL~\cite{nmt:n
 A Seq2seq model based completely on convolutional neural networks (CNNs) is 
 proposed by Gehring et al.~\cite{nmt:convS2S-GehringAGYD17}, called the Convolutional 
 Sequence-to-Sequence model (ConvS2S). For this subsection we will assume a basic 
-understanding of CNNs, where more details about this topic can be found on 
+understanding of CNNs, where more details about this topic can be found in 
 Appendix~\ref{appendix:neuralNetworks}.
 
 Since CNNs do not receive the input as a sequence like RNNs do, a \textbf{position embedding} 
@@ -138,9 +138,9 @@ non-linearity.
 
 Each convolution kernel is parameterized as $(W, b_w)$ and takes as input $X$, which is a 
 concatenation of $k$ input elements embedded in $d$ dimensions, and maps them to a single 
-output element $Y$. Subsequent blocks operate over the k output elements of the previous 
+output element $Y$. Subsequent blocks operate over the $k$ output elements of the previous 
 block. The gated linear unit (GLU)~\cite{semPar:DauphinFAG16} was chosen as the non-linearity 
-to apply over the output of the convolution Y. This gating mechanism permit to control which 
+to apply over the output of the convolution $Y$. This gating mechanism permits to control which 
 input values of the current context are relevant. Aside from that, to enable deep convolutional 
 networks, residual connections are added from the input of each convolution to the output of the 
 block~\cite{semPar:HeZRS15}.
@@ -164,7 +164,7 @@ $b_o$, as follows:
     p(y_{i+1}|y_1,\ldots,y_i,x)=softmax(W_o h_i^L + b_o)
 \]
 
-Besides convolutional block structures, a separate \textbf{attention mechanism} is implemented 
+Besides the convolutional block structures, a separate \textbf{attention mechanism} is implemented 
 for each decoder layer. Attention allows the model to focus on the relevant parts of the 
 sentence for each time step. The entire process is illustrated in 
 Figure~\ref{fig:convBlockStruct}. The calculation of the attention starts in the bottom left 
@@ -244,7 +244,7 @@ input sentence to calculate an attention vector, which complements the context v
 the encoder~\cite{nlToSparql:BahdanauCB14}. On the other hand, local attention only uses a 
 fixed size window around every word of the sequence to calculate a scoped attention vector per 
 word~\cite{nlToSparql:LuongPM15}. Another model is based on a proposal from 
-Luong et al.~\cite{nlToSparql:LuongPM15}, which consists of a 4-layers LSTM model with local 
+Luong et al.~\cite{nlToSparql:LuongPM15}, which consists of a 4-layer LSTM model with local 
 attention. Lastly, the Google Machine Translation (GNMT) architecture~\cite{nlToSparql:WuSCLNMKCGMKSJL16} 
 is included with two different variants: a 4-layer LSTM and a 8-layer LSTM, both with local 
 attention. The only difference between Luong’s model and the GNMT is that the second model 
@@ -291,20 +291,20 @@ over a dataset based on \SPARQL{} templates, giving insights into whether or not
 \SPARQL{} form is being correctly generated.
 
 The Bilingual Evaluation Understudy (BLEU) score is used to measure how similar two sentences 
-are by using a geometric average of modified n-gram precision~\cite{nlToSparql:PapineniRWZ02}, 
+are by using a geometric average of modified n-gram Precision~\cite{nlToSparql:PapineniRWZ02}, 
 which is represented by the following formula:
 
 \[
     BLEU = BP \cdot exp(\sum_{n=1}^N w_n \; log \: p_n)    
 \]
 
-The modified precision $p_n$ for each candidate counts the number of times an n-gram occurs in a 
+The modified Precision $p_n$ for each candidate counts the number of times an n-gram occurs in a 
 reference translation(s), takes the maximum count of each n-gram among the reference(s), and 
 then clips the count of each n-gram in the candidate translation to the maximum count. To avoid 
 short candidate translations getting higher scores than desired, a brevity penalty (BP) is 
 applied which is set to 1 if the candidate length $c$ is larger than the maximal reference 
 length $r$ or set to $exp(1-r/c)$ otherwise. The $w_n$ represents weights for each modified 
-precision. By default $w_n=\frac{1}{N}$ and $N=4$. In this case, the BLEU score goes from 0 to 
+Precision. By default $w_n=\frac{1}{N}$ and $N=4$. In this case, the BLEU score goes from 0 to 
 100, where a score closer to 100 means the model is performing better. Note that BLEU does not 
 account for word order. 
 
@@ -359,6 +359,6 @@ reflected in the other results as well. The BLEU score results reflect that ConS
 outperformed all other models and shows a correlation between Perplexity and BLEU, especially 
 when looking at \DBNQA{} results. Finally, Accuracy results clearly show that RNN based models and 
 the Transformer do not perform positively in any case when compared to the ConvS2S model. 
-However, the results over the \LCQuADone{} dataset shows there is still a challenge on handling more 
-complex questions among all NMT models.
+However, the results over the \LCQuADone{} dataset shows there is still a challenge regarding 
+the handling of more complex questions among all NMT models.
 

@@ -17,6 +17,7 @@
 \comision{Andrés Abeliuk \break Federico Olmedo \break Hans Löbel}
 
 \usepackage{lipsum}
+% \usepackage{cm-super}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -104,10 +105,10 @@
     particularly problematic for the millions of entities that large Knowledge Graphs describe. We 
     rather propose a KGQA approach that delegates the processing of entities to \textit{Entity Linking} 
     (EL) systems. Thereby, instead of generating the entire SPARQL query, the NMT is used to create a 
-    Query Template with placeholders that are filled by entities identified in an EL phase. We proposed 
-    ensemble EL systems that combine output from several individual EL systems from the state of arts. 
-    A \textit{Slot filling} approach is proposed to decide which entity fills which placeholder, which 
-    combines the use of a \textit{Sequence Labeling} model with a proposed filling algorithm. 
+    Query Template with placeholders that are filled by entities identified in an EL phase. We propose 
+    ensemble EL systems that combine output from several individual EL systems from the state of the art. 
+    A \textit{Slot filling} approach is proposed to decide which entity fills which placeholder, combining 
+    a \textit{Sequence Labeling} model with a proposed filling algorithm. 
     
     We evaluate our proposed approach in the context of Wikidata for English questions. Experiments 
     evaluate the performance of the end-to-end QA system as well as each stage of the SPARQL query 

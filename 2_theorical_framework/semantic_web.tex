@@ -5,7 +5,7 @@
 \label{cap2:semWeb/webOfData}
 During the short history of the World Wide Web, we have greatly benefited from how its 
 content has been increasing every day while serving multiple purposes. This vast amount of 
-knowledge has become humanly impossible to traverse, so we start relying on machines to 
+knowledge has become humanly impossible to traverse, so we rely on machines to 
 process the content of documents automatically. As Hogan mentions, machines require the 
 data to fulfill two primary requirements in order to be able to process them automatically 
 in a meaningful way: to have a machine-readable structure and semantics~\cite{key:linked14-Hogan}. 
@@ -78,7 +78,7 @@ emerged. The remaining top layers aim to combine the described low-level technol
 a unifying language to execute queries and rules over knowledge represented in \RDF{} 
 (Unifying Logic), provide proofs to validate procedures or information used (Proof), and 
 determine the trustworthiness of information sources (Trust). The Cryptography side layer 
-is centered on cryptographic techniques for verifying and allowing control access mechanisms.
+is centered on cryptographic techniques for verifying and allowing access control mechanisms.
 
 Providing more details on this broad overview of the Semantic Web, we start by focusing on 
 how data is represented and how querying the content is described by any selected source. 
@@ -271,7 +271,7 @@ those inserted variables. The last type is the \texttt{DESCRIBE} query, which pr
 description for a particular \RDF{} term. For this work we only focus on \texttt{SELECT} and 
 \texttt{ASK} type queries.
 
-Knowing how to define the content inside a \textit{Query Clause} is crucial to specify what results 
+Knowing how to define the content inside a \textit{Query Clause} is crucial in order to specify what results 
 a \SPARQL{} query should return. There are many core features defined over the basic graph patterns 
 that are used to create complex query patterns in query clauses. Among these patterns, we highlight 
 the \texttt{FILTER} keyword that serves to establish conditions that a query solution should match. 
@@ -333,7 +333,7 @@ guidelines are based on the core principles mentioned before. Among those guidel
 ones are:
 
 \begin{itemize}
-    \item \textbf{Dereferencing practices}: sets a guide on how to identify and perform lookups 
+    \item \textbf{Dereferencing practices}: describes how to identify and perform lookups 
     for either entities or documents. This includes recommendations on indirect URIs to signify 
     distinctions on a HTTP level or providing as detailed an \RDF{} description as possible when 
     dereferencing resources. 
@@ -341,7 +341,7 @@ ones are:
     thing. For example, \texttt{owl:sameAs} links can be used to specify equivalence between 
     resources in different datasets.
     \item \textbf{Describing Vocabularies Terms}: promotes the shared use of common vocabularies 
-    of class and property terms. A common example is to use FOAF to describe people [ref].
+    of class and property terms. A common example is to use FOAF to describe people.
     \item \textbf{Provision of SPARQL Endpoints}: though not required, providing a \SPARQL{} endpoint 
     for a given Linked Data site gives consumers a single-point-of-access to query over the merge 
     of contributions on that site.
@@ -421,7 +421,7 @@ _:population2017 pq:P1082 25085
 wd:Q721224 wdt:P131 wd:Q2121 .
 \end{sparqlcode}
 
-Since some facts can not be directly expressed by simply using the property-value convention, 
+Since some facts cannot be directly expressed by simply using the property-value convention, 
 like the population of Chile across different years, Wikidata also provides additional 
 subordinate property-value pairs called \dquotesit{qualifiers}. \textbf{Qualifiers} can be used 
 to state contextual information such as validity time or ternary relations (e.g. cast members of 
@@ -437,11 +437,11 @@ infoboxes which have a similar data representation.
 
 \footnotetext{\url{https://reasonator.toolforge.org/?&q=80871}}
 
-For a better understanding, let us Recall the same data about Gabriela Mistral, but now using 
+For a better understanding, let us recall the same data about Gabriela Mistral, but now using 
 Wikidata resources, as shown in Listing~\ref{lst:wikidataRdfExample}. Since different knowledge 
 graphs do not necessarily represent the same information in the same way, we can appreciate slight 
 differences like how the city Vicuña is described. In this case, Vicuña is not directly represented 
-as part of Coquimbo but instead only Elqui Province. Nevertheless, both representations are 
+as part of Coquimbo but instead only the Elqui Province. Nevertheless, both representations are 
 intrinsically correct since both are portraying the same fact. Another difference is the use of 
 a Wikidata property qualifier to denote that the population for Vicuña shown in 
 Listing~\ref{lst:wikidataRdfExample} is the population of 2017, in contrast to the DBpedia 

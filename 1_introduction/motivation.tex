@@ -42,7 +42,7 @@ activities in life sciences and social science, and it even is used by Google to
 engine~\cite{wikidata:usage-MalyshevKGGB18}.
 
 Thereafter, for querying this vast amount of data available on the web, a query language is needed. 
-SPARQL~\cite{key:sparql11} is a query language able to retrieve and manipulate data stored in \RDF{} 
+\SPARQL{}~\cite{key:sparql11} is a query language able to retrieve and manipulate data stored in \RDF{} 
 format. The main advantages of \SPARQL{} are that it allows for writing queries that follow \RDF{} 
 specifications and provides a specific graph transversal syntax for querying arbitrary-length paths 
 in graphs.
@@ -152,7 +152,7 @@ when evaluated over simple and large datasets like the \DBNQA{} dataset~\cite{nm
 which contains questions with little variation in syntax and phrasing, such regular data do not give 
 an accurate understanding of the real performance of these systems. In fact, the performance of such 
 models drops dramatically when evaluated over more complex questions like the ones included in the 
-\LCQuADone dataset, which might not contain enough questions to learn 
+\LCQuADone{} dataset, which might not contain enough questions to learn 
 accurately~\cite{nmt:nl-to-sparql-Yin19}. Second, the current models are vocabulary-dependent, which 
 means there is no capability for recognizing new entities or properties that were not used in the 
 training data~\cite{nmt:nl-to-sparql-Yin19}. These issues lead to the constant need to train the model 
@@ -186,8 +186,8 @@ systems~\cite{EL:dbpedia-spotlight-MendesJGB11, EL:aida-tool-YosefHBSW11, EL:tag
 EL:opentapioca-Delpeuch19} have achieved positive results when linking entities over text and 
 these systems tend to generalize well over any new corpus. 
 
-Furthermore, these Information Extraction tools can be complemented along with intermediate 
-representation of structured queries. An example can be found on a proposed 
+Furthermore, these Information Extraction tools can be complemented with intermediate 
+representation of structured queries. An example can be found in a proposed 
 Text-to-SQL system~\cite{semPar:txt-to-sql-RadevKZZFRS18}, where given a question in NL, an 
 intermediate representation of an \SQL{} query is generated, consisting of a \SQL{} template with slots to 
 be filled later with relevant words identified in the question using Named Entity Recognition 

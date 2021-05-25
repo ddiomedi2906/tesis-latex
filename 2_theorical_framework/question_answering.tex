@@ -42,11 +42,11 @@ such as process questions (e.g. \dquotesit{How do I make a lemon pie?}) or opini
 (e.g. \dquotesit{What do most Chileans think of global warming?}) cannot be answered.
 
 Questions can also be classified depending on the answer type expected. One example is the work 
-of Xin Li et al.~\cite{qa:LiR02}, which classify questions given five high-level categories: 
+of Li et al.~\cite{qa:LiR02}, which classifies questions given five high-level categories: 
 \textbf{entities} (e.g. event, color, animal, plant), \textbf{descriptions} (e.g. definition, 
 manner, reason), \textbf{humans} (e.g. individual, group), locations (e.g. city, country, 
 mountain) and numbers (e.g. count, date, distance, size). Another way is to classify questions 
-according to its \textbf{focus} and \textbf{topic}, representing what the question is about. 
+according to their \textbf{focus} and \textbf{topic}, representing what the question is about. 
 For instance, the question \dquotesit{What is the height of Aconcagua mountain?} focuses on the 
 property height in the topic of geography while the question \dquotesit{What is the best 
 height-increasing drug?} focuses on the same property, but a different topic, which is medicine.
@@ -110,7 +110,7 @@ handle complex questions that require constraint inference.
 
 \subsubsection{Neural Semantic Parsing-based methods}
 \label{cap2:theoFrame/qakg/approaches/neuSemParsing}
-In this context, methods based on Semantic Parsing aims to convert natural languages into 
+In this context, methods based on Semantic Parsing aim to convert natural languages into 
 executable query languages. Methods based on Neural Semantic Parsing (NSP) rely on Neural 
 Networks to enhance the parsing capacity and scalability, instead of relying on predefined 
 templates or rules. Thus, these models aim to map unstructured questions to intermediate 
@@ -155,8 +155,8 @@ Graph~\cite{semPar:lexical-gap-HakimovUWC15}. The bigger this gap is, the more d
 for QA systems to locate the correct resources for each named entity identified. 
 
 Some work has tried to address the lexical gap, where most techniques are based on string 
-normalization, pattern matching or entailment. For example, string normalization methods such 
-as converting to lower case or stemming (e.g. convert \dquotesit{writing} to its base form 
+normalization, pattern matching or entailment. For example, string normalization method, such 
+as converting to lower case or stemming (e.g. convert \dquotesit{writing}, to its base form 
 \dquotesit{write}) help to reduce the search space when mapping entities. Another example are 
 pattern libraries, such as PATTY~\cite{qa:NakasholeWS12} or BOA~\cite{qa:GerberN12}, that 
 support pattern matching from a phrase to a resource. Nevertheless, most techniques proposed 
@@ -165,7 +165,7 @@ Graphs.
 
 Another challenge related with input expressivity is the \textbf{ambiguity} bound to each 
 question, in other words, questions with different semantic meaning but with similar syntactic 
-structure. There two main types of ambiguities: homonymy, when different concepts are 
+structure. There are two main types of ambiguities: homonymy, when different concepts are 
 represented by a string with the same spelling (e.g. the word \dquotesit{right} can refer to 
 \dquotesit{correct} or \dquotesit{direction opposite to left}), and polysemy, when one string can 
 represent different but related concepts (e.g. \dquotesit{newspaper} can refer to a 
@@ -196,7 +196,7 @@ to indirect questions and multiple sentences.
 As mentioned before, there are certain types of questions that current QA systems struggle to 
 handle. One example is that of \textbf{procedural questions} (i.e. describe a procedure), which 
 no QA system has been able to solve. Another example relates to \textbf{temporal questions} 
-which refer to questions that require inferring temporal relation between events, though some 
+which refer to questions that require inferring temporal relations between events, though some 
 works have tried to address temporal questions~\cite{qa:Allen83,qa:FerrandezSKDFNITONMG11,
 qa:MeloRN11}. A last example relates to \textbf{spatial questions} that include questions 
 referring to locations. The capability of answering spatial questions depends on how the schema 
@@ -278,7 +278,7 @@ templates with seed entities and relations from a preferred predicate list to ge
 \SPARQL{} queries. After that, a natural language question (NLQ) is deduced, for each generated 
 \SPARQL{} query, following a three-step process: a generation of a normalized NLQ by filling a 
 Normalized Natural Question Template (NNQT) with the entity and relations names used to 
-generate the current query, a verbalisation of the normalized NLQ using crowdsourcing tools, 
+generate the current query, a verbalization of the normalized NLQ using crowdsourcing tools, 
 and a final validation done by an independent reviewer.
 
 The proposal of \LCQuADone{} was a first step to allow NSP-based models to be applied to the field 
@@ -345,7 +345,7 @@ questions over Wikidata which contains complex questions and high diversity amon
 The dataset generation workflow combines semi-automatic question generation along with a 
 crowdsourced-based paraphrasing phase.
 
-\SPARQL{} queries are generated given a set of entities, predicates and templates) do not differ 
+\SPARQL{} queries are generated given a set of entities, predicates and templates, and do not differ 
 much compared to the first version of \texttt{LC-QuAD}. Nevertheless, the \SPARQL{} templates used 
 are different from the ones used before. Now the templates are based on one of the 10 types of 
 question \LCQuADtwo{} aims to address:
@@ -389,10 +389,10 @@ meaning that each question type includes different entities and properties (e.g.
 subgraph is built based on three factors: an entity, the \SPARQL{} template, and one or more 
 suitable predicates. From each subgraph a \SPARQL{} query is generated. Next, each \SPARQL{} query is 
 transformed to a normalized natural language question, called a Question Template (QT), which is 
-then verbalised and paraphrased in a three-step pipeline based on human turkers from the Amazon 
+then verbalized and paraphrased in a three-step pipeline based on human turkers from the Amazon 
 Mechanical Turk tool (a crowdsourcing tool to perform simple tasks on a large scale). 
 
-The first step is to convert each QT into Verbalised Question (QV), where most of the 
+The first step is to convert each QT into Verbalized Question (QV), where most of the 
 grammatical errors and semantic inconsistencies of the QT are fixed. The second step is to 
 paraphrase each QV, where the resulting Paraphrased Question (QP) should preserve the overall 
 semantic meaning while changing its syntactic content and structure. An example of the entire 

@@ -42,19 +42,19 @@ templates.
 \label{cap1:intro/contributions/qaWikidata}
 
 The main contribution of this work is a Question Answering system that translates 
-natural language questions in English to SPARQL queries executable on Wikidata endpoints. See an
-example of an expected SPARQL query in Figure~\ref{fig:introQAexample}. The implemention of this 
+natural language questions in English to \SPARQL{} queries executable on Wikidata endpoints. See an
+example of an expected \SPARQL{} query in Figure~\ref{fig:introQAexample}. The implemention of this 
 system is divided into the construction of three modules: a Query Template generator, 
 an Entity Linking system, and an intermediate Slot Filling system. 
 
 \begin{figure}[!h]
     \centering
     \includegraphics[scale=.5]{imagenes/1_intro/introQuestionAnsweringExample.png}
-    \caption{Expected SPARQL query example from a KGQA system.}
+    \caption{Expected \SPARQL{} query example from a KGQA system.}
     \label{fig:introQAexample}
 \end{figure}
 
-The Query Template generator produces incomplete SPARQL queries (which we call 
+The Query Template generator produces incomplete \SPARQL{} queries (which we call 
 Query Templates) that contain \dquotesit{placeholders} in the position where entities are 
 supposed to be (e.g. placeholders \texttt{<sbj\_1>} and \texttt{<obj\_1>} instead of entities 
 \texttt{Q80871} and \texttt{Q49757} of the query shown in Figure~\ref{fig:introQAexample}). 
@@ -64,7 +64,7 @@ query. This is achieved by removing the entities from the output \SPARQL{} queri
 in the selected datasets such that the entities can rather be found by Entity Linking.
 
 The role of the Entity Linking module is to recognize the relevant entities contained
-on each question (e.g. identify that concepts \dquotesit{Gabriela Mistral} and \dquotesit{poet}
+in each question (e.g. identify that concepts \dquotesit{Gabriela Mistral} and \dquotesit{poet}
 corresponds to the entities \texttt{Q80871} and \texttt{Q49757} in Figure~\ref{fig:introQAexample}) 
 that are used to fill the Query Template. We implement various entity retrieval systems using 
 one or more of the existing Entity 
@@ -74,14 +74,14 @@ TAGME~\cite{EL:tagme-FerraginaS10}, and OpenTapioca~\cite{EL:opentapioca-Delpeuc
 All of these systems, except for OpenTapioca, only work for DBpedia; therefore an 
 extra mapping layer is implemented to map DBpedia entities to Wikidata entities. Two ensemble 
 EL approaches are then proposed: one that prioritizes systems with higher Precision 
-and the other that implements a voting mechanism. We keep the variant that performs best 
+and another that implements a voting mechanism. We keep the variant that performs best 
 according to the experiments that are explained in the \textit{Experimental results} subsection.
 
 Additionally, a Slot Filling module is built by combining a Sequence Tagger model of the Flair 
 library~\cite{seqlab:flair-AkbikBBRSV19} and a filling algorithm proposed in this work. Training 
 the Sequence Tagger model requires building training data based on the selected datasets. 
 Intuitively speaking, a Query Template may have multiple slots and multiple entities, where the 
-Slot Filling module decides which entity should fill which slot (e.g. infer that the concept 
+Slot Filling module decides which entity should fill which slot (e.g. to infer that the concept 
 \dquotesit{Gabriela Mistral} corresponds to the placeholder \texttt{<sbj\_1>}, therefore the 
 entity \texttt{Q80871} should replace the occurences of \texttt{<sbj\_1>} in the Query Template).
 
@@ -98,6 +98,6 @@ over the identified BIO labels (a common tagging format for sequence labeling ta
 \LCQuADtwo{} and the mapped \DBNQA{} dataset. The query generator system is validated 
 using BLEU score, Perplexity, and Accuracy over \LCQuADtwo{} and the mapped \DBNQA{} 
 dataset. When training the query generator system, many split methods are tested according 
-to the methodology proposed by Finegan-Dollak et al.~\cite{semPar:txt-to-sql-RadevKZZFRS18} used for Text-to-SQL systems. 
+to the methodology proposed by Finegan-Dollak et al.~\cite{semPar:txt-to-sql-RadevKZZFRS18} for Text-to-SQL systems. 
 The end-to-end Question Answering system is tested over all the datasets using the metrics 
 described in the \textit{Benchmark on Question Answering over Wikidata} subsection.

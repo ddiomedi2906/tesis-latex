@@ -8,7 +8,7 @@ vocabulary used for training the NMT model when generating \SPARQL{} queries.
 
 The \SPARQL{} query generation process was divided into several stages. First, we trained a 
 Convolutional Sequence to Sequence model and we used it to generate a Query Template, which is a 
-\SPARQL{} query with its entities replaced by placeholders. Secondly, relevant entities were extracted 
+\SPARQL{} query with its entities replaced by placeholders. Second, relevant entities were extracted 
 using an Ensemble Entity Linking system, which combines many Individual Entity Linking systems to 
 increase the amount of entities identified. Two variants of Ensemble Entity Linking system were 
 proposed: a Precision Priority system and a Voting system. Finally, we proposed a Slot Filling system 
@@ -92,7 +92,7 @@ we did consider by using the \LCQuADtwo{} dataset (e.g. use of numeric values or
 
 In terms of overall relevance, we deliver new insights on how to address the Question Answering over 
 Knowledge Graphs task. In particular, we proposed an approach that aims to address the vocabulary 
-dependency that Neural-based models might suffer, and show how there is a direct impact on 
+dependency that Neural-based models might suffer from, and show how there is a direct impact on 
 Neural-based KGQA systems’ performance. 
 
 \section{Future work}
@@ -115,7 +115,7 @@ Another aspect that could be improved is the learning architecture we are using 
 Template generator, where we could also try either of the other models used in Yin et al.'s work, or 
 try new architectures from the state-of-the-art for Semantic Parsing or Machine Translation. One 
 other component which might help better estimate the model performance in practice, would be to 
-follow a k-fold cross-validation during the training phase~\cite{futureWork:anguita2012k}. Aside 
+follow a $k$-fold cross-validation during the training phase~\cite{futureWork:anguita2012k}. Aside 
 from that, we could also propose new logical forms for representing Query Templates. For example, we 
 can condense some common query patterns (e.g. the syntax pattern to see whether a string is contained 
 in an entity label is always the same), or use program-based representations. 

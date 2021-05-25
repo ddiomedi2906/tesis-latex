@@ -46,7 +46,7 @@ the baseline are shown later in this chapter.
                             & \multicolumn{2}{c|}{\textbf{Size: 21,394}}               & \multicolumn{2}{c|}{\textbf{Size: 5,772}}                & \multicolumn{2}{c|}{\textbf{Size: 100}]}                  \\ \cline{2-7} 
                             & \multicolumn{1}{c|}{\textbf{BLEU score}} & \textbf{Accuracy (\%)} & \multicolumn{1}{c|}{\textbf{BLEU score}} & \textbf{Accuracy (\%)} & \multicolumn{1}{c|}{\textbf{BLEU score}} & \textbf{Accuracy (\%)} \\ \hline
     QTG - Top 1             & 65.18                           & 34.27         & 20.29                           & 0             & 20.12                           & 0             \\
-    QTG - Top 5             & 76.86                           & 49.53         & 22.58                           & 0.67          & 23.1                            & 0             \\ \hline
+    QTG - Top 5             & 76.86                           & 49.53         & 22.58                           & 0.67          & 23.10                            & 0             \\ \hline
     Baseline                & 63.06                           & 29.82         & 19.72                           & 0.67          & 20.31                           & 0             \\ \hline
     \end{tabular}%
     }
@@ -93,7 +93,7 @@ training set do not generalize well to other datasets.
     20                           & select\_two\_facts\_right\_subject                                                                                     & 412                                                 & 7.14\%                                                                          & 14.08\%                                                                                                & 17.72\%                                                                                & \textbf{-3.64\%}                        \\ \hline
     21                           & select\_two\_facts\_subject\_object                                                                                    & 389                                                 & 6.74\%                                                                          & 31.88\%                                                                                                & 31.11\%                                                                                & 0.77\%                                  \\ \hline
     22                           & \begin{tabular}[c]{@{}c@{}}select\_two\_qualifier\_values\_using\_one\\ \_statement\_property\end{tabular}             & 173                                                 & 3.00\%                                                                          & 26.59\%                                                                                                & 24.28\%                                                                                & 2.31\%                                  \\ \hline
-    \multicolumn{2}{|c|}{Total}                                                                                                                           & 5772                                                & 100\%                                                                           & 34.67\%                                                                                                & 29.82\%                                                                                & 4.85\%                                  \\ \hline
+    \multicolumn{2}{|c|}{Total}                                                                                                                           & 5772                                                & 100.00\%                                                                           & 34.67\%                                                                                                & 29.82\%                                                                                & 4.85\%                                  \\ \hline
     \end{tabular}%
     }
     \caption{Performance comparison per template between Query Template generator and Baseline.}
@@ -115,12 +115,12 @@ location in the query (to which query pattern it belongs) or entity type (subjec
 
 In summary, we see that the same ConvS2S model can perform as well or better for the task of 
 generating Query Templates as it does for \SPARQL{} query generation, obtaining scores of BLEU and 
-Accuracy equal or greater than the ones obtained from the baseline. On the other side, we still 
+Accuracy equal or greater than the ones obtained from the baseline. On the other hand, we still 
 identified a certain degree of overfitting in the model (similar to the results obtained by 
 Yin et al.~\cite{nmt:nl-to-sparql-Yin19}), thus not being able to perform well on the proposed 
-test datasets (\QALDseven{} and \WikiSPARQL{}). However, we think the metric used for measuring 
-performance here (BLEU score and Accuracy) do not quantify the equivalences between query 
-templates properly. For example, queries in the test data could have a different ordering in 
+test datasets (\QALDseven{} and \WikiSPARQL{}). However, we think the metrics used for measuring 
+performance here (BLEU score and Accuracy) do not quantify the equivalences between Query 
+Templates properly. For example, queries in the test data could have a different ordering in 
 their query triples than the generator uses to build Query Templates.
 
 \section{Entity Linking}
@@ -166,7 +166,7 @@ the best performance an EEL system could achieve if it could \dquotes{guess} the
 the IEL system answers in each case; in other words, the baseline indicates the best possible 
 result given the results of the IEL systems. 
 
-Various variants for both EEL systems are shown in Table~\ref{table:eelResultsLcquad2}, where we 
+The variants for both EEL systems are shown in Table~\ref{table:eelResultsLcquad2}, where we 
 tried different combinations of the proposed heuristics. Here we evaluate the results over the 
 \LCQuADtwo{} validation dataset, resulting in the Voting system having a slight better performance 
 for most variations. 
@@ -188,8 +188,8 @@ for most variations.
     Precision prior                  & +                                                                                                    & True                                                                                                      & False                              & 59.3                                 & 34.8                                    & 43.9              & 58.8                                 & 45.6                                    & 49.3              \\
     Precision prior                  & +                                                                                                    & True                                                                                                      & True                               & 55.1                                 & 55.3                                    & 55.2              & 54.4                                 & 54.4                                    & 54.4              \\ \hline
     Voting system                    & All                                                                                                  & True                                                                                                      & --                        & 68.6                        & 19.5                           & 30.3     & 68.4                        & 23.9                           & 33.6     \\
-    Voting system                    & 3                                                                                                    & True                                                                                                      & True                               & 63.7                                 & 32.1                                    & 42.7              & 64                                   & 32.7                                    & 41.9              \\
-    Voting system                    & +                                                                                                    & False                                                                                                     & False                              & 57.6                                 & 43.7                                    & 49.7              & 57                                   & 50.4                                    & 52.5              \\
+    Voting system                    & 3                                                                                                    & True                                                                                                      & True                               & 63.7                                 & 32.1                                    & 42.7              & 64.0                                   & 32.7                                    & 41.9              \\
+    Voting system                    & +                                                                                                    & False                                                                                                     & False                              & 57.6                                 & 43.7                                    & 49.7              & 57.0                                   & 50.4                                    & 52.5              \\
     Voting system                    & +                                                                                                    & True                                                                                                      & False                              & 58.3                                 & 44.5                                    & 50.5              & 57.7                                 & 51.1                                    & 53.2              \\
     Voting system                    & +                                                                                                    & True                                                                                                      & True                      & 56.2                        & 56.4                           & 56.3     & 55.4                        & 55.4                           & 55.4     \\ \hline
     \multicolumn{4}{|c|}{Baseline: Oracle system}                                                                                                                                                                                                                                            & 68.6                                 & 70.4                                    & 69.5              & 68.4                                 & 68.4                                    & 68.4              \\ \hline
@@ -314,8 +314,8 @@ method, and the force filling method we proposed to address the Sequence Tagger 
 results are shown in Table~\ref{table:standardSlotFillingResults} and \ref{table:forceSlotFillingResults}, 
 respectively. Note that we are using the Entity Linking results corresponding to the Voting system 
 returning all entities in the output. We chose to return all entities to see how each filling
-method performs when there are incorrect entities. Also, we use the Voting system given that
-presents better performance than the PPrior system according to the results shown in the 
+method performs when there are incorrect entities. Also, we use the Voting system given that 
+it presents better performance than the PPrior system according to the results shown in the 
 \textit{Entity Linking} section~\ref{cap5:results/entityLinking}, as well as for the results shown 
 below in the \textit{SPARQL Query generation} section~\ref{cap5:results/sparqlQuery}.
 
@@ -357,7 +357,7 @@ below in the \textit{SPARQL Query generation} section~\ref{cap5:results/sparqlQu
     \label{table:forceSlotFillingResults}
 \end{table}
 
-The number of correct cases for both slot filling methods is lower than the correct labeled cases 
+The number of correct cases for both slot filling methods is lower than the correctly labeled cases 
 of the Sequence Tagger. This is expected since many incorrect cases might occur due to the errors 
 given by the Entity Linking system. On the other hand, the standard filling method shows more 
 Precision while the force filling method brings more Recall. This is also expected since the force 
@@ -382,7 +382,7 @@ Yin et al~\cite{nmt:nl-to-sparql-Yin19}, where there is notable overfitting for 
     \multirow{3}{*}{\textbf{System}} & \multicolumn{2}{c|}{\textbf{LC-QuAD 2 (train)}}                         & \multicolumn{2}{c|}{\textbf{LC-QuAD 2 (valid)}}                         \\ \cline{2-5} 
                                      & \multicolumn{2}{c|}{\textbf{Size: 21934}}                               & \multicolumn{2}{c|}{\textbf{Size: 5772}}                                \\ \cline{2-5} 
                                      & \multicolumn{1}{c|}{\textbf{Perplexity}} & \textbf{BLEU score} & \multicolumn{1}{c|}{\textbf{Perplexity}} & \textbf{BLEU score} \\ \hline
-    Baseline                         & 1.19                                     & 98.35               & 3.2                                      & 60.39               \\ \hline
+    Baseline                         & 1.19                                     & 98.35               & 3.20                                      & 60.39               \\ \hline
     \end{tabular}%
     \caption{Perplexity and BLEU score after training the \SPARQL{} Query Generator baseline.}
     \label{table:queryGenerationTraining}
@@ -392,9 +392,9 @@ Next, the results of the Entity Linking Neural Question Answering (ElNeuQA) syst
 this work are displayed in Table~\ref{table:queryGenerationResults}. In this case, we try four 
 different variants where we chose the best variant of both PPrior and Voting systems and both 
 slot filling methods. These variations are tested over the \LCQuADtwo{} validation dataset. We also 
-output results picking best among the top 5 predicted results per case over both variants that 
-utilized the Force filling method. In this context, the criteria to select the best results is 
-the answer with the highest BLEU score when comparing to the expected answer.
+output results picking the best among the top 5 predicted results per case over both variants that 
+utilized the Force filling method. In this context, the criterion to select the best results offers 
+the highest BLEU score.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -409,14 +409,14 @@ the answer with the highest BLEU score when comparing to the expected answer.
     ElNeuQA                          & PPrior (All)                                                                                                    & Standard                                                                            & 58.01                                    & 11.83                  \\
     ElNeuQA                          & PPrior (+)                                                                                                      & Standard                                                                            & 57.36                                    & 10.41                  \\
     ElNeuQA                          & Voting (All)                                                                                                    & Standard                                                                            & 58.47                                    & 12.72                  \\
-    ElNeuQA                          & Voting (+)                                                                                                      & Standard                                                                            & 57.6                                     & 10.88                  \\ \hline
-    ElNeuQA                          & PPrior (All)                                                                                                    & Force                                                                               & 59.16                                    & 13.7                   \\
-    ElNeuQA                          & PPrior (+)                                                                                                      & Force                                                                               & 57.95                                    & 10.9                   \\
+    ElNeuQA                          & Voting (+)                                                                                                      & Standard                                                                            & 57.60                                     & 10.88                  \\ \hline
+    ElNeuQA                          & PPrior (All)                                                                                                    & Force                                                                               & 59.16                                    & 13.70                   \\
+    ElNeuQA                          & PPrior (+)                                                                                                      & Force                                                                               & 57.95                                    & 10.90                   \\
     \textbf{ElNeuQA}                 & \textbf{Voting (All)}                                                                                           & \textbf{Force}                                                                      & \textbf{59.34}                           & \textbf{13.96}         \\
     ElNeuQA                          & Voting (+)                                                                                                      & Force                                                                               & 58.13                                    & 11.31                  \\ \hline
     ElNeuQA - Top 5                  & PPrior (All)                                                                                                    & Force                                                                               & 68.16                                    & 20.32                  \\
-    ElNeuQA - Top 5                  & Voting (All)                                                                                                    & Force                                                                               & 68.43                                    & 20.7                   \\ \hline
-    \multicolumn{3}{|c|}{Baseline}                                                                                                                                                                                                           & 51.5                                     & 3.27                   \\ \hline
+    ElNeuQA - Top 5                  & Voting (All)                                                                                                    & Force                                                                               & 68.43                                    & 20.70                   \\ \hline
+    \multicolumn{3}{|c|}{Baseline}                                                                                                                                                                                                           & 51.50                                     & 3.27                   \\ \hline
     \end{tabular}%
     \caption{Comparison of performance for the \SPARQL{} Query generator when varying the EEL system and filling method.}
     \label{table:queryGenerationResults}
@@ -440,8 +440,8 @@ executed), and the way we are evaluating these results does not consider \SPARQL
                                      & \multicolumn{2}{c|}{\textbf{Size: 5772}}                                                                                                                & \multicolumn{2}{c|}{\textbf{Size: 150}}                                                                                                                 & \multicolumn{2}{c|}{\textbf{Size: 100}}                                                                                                                 \\ \cline{2-7} 
                                      & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}BLEU \\ score\end{tabular}}} & \textbf{\begin{tabular}[c]{@{}c@{}}Accuracy \\ (\%)\end{tabular}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}BLEU \\ score\end{tabular}}} & \textbf{\begin{tabular}[c]{@{}c@{}}Accuracy \\ (\%)\end{tabular}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}BLEU \\ score\end{tabular}}} & \textbf{\begin{tabular}[c]{@{}c@{}}Accuracy \\ (\%)\end{tabular}} \\ \hline
     ElNeuQA - Top 1                  & 59.34                                                                               & 13.96                                                             & 20.14                                                                               & 0                                                                 & 20.48                                                                               & 0                                                                 \\
-    ElNeuQA - Top 5                  & 68.43                                                                               & 20.7                                                              & 21.99                                                                               & 0                                                                 & 22.15                                                                               & 0                                                                 \\ \hline
-    Baseline                         & 51.5                                                                                & 3.27                                                              & 19.09                                                                               & 0                                                                 & 18.8                                                                                & 0                                                                 \\ \hline
+    ElNeuQA - Top 5                  & 68.43                                                                               & 20.70                                                              & 21.99                                                                               & 0                                                                 & 22.15                                                                               & 0                                                                 \\ \hline
+    Baseline                         & 51.50                                                                                & 3.27                                                              & 19.09                                                                               & 0                                                                 & 18.80                                                                                & 0                                                                 \\ \hline
     \end{tabular}%
     \caption{BLEU score and Accuracy for the \SPARQL{} Query generation task.}
     \label{table:queryGenerationTestResults}
@@ -480,7 +480,7 @@ executed), and the way we are evaluating these results does not consider \SPARQL
     20                           & select\_two\_facts\_right\_subject                                                                                     & 412                                                 & 7.14\%                                                                          & 9.95\%                                                                                                     & 0.00\%                                                                                 & 9.95\%                                  \\ \hline
     21                           & select\_two\_facts\_subject\_object                                                                                    & 389                                                 & 6.74\%                                                                          & 14.14\%                                                                                                    & 0.00\%                                                                                 & 14.14\%                                 \\ \hline
     22                           & \begin{tabular}[c]{@{}c@{}}select\_two\_qualifier\_values\_using\_one\\ \_statement\_property\end{tabular}             & 173                                                 & 3.00\%                                                                          & 8.67\%                                                                                                     & 2.31\%                                                                                 & 6.36\%                                  \\ \hline
-    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                  & 5772                                                & 100\%                                                                           & 13.96\%                                                                                                    & 3.27\%                                                                                 & 10.69\%                                 \\ \hline
+    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                  & 5772                                                & 100.00\%                                                                           & 13.96\%                                                                                                    & 3.27\%                                                                                 & 10.69\%                                 \\ \hline
     \end{tabular}%
     }
     \caption{Performance comparison per template for the \SPARQL{} Query generation task.}
@@ -500,7 +500,7 @@ vocabulary dependence of the Baseline plays a major role in the worse performanc
 The proposed system manages to achieve better Accuracy in most cases. The cases that present the best 
 results are the \texttt{ASK} type queries with one query triple (\texttt{ask\_one\_fact}) and the SELECT queries 
 that utilize one property statement and one qualifier property (\texttt{select\_one\_
-qualifier\_value\_and\_object\_using\_one\_statement\_property}), which both require only one entity. One 
+qualifier\_value\_and\_object\_using\_one\_statement\_property}), both of which require only one entity. One 
 noticeable case where our system does not present a good performance is the rank type query that 
 requires two query triples, where no query was successfully generated. As opposed to the best 
 performing cases, these rank queries were among the most complex cases since they require 2 
@@ -551,7 +551,7 @@ cases respectively.
 The performance of the Slot Filling system is strongly impacted by the results delivered by the 
 Entity Linking system. This can be inferred from the fact that there is no case where the slots 
 were correctly identified while the entities were not. Aside from that, we notice that the Slot 
-Filling system correctly filled 78\% of the 1035 cases where have both templates and entities 
+Filling system correctly filled 78\% of the 1035 cases where both templates and entities 
 are correctly identified (i.e. cases from the first and second row of 
 Table~\ref{table:queryGenerationErrorRatio}). 
 
@@ -562,30 +562,30 @@ Table~\ref{table:queryGenerationErrorRatio}).
     \begin{tabular}{|l|c|c|c|ccc|}
     \hline
     \multicolumn{7}{|c|}{\textbf{Analysis per template for each module of the ElNeuQA system}}                                                                                                                                                                                                                    \\ \hline
-    \multicolumn{1}{|c|}{\textbf{ID}} & \textbf{Template}                                                                                                      & \textbf{\% Dataset} & \textbf{Accuracy} & \multicolumn{1}{c|}{\textbf{Template \%}} & \multicolumn{1}{c|}{\textbf{Entity \%}} & \textbf{Slot \%} \\ \hline
+    \multicolumn{1}{|c|}{\textbf{ID}} & \textbf{Template}                                                                                                      & \textbf{Dataset} & \textbf{Accuracy} & \multicolumn{1}{c|}{\textbf{Template}} & \multicolumn{1}{c|}{\textbf{Entity}} & \textbf{Slot} \\ \hline
     1                                 & ask\_one\_fact                                                                                                         & 1.90\%              & 36.61\%           & 51.79\%                                   & 84.48\%                                 & 83.67\%          \\ \hline
     2                                 & ask\_one\_fact\_with\_filter                                                                                           & 6.30\%              & 20.44\%           & 44.20\%                                   & 59.38\%                                 & 77.89\%          \\ \hline
     3                                 & ask\_two\_facts                                                                                                        & 2.00\%              & 15.93\%           & 30.97\%                                   & 62.86\%                                 & 81.82\%          \\ \hline
     4                                 & count\_one\_fact\_object                                                                                               & 2.20\%              & 20.63\%           & 25.40\%                                   & 84.38\%                                 & 96.30\%          \\ \hline
-    5                                 & count\_one\_fact\_subject                                                                                              & 3.20\%              & 9.34\%            & 9.89\%                                    & 94.44\%                                 & 100.0\%         \\ \hline
-    6                                 & rank\_instance\_of\_type\_one\_fact                                                                                    & 1.40\%              & 11.54\%           & 32.05\%                                   & 40.0\%                                 & 90.0\%          \\ \hline
-    7                                 & rank\_max\_instance\_of\_type\_two\_facts                                                                              & 1.20\%              & 0.00\%            & 7.35\%                                    & 20.0\%                                 & 0.0\%           \\ \hline
-    8                                 & rank\_min\_instance\_of\_type\_two\_facts                                                                              & 1.20\%              & 8.57\%            & 14.29\%                                   & 80.0\%                                 & 75.0\%          \\ \hline
+    5                                 & count\_one\_fact\_subject                                                                                              & 3.20\%              & 9.34\%            & 9.89\%                                    & 94.44\%                                 & 100.00\%         \\ \hline
+    6                                 & rank\_instance\_of\_type\_one\_fact                                                                                    & 1.40\%              & 11.54\%           & 32.05\%                                   & 40.00\%                                 & 90.00\%          \\ \hline
+    7                                 & rank\_max\_instance\_of\_type\_two\_facts                                                                              & 1.20\%              & 0.00\%            & 7.35\%                                    & 20.00\%                                 & 0.00\%           \\ \hline
+    8                                 & rank\_min\_instance\_of\_type\_two\_facts                                                                              & 1.20\%              & 8.57\%            & 14.29\%                                   & 80.00\%                                 & 75.00\%          \\ \hline
     9                                 & select\_object\_instance\_of\_type                                                                                     & 6.80\%              & 4.34\%            & 23.72\%                                   & 22.58\%                                 & 80.95\%          \\ \hline
     10                                & select\_object\_using\_one\_statement\_property                                                                        & 10.10\%             & 19.55\%           & 40.65\%                                   & 68.35\%                                 & 70.37\%          \\ \hline
-    11                                & select\_one\_fact\_object                                                                                              & 1.40\%              & 7.69\%            & 7.69\%                                    & 100.0\%                                 & 100.0\%         \\ \hline
+    11                                & select\_one\_fact\_object                                                                                              & 1.40\%              & 7.69\%            & 7.69\%                                    & 100.00\%                                 & 100.00\%         \\ \hline
     12                                & select\_one\_fact\_subject                                                                                             & 5.00\%              & 3.82\%            & 5.90\%                                    & 76.47\%                                 & 84.62\%          \\ \hline
     13                                & \begin{tabular}[c]{@{}c@{}}select\_one\_qualifier\_value\_and\_object\_using\_one\\ \_statement\_property\end{tabular} & 2.40\%              & 47.06\%           & 52.94\%                                   & 90.28\%                                 & 98.46\%          \\ \hline
     14                                & \begin{tabular}[c]{@{}c@{}}select\_one\_qualifier\_value\_using\_one\\ \_statement\_property\end{tabular}              & 10.90\%             & 20.29\%           & 42.79\%                                   & 77.04\%                                 & 61.54\%          \\ \hline
     15                                & select\_subject\_instance\_of\_type                                                                                    & 7.30\%              & 5.42\%            & 25.00\%                                   & 26.42\%                                 & 82.14\%          \\ \hline
     16                                & select\_subject\_instance\_of\_type\_contains\_word                                                                    & 5.00\%              & 13.64\%           & 62.59\%                                   & 28.49\%                                 & 76.47\%          \\ \hline
     17                                & select\_subject\_instance\_of\_type\_starts\_with                                                                      & 4.90\%              & 14.04\%           & 62.46\%                                   & 29.21\%                                 & 76.92\%          \\ \hline
-    18                                & select\_two\_answers                                                                                                   & 3.30\%              & 14.14\%           & 16.23\%                                   & 100.0\%                                 & 87.10\%          \\ \hline
+    18                                & select\_two\_answers                                                                                                   & 3.30\%              & 14.14\%           & 16.23\%                                   & 100.00\%                                 & 87.10\%          \\ \hline
     19                                & select\_two\_facts\_left\_subject                                                                                      & 6.80\%              & 8.91\%            & 13.23\%                                   & 69.23\%                                 & 97.22\%          \\ \hline
     20                                & select\_two\_facts\_right\_subject                                                                                     & 7.10\%              & 9.95\%            & 14.08\%                                   & 74.14\%                                 & 95.35\%          \\ \hline
     21                                & select\_two\_facts\_subject\_object                                                                                    & 6.70\%              & 14.14\%           & 31.88\%                                   & 52.42\%                                 & 84.62\%          \\ \hline
-    22                                & \begin{tabular}[c]{@{}c@{}}select\_two\_qualifier\_values\_using\_one\\ \_statement\_property\end{tabular}             & 3.00\%              & 8.67\%            & 26.59\%                                   & 54.35\%                                 & 60.0\%          \\ \hline
-    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                       & 100\%               & 13.96\%           & 31.39\%                                   & 57.12\%                                 & 78\%             \\ \hline
+    22                                & \begin{tabular}[c]{@{}c@{}}select\_two\_qualifier\_values\_using\_one\\ \_statement\_property\end{tabular}             & 3.00\%              & 8.67\%            & 26.59\%                                   & 54.35\%                                 & 60.00\%          \\ \hline
+    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                       & 100.00\%               & 13.96\%           & 31.39\%                                   & 57.12\%                                 & 78.00\%             \\ \hline
     \end{tabular}%
     }
     \caption{ElNeuQA modules correct cases per template.}
@@ -596,9 +596,9 @@ A more granular analysis per template is provided in Table~\ref{table:queryGener
 The purpose is to understand how the Entity Linking and Slot Filling perform per template 
 when the Query Template is correctly generated. We provide the \SPARQL{} Query accuracy 
 from Table~\ref{table:queryGenerationComparison} and the percentage of correct Query 
-Templates (Template \%), similar to what is shown in Table~\ref{table:queryTemplatePerTemplate}. 
-In the case of the entities (Entity \%), we only include the cases with a correct Query 
-Template (though the overall results per template do not vary much). For the slots (Slot \%), 
+Templates (Template), similar to what is shown in Table~\ref{table:queryTemplatePerTemplate}. 
+In the case of the entities (Entity), we only include the cases with a correct Query 
+Template (though the overall results per template do not vary much). For the slots (Slot), 
 we only count the cases where the Query Template and entities are correctly identified
 \footnote{We make this differentiation because we are only interested in illustrating the 
 correctness of the Slot Filling system when the input (i.e. Query Template and entities) 
@@ -612,18 +612,19 @@ property (instance of). The problem with those types of entities might be that t
 score high for Entity Linking systems in terms of relevance, given that some terms can be 
 perceived as more common, thus not being considered meaningful. The same happens with the 
 rank-type templates (i.e. templates 7 and 8) that require at least one \dquotes{instance of} 
-entity, which would further explain the poor performance for those cases.  Lastly, other 
-cases that require more than one entity (e.g. templates 1, 14), where the Entity Linking 
-gets to recognize all entities in a good amount of cases.
+entity, which would further explain the poor performance for those cases. Lastly, in other 
+cases that require more than one entity (e.g. templates 1, 14), Entity Linking succeeds in 
+recognizing all entities in a good amount of cases (where the Query Template is correctly 
+identified).
 
 In regards to the Slot Filling system performance, results from 
-Table~\ref{table:queryGenerationCorrectCasesPerTemplate} reassure that when the input is 
+Table~\ref{table:queryGenerationCorrectCasesPerTemplate} reassure us that when the input is 
 properly provided, this module can deliver good results overall. When there is only one 
 entity to replace, the filling process is executed almost perfectly (e.g. templates 4, 5, 
 11, 19, 20). We believe the incorrect cases might come from choosing the wrong entity
 \footnote{Let us remember that even though the Entity Linking system might identify the 
 correct entity, it may also include some garbage entities that add noise to the filling 
-process}, which also applies for templates that require more than one entity. The filling 
+process}, which also applies for templates that require more than one entity. Slot filling 
 has lower success for templates with two to three triples (e.g. templates 7, 8, 22) that 
 contain placeholders such as \texttt{obj\_2} or \texttt{obj\_3}, which can be explained 
 by the low prevalence these placeholders had in the training dataset. An interesting case 
@@ -641,11 +642,11 @@ neither our proposal nor the baseline were capable of generating the expected \S
 the test datasets, some generated \SPARQL{} queries were capable of obtaining answers among the 
 expected results. 
 
-We also evaluate the performance if we look over the best 5 predictions per 
+We also evaluate the performance looking at the best 5 predictions per 
 case, where a general improvement is noticed along all datasets. In this case, the best prediction 
 is the first query that returns a non-empty answer when being executed in the Wikidata endpoint. 
 Note that this approach is not effective with \texttt{ASK} type questions, since there is always a 
-non-empty answer (True or False).
+non-empty answer (True or False) or in cases where the correct query may not return results.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -704,7 +705,7 @@ queries that include property statements and qualifiers.
     20                           & select\_two\_facts\_right\_subject                                                                                     & 412                                                 & 7.14\%                                                                          & 20.54                                                                                                      & 10.84                                                                                  & 9.70                                                                               \\ \hline
     21                           & select\_two\_facts\_subject\_object                                                                                    & 389                                                 & 6.74\%                                                                          & 28.02                                                                                                      & 14.91                                                                                  & 13.11                                                                              \\ \hline
     22                           & \begin{tabular}[c]{@{}c@{}}select\_two\_qualifier\_values\_using\_one\\ \_statement\_property\end{tabular}             & 173                                                 & 3.00\%                                                                          & 26.59                                                                                                      & 16.18                                                                                  & 10.40                                                                              \\ \hline
-    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                  & 5772                                                & 100\%                                                                           & 26.90                                                                                                      & 16.40                                                                                  & 10.50                                                                              \\ \hline
+    \multicolumn{2}{|c|}{\textbf{Total}}                                                                                                                  & 5772                                                & 100.00\%                                                                           & 26.90                                                                                                      & 16.40                                                                                  & 10.50                                                                              \\ \hline
     \end{tabular}%
     }
     \caption{Performance comparison per template for the Question Answering task.}
@@ -715,7 +716,7 @@ Another aspect to notice is that there is no clear correlation between the perfo
 of cases per template, meaning that a greater amount of cases for one template to use in the training 
 stage does not necessarily come with an increase in performance. A clear example are the \texttt{COUNT} 
 queries: while the \texttt{count\_one\_fact\_object} template has fewer examples than the 
-\texttt{count\_one\_fact\_subject}, but our system performs worse with the latter template. 
+\texttt{count\_one\_fact\_subject}, our system performs worse with the latter template. 
 
 Lastly, the complexity of each template does not necessarily predict the performance of the Question 
 Answering system in terms of Macro F1. Queries derived from complex templates such as the 

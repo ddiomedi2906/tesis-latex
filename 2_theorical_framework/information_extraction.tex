@@ -109,7 +109,7 @@ or \textit{The Sky Blues}). Another problem happens when selecting entities in t
 results phase since the threshold is selected manually and can lead to the problem that 
 correct targets can be below the threshold, thus being discarded.
 
-Entity linking evaluation criteria are usually based on Precision, Recall and 
+Entity Linking evaluation criteria are usually based on Precision, Recall and 
 F1-score. For each of these metrics there is a micro measure and a macro 
 measure~\cite{entlin:CornoltiFC13}. The macro measure gives equal importance to each 
 document since it first calculates the relevant measure over each document, and then 
@@ -210,7 +210,7 @@ similarity score between their context vectors and the context surrounding the s
 Finally, annotations can be customized through \textbf{configuration parameters} in order to 
 tune parameters to a specific task. The offered configuration parameters can be used to 
 allow/deny URIs with some classes or its subclasses, set a required minimum of inlinks, 
-establish thresholds to prioritise resources relevant to the topic, reduce highly ambiguous 
+establish thresholds to prioritize resources relevant to the topic, reduce highly ambiguous 
 resources, and configure a disambiguation confidence to keep a good trade-off between avoiding 
 incorrect annotations and losing correct annotations.
 
@@ -230,7 +230,7 @@ The system automatically detects mentions using the Stanford NER
 Tagger\footnote{\url{https://nlp.stanford.edu/software/CRF-NER.shtml}} based on a Conditional Random 
 Fields (CRF) Classifier~\cite{entLin:FinkelGM05}. Their approach uses Gibbs sampling to identify 
 non-local structures while preserving tractable inference by simulated annealing in place of 
-Viuterbi decoding in sequence models. They use this technique to improve an existing CRF-based 
+Viterbi decoding in sequence models. They use this technique to improve an existing CRF-based 
 information extraction system with long-distance dependency models.
 
 The collection mapping relies on a graph constructed with mentions and their candidate entities 
@@ -255,14 +255,14 @@ contain category names, citation titles, external references or titles of incomi
 process forms a keyphrase set $KP(e)$ for each entity $e$. 
 
 The \textit{Mutual Information} (MI) measure, which quantifies the \dquotes{amount of information} 
-one random variable obtained from observing another one, is used to quantify the specificity weight 
+one random variable obtain from observing another one, is used to quantify the specificity weight 
 of a keyword with regard to an entity. In this context, the MI for each keyword $w$ is based on 
 a joint probability $P(e, w)$ that reflects the probability of $w$ to be contained in either the 
 keyphrase $KP(e)$, or any of the keyphrase sets of entities linked to $e$. 
 
 Since keyphrases can rarely match multi-word keyphrases (e.g. the phrase \dquotesit{Nobel Prize 
 winner} may occur in the form of \dquotesit{Nobel winner}), a partial-match model is added to 
-improve coverage~\cite{infExtr:taneva2011}. This model match individual words and rewards their
+improve coverage~\cite{infExtr:taneva2011}. This model matches individual words and rewards their
 proximity. Following this approach, a phrase's cover is computed for each keyphrase, which 
 consists of the shortest window of words that maximize the number of words of the keyphrase. 
 For example, the text \dquotesit{winner of many prizes including a Nobel} the cover length of the 
@@ -313,7 +313,7 @@ by Lucene. These results are indexed in a link-graph using
 Webgraph\footnote{\url{http://webgraph.dsi.unimi.it}}.
 
 Often an anchor $a$ has more than one candidate sense, so a disambiguation process is performed. 
-Having the set of all anchors contained in a text $T$ denoted by $A_T$, the system tries to 
+Having the set of all anchors contained in a text $T$, denoted by $A_T$, the system tries to 
 disambiguate each anchor $a \in A_T$ by computing a score for each possible sense 
 $p_a \in Pg(a)$. This process is implemented using a voting scheme that computes for each other 
 anchor $b \in A_T \backslash \{a\}$ its vote for the annotation $a \rightarrow p_a$.
@@ -353,7 +353,7 @@ annotations.
 \label{cap2:theoFrame/infExtr/entityLinking/openTapioca}
 OpenTapioca is a lightweight Named Entity Linking system that works over 
 Wikidata~\cite{EL:opentapioca-Delpeuch19}, and is restricted to people, locations and 
-organizations. Let D be a document; a spot $s$ is a pair of start and end positions in $D$. 
+organizations. Let $D$ be a document; a spot $s$ is a pair of start and end positions in $D$. 
 This spot defines a phrase $d_s$ in $D$, and a set of candidate Wikidata entities $E_s$. The 
 OpenTapioca system is based on a binary classifier that predicts for each spot $s$, and each 
 candidate entity $e$ linked to that spot, if $s$ should be linked to $e$. This approach 
@@ -378,7 +378,7 @@ proposed, where a similarity metric $sim(e,e')$ is defined for each pair of enti
 that defines the probability that two random walks starting from $e$ and $e'$ end up on the 
 same item.
 
-Next, a weighted graph $G_D$ is built where each vertex is a pair $(s,e)$ such as $d_s \in D$ 
+Next, a weighted graph $G_D$ is built where each vertex is a pair $(s,e)$ such that $d_s \in D$ 
 and $e \in E_s$. A maximum distance $\rho_{max}$ is fixed for edges so a pair of vertices can 
 only be linked if its distance is less than or equal to $\rho_{max}$, and both vertices are 
 referring to a different mention. The weight is defined for each edge, which is proportional to
@@ -405,7 +405,7 @@ highest scoring candidate that the classifier predicts, if any.
 
 OpenTapioca is available through a web-service\footnote{\url{https://opentapioca.org/}} 
 implemented using Solr\footnote{\url{https://lucene.apache.org/solr/}} and some Python libraries. 
-Its service keeps synchronous with Wikidata in real time.
+Its service keeps synchronized with Wikidata in real time.
 
 \subsection{Sequence Labeling}
 \label{cap2:theoFrame/infExtr/sequenceLabeling}
@@ -449,14 +449,14 @@ Figure~\ref{fig:flairArchitecture}.
 
 The performance of a Sequence Tagger is measured using a per-word accuracy~\cite{seqlab:MarcusSM94}. 
 Let $W=(w_0,\ldots,w_n)$ denote a sequence of words, $(l_0,\ldots,l_n)$ a sequence of 
-expected BIO labels and ($(l_{0}',\ldots,l_{n}')$ a sequence of BIO labels output by a Sequence 
+expected BIO labels and $(l_{0}',\ldots,l_{n}')$ a sequence of BIO labels output by a Sequence 
 Tagger; a word $w_i$ would be labeled correctly if its expected label $l_i$ matches with the label 
 $l_{i}'$ delivered by the Sequence Tagger. Then, the Accuracy over $W$ will be $accuracy(W)=
 \frac{\mbox{\#words correctly labeled}}{\mbox{total \# words}}$.
 
 In this work, we will use the Flair Framework~\cite{seqlab:flair-AkbikBBRSV19}, which provides 
 up-to-date state-of-the-art language models and word embeddings in a simple interface. Flair is 
-implemented on Python using the Pytorch framework for implementing Neural Network based models. 
+implemented in Python using the Pytorch framework for implementing Neural Network based models. 
 One of the tools Flair provides is a Sequence Tagger model, which includes pre-trained models or 
 the capacity of training a new model by providing training data. In order to understand how the 
 Flair Sequence Tagger works, we will explain its two main components: Contextual String 
@@ -503,9 +503,9 @@ Among many applications of neural language models, a key application is the crea
 embeddings, which are vector representations of words typically based on the trainable weights 
 within the Neural Networks used in the language model. Word embeddings have shown  
 a great capacity of encapsulating semantic attributes of abstract concepts (e.g. we can capture 
-to certain extend that \dquotes{red} is a color, because we identify a degree of semantic 
+to a certain extent that \dquotes{red} is a color, because we identify a degree of semantic 
 similarity when comparing its numeric values to other colors' embeddings), and such knowledge 
-can be transfer to other tasks in order to enhance other models' learning capabilities (as we 
+can be transfered to other tasks in order to enhance other models' learning capabilities (as we 
 will do here for the Sequence Labeling task). In this case, the architecture used to construct 
 Flair embeddings is the LSTM variant~\cite{seqlab:HochreiterS97,seqlab:Graves13,seqlab:ZarembaSV14} 
 which enhances the ability to encode long-term dependencies with its hidden states (weights in 

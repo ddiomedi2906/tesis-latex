@@ -25,16 +25,16 @@ required.
 In order to build this \SPARQL{} query, the Question Answering system starts with 
 a Query Template Generation stage to generate \SPARQL{} Query Template candidates with 
 placeholders to be filled with entities in a later stage. These entities are first annotated 
-in the the Entity Linking stage, where relevant labels are identified (e.g., \dquotesit{Gabriel 
+in the Entity Linking stage, where relevant labels are identified (e.g., \dquotesit{Gabriel 
 Mistral} or \dquotesit{poet}) and linked to their corresponding entity Knowledge Graph. 
 
 The process of filling the annotated entities on the placeholders of a Query Template is not a 
 straightforward process. In the example provided in Figure~\ref{fig:questionAnsweringOverview},
 the entity of \dquotesit{Gabriel Mistral} (\texttt{Q80871}) should be the subject 
-of a triple in a SPARQL query, but in other context this entity could the object of a triple. 
-Besides, sometimes the Entity Linking may recognize more entities than placeholders to be filled, 
-thus adding another layer of complexity that an Entity Linking system can not exclusively address.
-Therefore, the Slot Filling stage comes to identify which entities should be used to 
+of a triple in a \SPARQL query, but in other contexts this entity could be the object of a triple. 
+Sometimes Entity Linking may recognize more entities than placeholders to be filled, 
+thus adding another layer of complexity that an Entity Linking system cannot exclusively address.
+Therefore, the Slot Filling stage aims to identify which entities should be used to 
 fill which placeholders of the Query Template candidates. 
 
 The Question Answering pipeline described in the Figure~\ref{fig:questionAnsweringOverview} 
@@ -112,7 +112,7 @@ decoding process is done for the query string output by the Query Generator syst
 Encoding is done by tokenizing the \SPARQL{} grammar, allowing to treat it as a target wordy 
 language, following the idea of reducing this problem to a Machine Translation task used in 
 previous works~\cite{semPar:ChoMGBBSB14, semPar:sempar-as-mt-AndreasVC13, nmt:nl-to-sparql-Yin19}. 
-Then, each of the two Generator models shown in Figure~\ref{fig:queryGenerationOverview} 4 
+Then, each of the two Generator models shown in Figure~\ref{fig:queryGenerationOverview} 
 corresponds to a previously trained Fairseq model, which receives a normalized NL question 
 and returns an encoded meaning representation that has to be later decoded to obtain the 
 final \SPARQL{} query or Query Template output.
@@ -122,7 +122,7 @@ final \SPARQL{} query or Query Template output.
 Following the same encoding approach used by Soru et al.~\cite{nmt:nspm-SoruMMPVEN17}, we 
 encode the \SPARQL{} queries into tokens that describe entities, keywords, symbols, and 
 operations. One difference is that we are using a dataset that includes new query components 
-such as numbers or string values; thus we proposed novel tokens to encode those values. An 
+such as numbers or string values; thus we propose novel tokens to encode those values. An 
 example of this encoding can be seen in Listing~\ref{lst:encodingSPARQLSoru}. The main advantage of 
 this encoding is that it allows the system to express chunks of commonly used patterns (e.g. 
 order by asc/desc, or filter patterns) in a simpler way, thus reducing the complexity of the 
@@ -187,8 +187,8 @@ hyperparameters are the followings:
 
 \begin{itemize}
     \item The number of \textbf{layers} used for the convolutional encoder and decoder is 15. 
-    From these layers, the first 9 layers use 3x3 kernels with 512 units, the next 4 layers 
-    use 3x3 kernels with 1024 units, and the final 2 layers uses a 1x1 kernel with 2028 units.
+    From these layers, the first 9 layers use $3 \times 3$ kernels with 512 units, the next 4 layers 
+    use $3 \times 3$ kernels with 1024 units, and the final 2 layers uses a $1 \times 1$ kernel with 2028 units.
     \item The \textbf{optimizer}, i.e. the learning algorithm used, is Stochastic Gradient 
     Descent with minibatches. The default minibatch size is 64.
     \item The \textbf{learning rate} is set to fixed value of 0.5, which is maintained during 
@@ -275,7 +275,7 @@ SELECT ?article ?wikidata ?dbpedia WHERE {
 }
 \end{sparqlcode}
 
-Following the same logic, Wikipedia articles can be mapped to its associated Wikidata resource. 
+Following the same logic, Wikipedia articles can be mapped to their associated Wikidata resources. 
 The opposite mapping from Wikidata resources to DBpedia ones can be easily performed as well. 
 If any entity cannot be mapped from the results of the Entity Linking system to the target 
 Knowledge Graph, it is discarded.
@@ -294,7 +294,7 @@ AIDA~\cite{EL:aida-tool-YosefHBSW11, EL:aida-HoffartYBFPSTTW11}, TAGME~\cite{EL:
 and OpenTapioca~\cite{EL:opentapioca-Delpeuch19}. These systems were selected because they 
 provide public APIs that can be invoked over the Web. The annotation process is reduced to 
 making a request on the corresponding API’s web service. We will briefly describe some details 
-on the implementation and mention some aspects to take into consideration for each one of the 
+of the implementation and mention some aspects to take into consideration for each one of the 
 aforementioned systems.
 
 The \textbf{DBpedia Spotlight} system~\cite{EL:dbpedia-spotlight-MendesJGB11} aims to 
@@ -318,7 +318,7 @@ in the candidate ranking stage.
 
 The \textbf{TAGME} system~\cite{EL:tagme-FerraginaS10} makes annotations over Wikipedia. As 
 per AIDA, it requires a mapping stage to convert Wikipedia resources into Wikidata ones. 
-Aside from the query text input parameter, TAGME requires a token parameter for authentication 
+Aside from the query text input parameter, TAGME requires a token parameter for authentication, 
 which can be retrieved from its API website. Each entity annotation has a \dquotesit{rho} score 
 assigned, which is derived from the candidate ranking stage.
 
@@ -346,11 +346,11 @@ the right answer. The inability to identify all entities is more prone to happen
 context is provided in the given text, which is a common situation in Question Answering 
 settings.
 
-An ensemble Entity Linking system aims to get the most of all individual Entity Linking 
+An ensemble Entity Linking system aims to make the most of all individual Entity Linking 
 systems by combining their results together to achieve better Recall and Precision. Then, an 
 ensemble system is given the annotations of each individual system as the system input and 
 returns a final output annotation set. We present two variants to combine the individual 
-annotations: Precision Priority system and Voting system. To illustrate better the variants 
+annotations: Precision Priority system and Voting system. To better illustrate the variants 
 proposed in this work, let us assume that each individual 
 Entity Linking system returns the following annotations, for the question \dquotesit{Does FC 
 Barcelona have Juan Jose Ibarretxe as a chairperson?}:
