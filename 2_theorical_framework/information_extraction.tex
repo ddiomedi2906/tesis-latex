@@ -101,7 +101,7 @@ machine learning~\cite{infExtr:ganea2016, infExtr:ZhangSTW10}
 and graphs~\cite{infExtr:GongFLSH17, infExtr:HanSZ11}.
 
 One of the main difficulties in Entity Linking is the high ambiguity of entity mentions, 
-which make it more difficult to understand the meaning of entity mentions. These ambiguities 
+which makes it more difficult to understand the meaning of entity mentions. These ambiguities 
 include polysemies, which refer to mentions that correspond to many entities (e.g. 
 \textit{Claudio Bravo}) or multiword synonyms, which refer to entities that may have many 
 kinds of surface forms (e.g. \textit{Manchester City FC} is also known as \textit{The Citizen} 
@@ -235,7 +235,7 @@ information extraction system with long-distance dependency models.
 
 The collection mapping relies on a graph constructed with mentions and their candidate entities 
 as nodes and two types of edges: \textit{mention-entity edges} and \textit{entity-entity edges}. 
-The \textbf{mention-entity edges} are weighted edges between mentions and their candidates 
+The \textbf{mention-entity edges} are weighted edges between mentions and their candidate 
 entities (one edge per candidate) and represent the similarity between the context of each node. 
 The \textbf{entity-entity edges} are weighted edges between different entities and represent the 
 coherence, i.e. the semantic relatedness between both nodes.
@@ -255,7 +255,7 @@ contain category names, citation titles, external references or titles of incomi
 process forms a keyphrase set $KP(e)$ for each entity $e$. 
 
 The \textit{Mutual Information} (MI) measure, which quantifies the \dquotes{amount of information} 
-one random variable obtain from observing another one, is used to quantify the specificity weight 
+one random variable obtains from observing another one, is used to quantify the specificity weight 
 of a keyword with regard to an entity. In this context, the MI for each keyword $w$ is based on 
 a joint probability $P(e, w)$ that reflects the probability of $w$ to be contained in either the 
 keyphrase $KP(e)$, or any of the keyphrase sets of entities linked to $e$. 
@@ -368,7 +368,7 @@ statement values and qualifiers as edges). The commonness of a phrase is estimat
 unigram language model trained from Wikidata item labels.
 
 Since the aforementioned features do not consider the context of the mention, a graph is defined 
-whose nodes are the candidates entities and edges link semantically related entities. The 
+whose nodes are the candidate entities and edges link semantically related entities. The 
 approach consists of finding a combination of candidate entities which are both highly 
 compatible and densely related in the graph.
 
@@ -505,7 +505,7 @@ within the Neural Networks used in the language model. Word embeddings have show
 a great capacity of encapsulating semantic attributes of abstract concepts (e.g. we can capture 
 to a certain extent that \dquotes{red} is a color, because we identify a degree of semantic 
 similarity when comparing its numeric values to other colors' embeddings), and such knowledge 
-can be transfered to other tasks in order to enhance other models' learning capabilities (as we 
+can be transferred to other tasks in order to enhance other models' learning capabilities (as we 
 will do here for the Sequence Labeling task). In this case, the architecture used to construct 
 Flair embeddings is the LSTM variant~\cite{seqlab:HochreiterS97,seqlab:Graves13,seqlab:ZarembaSV14} 
 which enhances the ability to encode long-term dependencies with its hidden states (weights in 

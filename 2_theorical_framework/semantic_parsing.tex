@@ -140,7 +140,7 @@ Each convolution kernel is parameterized as $(W, b_w)$ and takes as input $X$, w
 concatenation of $k$ input elements embedded in $d$ dimensions, and maps them to a single 
 output element $Y$. Subsequent blocks operate over the $k$ output elements of the previous 
 block. The gated linear unit (GLU)~\cite{semPar:DauphinFAG16} was chosen as the non-linearity 
-to apply over the output of the convolution $Y$. This gating mechanism permits to control which 
+to apply over the output of the convolution $Y$. This gating mechanism permits controlling which 
 input values of the current context are relevant. Aside from that, to enable deep convolutional 
 networks, residual connections are added from the input of each convolution to the output of the 
 block~\cite{semPar:HeZRS15}.

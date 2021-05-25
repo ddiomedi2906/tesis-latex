@@ -35,7 +35,7 @@ suitable for classification or function approximation tasks~\cite{seqlab:Graves2
 The process to pass data through layers is known as the \textbf{forward pass} of the network. 
 Given an input vector of length $I$, an input layer of the same length would receive this 
 input vector where each unit in the input layer calculates a weighted sum. For a hidden unit 
-$h$, we refer to this sum as the network input to unit $h$, denote as $a_h$. Denoting $w_{ij}$ 
+$h$, we refer to this sum as the network input to unit $h$, denoted as $a_h$. Denoting $w_{ij}$ 
 as the weight from unit $i$ to unit $j$, the formula of $a_h$ for a layer $H_{l}$ is calculated 
 using the formula in Equation~\ref{eq:hiddenState}.
 
@@ -115,7 +115,7 @@ negative slope of the loss function. Note that we perform gradient descent over 
 dataset, while we save a test dataset that is not used to train but to evaluate the overall 
 performance after training.
 
-Thus, a weight update $\Delta w^n$, also known as gradient , is used to update the the weight 
+Thus, a weight update $\Delta w^n$, also known as gradient , is used to update the weight 
 vector $w^n$ from the $n^{th}$ network layer. The gradient $\Delta w^n$ consists of the 
 partial derivative of the loss function when the weight vector $w^n$ varies. This derivative 
 is adjusted by a \textbf{learning rate} $\alpha \in [0, 1]$ which limits how quick the training process 
@@ -169,9 +169,9 @@ training set as a validation set to include an \textbf{early stopping criteria}.
 validation set is not used to train the network but to perform validation steps every certain 
 amount of training steps. Then, the loss values for the validation steps are used to decide 
 when to stop training. For example, Figure~\ref{fig:earlyStopppingExample} shows the losses 
-over all three data sets (train, validation, test) through the training process Then, we can 
+over all three data sets (train, validation, test) through the training process. Then, we can 
 detect that the best weight values are found just before the validation loss stops its 
-decreasing tendency and start increasing again (where the \dquotes{best} stripped vertical line is 
+decreasing tendency and starts increasing again (where the \dquotes{best} stripped vertical line is 
 placed). There are other techniques to reduce overfitting known as regularizers based on 
 input noise~\cite{appendix:an1996effects, appendix:koistinen1991kernel, appendix:bishop1995neural} 
 or weight noise~\cite{appendix:murray1994enhanced,appendix:jim1996analysis}.
@@ -277,7 +277,7 @@ problem~\cite{seqlab:HochreiterS97, appendix:hochreiter2001gradient}, which occu
 influence of the given input on the hidden layer (and therefore on the network output), 
 either decays or explodes exponentially through the recurrent connections. In order to 
 address this issue, the \textbf{Long Short-Term Memory} (LSTM) model~\cite{seqlab:HochreiterS97} 
-was proposed. The LSTM model allows models to perform on tasks which require long range 
+was proposed. The LSTM model allows models to perform well on tasks which require long range 
 temporal dependencies, such as Sequence Labeling~\cite{seqlab:HuangXY15, seqlab:MaH16}, 
 Machine Translation~\cite{nlToSparql:WuSCLNMKCGMKSJL16} or Summarization~\cite{appendix:MahasseniLT17}. 
 As per RNNs, the LSTM also has a bidirectional variant, also known as 
@@ -305,7 +305,7 @@ $b_\iota^t$~\ref{eq:inputActivation}. The number of inputs
 is denoted by $I$, the number of cells in the hidden layer is $H$ and the number of memory 
 cells is $C$. The gate activation function $f$ most commonly used is the sigmoid function, so 
 the gate activations are between 0 (gate closed) and 1 (gate open). The weight $w_{c\iota}$ 
-represent the peephole weight from cell $c$ to the input gate. The state of the cell $c$ at 
+represents the peephole weight from cell $c$ to the input gate. The state of the cell $c$ at 
 time $t$ is denoted as $s_c^t$, which is calculated using Equation~\ref{eq:cellActivation}.
 
 \begin{equation} \label{eq:inputHidden}
@@ -365,7 +365,7 @@ The creation of \textbf{Convolutional Neural Networks} (CNNs) responds to the ne
 certain types of data: images~\cite{appendix:OSheaN15}. Traditional ANNs do not perform well 
 when processing images since its architecture does not properly support the computational 
 complexity that involves processing large images as input. Whereas a 32$\times$32 image will 
-be no problem to an traditional ANN, since it will require only 1024 parameters for a single 
+be no problem to a traditional ANN, since it will require only 1024 parameters for a single 
 neuron, images tend to have more resolution. On a higher scale, an image of 1024$\times$1024 
 will instead require 1,048,576 parameters, which is a substantial increase. Moreover, if we 
 consider colored images (RGB), a 1024$\times$1024 RGB image would require 3,145,728 
@@ -427,10 +427,10 @@ be $\left\lfloor \frac{N - F + 2P}{S} + 1 \right\rfloor$. Note that, in the same
 represented in 3 dimensions, the kernel can be extended to a third dimension by increasing 
 the \textbf{number of channels}, thus giving control over the output depth of the 
 convolutional layer. The number of channels, stride and padding are hyperparameters that can 
-be optimised. 
+be optimized. 
 
-Kernel values are the trainable parameters which a CNN can tuned in through the same type 
-of learning process ANNs perfom. The composition of convolutional layers allows to reduce the 
+Kernel values are the trainable parameters which a CNN can tune through the same type 
+of learning process ANNs perform. The composition of convolutional layers allows to reduce the 
 dimensionality of a Neural Network in terms of learnable parameters, based on the assumption 
 of parameter sharing. This assumption says that \dquotesit{if one region is useful to compute at 
 a set spatial region, then it is likely to be useful in another region}. The constraints of 
@@ -454,9 +454,9 @@ pooling, or general pooling that applies average reduction and $L_1$/$L_2$ norma
 respectively.
 
 Though pooling layers also include settings such as kernel size, stride or number of channels, 
-they do not add learnable parameters. However, they do influences in the backward pass to 
+they do not add learnable parameters. However, they do influence the backward pass to 
 calculate the gradients. Lastly, it is recommended to keep a low stride and kernel size since 
-its application could affect negatively performance if large values are used.
+its application could negatively affect performance if large values are used.
 
 \subsection{Common architectures}
 \label{appendix:neuralNetworks/cnn/architectures}

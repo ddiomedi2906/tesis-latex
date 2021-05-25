@@ -109,7 +109,7 @@ input and output data. In the case of the input NL questions, a normalization pr
 conducted where the question string is lower-cased and non-relevant symbols are removed. On 
 the output side, an encoding process is performed over the data used for training, and a 
 decoding process is done for the query string output by the Query Generator system. The Query 
-Encoding is done by tokenizing the \SPARQL{} grammar, allowing to treat it as a target wordy 
+Encoding is done by tokenizing the \SPARQL{} grammar, allowing for treating it as a target wordy 
 language, following the idea of reducing this problem to a Machine Translation task used in 
 previous works~\cite{semPar:ChoMGBBSB14, semPar:sempar-as-mt-AndreasVC13, nmt:nl-to-sparql-Yin19}. 
 Then, each of the two Generator models shown in Figure~\ref{fig:queryGenerationOverview} 
@@ -156,7 +156,7 @@ numeric value) and position for entities placeholder (e.g. \texttt{sbj\_1} corre
 subject of the first triple in the Query clause).
 
 These placeholder labels are also used in the Slot Filling system mentioned later in order to 
-identify which entities output by the Entity Linking system corresponds to each one of the 
+identify which entities output by the Entity Linking system correspond to each one of the 
 Query Template placeholders. 
 
 \subsection{Fairseq Model}
@@ -188,10 +188,10 @@ hyperparameters are the followings:
 \begin{itemize}
     \item The number of \textbf{layers} used for the convolutional encoder and decoder is 15. 
     From these layers, the first 9 layers use $3 \times 3$ kernels with 512 units, the next 4 layers 
-    use $3 \times 3$ kernels with 1024 units, and the final 2 layers uses a $1 \times 1$ kernel with 2028 units.
+    use $3 \times 3$ kernels with 1024 units, and the final 2 layers use a $1 \times 1$ kernel with 2028 units.
     \item The \textbf{optimizer}, i.e. the learning algorithm used, is Stochastic Gradient 
     Descent with minibatches. The default minibatch size is 64.
-    \item The \textbf{learning rate} is set to fixed value of 0.5, which is maintained during 
+    \item The \textbf{learning rate} is set to a fixed value of 0.5, which is maintained during 
     the entire training session.
     \item As a regularizer, \textbf{dropout} is applied with a fixed value of 0.2.
 \end{itemize}
@@ -252,7 +252,7 @@ in this case is Wikidata, and whether the system returns entities on that target
 Graph.
 
 The API service input parameters and output format is different for each web service, though 
-the final output annotations from the Entity Linking module is always the same. An additional 
+the final output annotations from the Entity Linking module are always the same. An additional 
 piece of information that is also returned are the scores each system gives to each annotation. 
 Though these scores cannot be compared across systems, such scores are used to establish 
 which entities are more relevant for each system. 
