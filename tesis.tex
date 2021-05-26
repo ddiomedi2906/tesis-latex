@@ -14,7 +14,7 @@
 \guia{Aidan Hogan}
 \carrera{Ingeniero Civil en Computación y grado de Magíster en Ciencias, Mención Computación}
 \memoria{Tesis para optar al Grado de \break Magíster en Ciencias, Mención Computación \break\break Memoria para optar al título de Ingeniero Civil en Computación}
-\comision{Andrés Abeliuk \break Federico Olmedo \break Hans Löbel}
+\comision{Andrés Abeliuk Kimelman \break Federico Olmedo Berón \break Hans Löbel Díaz}
 
 \usepackage{lipsum}
 % \usepackage{cm-super}
@@ -22,7 +22,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\usepackage[toc,page]{appendix}
+% \usepackage[toc,titletoc,page]{appendix}
+\usepackage[titletoc]{appendix}
 
 \usepackage{listingsutf8}
 \usepackage{amsmath}  % for \hookrightarrow
@@ -125,7 +126,7 @@
 \end{abstract}
 
 \begin{dedicatoria} % opcional
-Para \emph{Delia Pinto}, una madre increíble e inspiradora.
+Para \emph{Delia Pinto} y \emph{Alexis Diomedi}, por ser \break un pilar fundamental en este hito cumplido.
 \end{dedicatoria}
 
 \begin{thanks} % opcional
@@ -162,7 +163,7 @@ por el espacio para compartir mi trabajo y por el feedback entregado.
 
 Y gracias a ti, Javiera Francisca, por ser y estar.
 \end{thanks}
-\cleardoublepage
+% \cleardoublepage
 
 \tableofcontents
 \listoftables % opcional
@@ -189,6 +190,9 @@ Y gracias a ti, Javiera Francisca, por ser y estar.
 
 % \input{glosario.tex} % opcional
 
+\cleardoublepage 
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{plain}
 \bibliography{bibliografia}
 

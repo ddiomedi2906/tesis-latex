@@ -46,6 +46,9 @@
 \addto\captionsspanish{\renewcommand\contentsname{Tabla de Contenido}}
 \addto\captionsspanish{\renewcommand\listtablename{Índice de Tablas}}
 \addto\captionsspanish{\renewcommand\listfigurename{Índice de Ilustraciones}}
+\addto\captionsspanish{\renewcommand\appendixname{Appendix}}
+% \addto\captionsspanish{\renewcommand\appendixtocname{Appendix}}
+
 
 %% Interlineado
 \RequirePackage{parskip}
@@ -62,7 +65,7 @@
 
 %% Entornos nuevos
 \newenvironment{resumen}{%
-\cleardoublepage
+% \cleardoublepage
 \chapter*{Resumen}
 %\begin{flushright}
 %\small
@@ -77,16 +80,16 @@
 %\begin{center}
 %\MakeUppercase\@title
 %\end{center}
-}{\vfill\null}
+}{\clearpage\vfill}
 
-\newenvironment{abstract}{%
-\cleardoublepage
-\chapter*{Abstract}
-}{\vfill\null}
+\newenvironment{abstract}{\chapter*{Abstract}}{\clearpage\vfill}%\vfill\null
+% \cleardoublepage
 
-\newenvironment{dedicatoria}{\cleardoublepage\null\vspace{\stretch{1}}\begin{flushright}\itshape}{\end{flushright}\vspace{\stretch{2}}\null}
+\newenvironment{dedicatoria}{\clearpage\null\vspace{\stretch{1}}\begin{flushright}\itshape}{\end{flushright}\vspace{\stretch{2}}\null}
 \let\thanks\undefined
-\newenvironment{thanks}{\cleardoublepage\chapter*{Agradecimientos}}{\vfill\null}
+\newenvironment{thanks}{
+	%\cleardoublepage
+	\chapter*{Agradecimientos}}{\vfill\null}
 \newenvironment{intro}{
   \chapter{Introduction}
   % \addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}
